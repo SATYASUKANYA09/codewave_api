@@ -112,3 +112,118 @@ def get_solution(title: str, language: str):
             }
 
     return {"message": "Solution not found"}
+
+
+# Python Solutions API
+@app.get("/python-solutions")
+def python_solutions():
+
+    files = glob.glob("Python/*.py")
+
+    all_solutions = []
+
+    for filepath in files:
+
+        filename = os.path.basename(filepath)
+
+        with open(filepath, "r", encoding="utf-8") as file:
+            code = file.read()
+
+        all_solutions.append({
+            "file": filename,
+            "code": code
+        })
+
+    return all_solutions
+
+
+# Java Solutions API
+@app.get("/java-solutions")
+def java_solutions():
+
+    files = glob.glob("java/*.java")
+
+    all_solutions = []
+
+    for filepath in files:
+
+        filename = os.path.basename(filepath)
+
+        with open(filepath, "r", encoding="utf-8") as file:
+            code = file.read()
+
+        all_solutions.append({
+            "file": filename,
+            "code": code
+        })
+
+    return all_solutions
+
+
+# C++ Solutions API
+@app.get("/cpp-solutions")
+def cpp_solutions():
+
+    files = glob.glob("C++/*.cpp")
+
+    all_solutions = []
+
+    for filepath in files:
+
+        filename = os.path.basename(filepath)
+
+        with open(filepath, "r", encoding="utf-8") as file:
+            code = file.read()
+
+        all_solutions.append({
+            "file": filename,
+            "code": code
+        })
+
+    return all_solutions
+
+
+# JavaScript Solutions API
+@app.get("/javascript-solutions")
+def javascript_solutions():
+
+    files = glob.glob("JavaScript/*.js")
+
+    all_solutions = []
+
+    for filepath in files:
+
+        filename = os.path.basename(filepath)
+
+        with open(filepath, "r", encoding="utf-8") as file:
+            code = file.read()
+
+        all_solutions.append({
+            "file": filename,
+            "code": code
+        })
+
+    return all_solutions
+
+
+# C Solutions API
+@app.get("/c-solutions")
+def c_solutions():
+
+    files = glob.glob("c/*.c")
+
+    all_solutions = []
+
+    for filepath in files:
+
+        filename = os.path.basename(filepath)
+
+        with open(filepath, "r", encoding="utf-8") as file:
+            code = file.read()
+
+        all_solutions.append({
+            "file": filename,
+            "code": code
+        })
+
+    return all_solutions
