@@ -118,7 +118,7 @@ def get_solution(title: str, language: str):
 @app.get("/python-solutions")
 def python_solutions():
 
-    files = glob.glob("Python/*.py")
+    files = glob.glob("Python/*.py")[:50]
 
     all_solutions = []
 
@@ -141,7 +141,7 @@ def python_solutions():
 @app.get("/java-solutions")
 def java_solutions():
 
-    files = glob.glob("java/*.java")
+    files = glob.glob("java/*.java")[:50]
 
     all_solutions = []
 
@@ -164,7 +164,7 @@ def java_solutions():
 @app.get("/cpp-solutions")
 def cpp_solutions():
 
-    files = glob.glob("C++/*.cpp")
+    files = glob.glob("C++/*.cpp")[:50]
 
     all_solutions = []
 
@@ -187,7 +187,7 @@ def cpp_solutions():
 @app.get("/javascript-solutions")
 def javascript_solutions():
 
-    files = glob.glob("JavaScript/*.js")
+    files = glob.glob("JavaScript/*.js")[:50]
 
     all_solutions = []
 
@@ -210,7 +210,7 @@ def javascript_solutions():
 @app.get("/c-solutions")
 def c_solutions():
 
-    files = glob.glob("c/*.c")
+    files = glob.glob("c/*.c")[:50]
 
     all_solutions = []
 
