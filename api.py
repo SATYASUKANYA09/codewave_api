@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import json
 
 import pandas as pd
 import os
@@ -15,12 +16,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load dataset
-df = pd.read_csv("data/leetcode_data.csv")
-
-# Clean data
-df = df.fillna("")
-df = df.astype(str)
+# Load JSON questions
+with open("questions_100.json", "r", encoding="utf-8") as file:
+    questions = json.load(file)
 
 # Home API
 @app.get("/")
@@ -31,22 +29,23 @@ def home():
 @app.get("/questions")
 def get_questions(difficulty: str = None, topic: str = None):
 
-    filtered = df
+    filtered =  questions
 
     # Filter by difficulty
     if difficulty:
-        filtered = filtered[
-            filtered["Difficulty"].str.lower() == difficulty.lower()
+        filtered = [
+            q for q in filtered
+            if q["Difficulty"].lower() == difficulty.lower()
         ]
 
     # Filter by topic
     if topic:
-        filtered = filtered[
-            filtered["Topics"].str.lower().str.contains(topic.lower())
+        filtered = [
+            q for q in filtered
+            if topic.lower() in q["Topics"].lower()
         ]
 
-    # Return only 100 records
-    return filtered.head(100).to_dict(orient="records")
+    return filtered
 
 
 # Dynamic Solution API
