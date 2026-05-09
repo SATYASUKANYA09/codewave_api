@@ -31,25 +31,18 @@ def get_questions(difficulty: str = None, topic: str = None):
 
     filtered = questions.copy()
 
-    # Filter by difficulty
     if difficulty:
 
         filtered = [
             q for q in filtered
-            if q.get("Difficulty", "").lower().strip()
+            if q["Difficulty"].lower().strip()
             == difficulty.lower().strip()
         ]
 
-    # Filter by topic
-    if topic:
-
-        filtered = [
-            q for q in filtered
-            if topic.lower().strip()
-            in q.get("Topics", "").lower()
-        ]
-
-    return filtered
+    return {
+        "count": len(filtered),
+        "questions": filtered
+    }
 
 
 # Dynamic Solution API
