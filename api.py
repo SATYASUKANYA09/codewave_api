@@ -2,12 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import json
 
-import pandas as pd
-import os
-import glob
-
 app = FastAPI()
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,210 +13,107 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load JSON questions
-with open("questions_100.json", "r", encoding="utf-8") as file:
+# Load Questions JSON
+with open("codewave_100_questions.json", "r", encoding="utf-8") as file:
     questions = json.load(file)
 
-# Home API
+
+# HOME API
 @app.get("/")
 def home():
-    return {"message": "API is running successfully"}
 
-# Questions API
+    return {
+        "message": "API Running Successfully"
+    }
+
+
+# QUESTIONS API
 @app.get("/questions")
-def get_questions(difficulty: str = None, topic: str = None):
+def get_questions(
+    difficulty: str = None,
+    topic: str = None
+):
 
     filtered = questions.copy()
 
+    # Difficulty Filter
     if difficulty:
 
         filtered = [
             q for q in filtered
-            if q["Difficulty"].lower().strip()
+            if q.get("Difficulty", "").lower().strip()
             == difficulty.lower().strip()
         ]
 
-    return {
-        "count": len(filtered),
-        "questions": filtered
-    }
+    # Topic Filter
+    if topic:
+
+        filtered = [
+            q for q in filtered
+            if topic.lower().strip()
+            in q.get("Topics", "").lower()
+        ]
+
+    return filtered
 
 
-# Dynamic Solution API
+# GET OPTIMIZED SOLUTION API
 @app.get("/get-solution")
-def get_solution(title: str, language: str):
+def get_solution(
+    title: str,
+    language: str
+):
 
-    # Language folder mapping
-    language_folders = {
-        "python": "Python",
-        "java": "java",
-        "c++": "C++",
-        "javascript": "JavaScript",
-        "c": "c"
-    }
+    # JSON files for each language
+    solution_files = {
 
-    # File extensions
-    extensions = {
-        "python": "*.py",
-        "java": "*.java",
-        "c++": "*.cpp",
-        "javascript": "*.js",
-        "c": "*.c"
+        "python": "solutions/py_solutions.json",
+
+        "java": "solutions/java_solutions.json",
+
+        "cpp": "solutions/cpp_solutions.json",
+
+        "javascript": "solutions/js_solutions.json",
+
+        "c": "solutions/c_solutions.json"
     }
 
     language = language.lower()
 
-    # Check supported language
-    if language not in language_folders:
-        return {"message": "Unsupported language"}
+    # Check language
+    if language not in solution_files:
 
-    folder = language_folders[language]
+        return {
+            "message": "Unsupported language"
+        }
 
-    extension = extensions[language]
+    # Load selected language JSON
+    with open(
+        solution_files[language],
+        "r",
+        encoding="utf-8"
+    ) as file:
 
-    # Convert title
-    search_title = (
-    title.lower()
-    .replace(" ", "-")
-    .replace("(", "")
-    .replace(")", "")
-    .replace(",", "")
-    .replace("'", "")
-   )
+        solutions = json.load(file)
 
-    # Get all files
-    files = glob.glob(f"{folder}/{extension}")
+    # Search matching question
+    for item in solutions:
 
-    # Search matching file
-    for filepath in files:
-
-        filename = os.path.basename(filepath).lower()
-
-        if search_title in filename:
-
-            with open(filepath, "r", encoding="utf-8") as file:
-                code = file.read()
+        if item["title"].lower().strip() == title.lower().strip():
 
             return {
-                "question": title,
+
+                "question": item["title"],
+
                 "language": language,
-                "file": filename,
-                "optimized_code": code
+
+                "time_complexity": item.get("time_complexity"),
+
+                "space_complexity": item.get("space_complexity"),
+
+                "optimized_code": item.get("solution")
             }
 
-    return {"message": "Solution not found"}
-
-
-# Python Solutions API
-@app.get("/python-solutions")
-def python_solutions():
-
-    files = glob.glob("Python/*.py")[:50]
-
-    all_solutions = []
-
-    for filepath in files:
-
-        filename = os.path.basename(filepath)
-
-        with open(filepath, "r", encoding="utf-8") as file:
-            code = file.read()
-
-        all_solutions.append({
-            "file": filename,
-            "code": code
-        })
-
-    return all_solutions
-
-
-# Java Solutions API
-@app.get("/java-solutions")
-def java_solutions():
-
-    files = glob.glob("java/*.java")[:50]
-
-    all_solutions = []
-
-    for filepath in files:
-
-        filename = os.path.basename(filepath)
-
-        with open(filepath, "r", encoding="utf-8") as file:
-            code = file.read()
-
-        all_solutions.append({
-            "file": filename,
-            "code": code
-        })
-
-    return all_solutions
-
-
-# C++ Solutions API
-@app.get("/cpp-solutions")
-def cpp_solutions():
-
-    files = glob.glob("C++/*.cpp")[:50]
-
-    all_solutions = []
-
-    for filepath in files:
-
-        filename = os.path.basename(filepath)
-
-        with open(filepath, "r", encoding="utf-8") as file:
-            code = file.read()
-
-        all_solutions.append({
-            "file": filename,
-            "code": code
-        })
-
-    return all_solutions
-
-
-# JavaScript Solutions API
-@app.get("/javascript-solutions")
-def javascript_solutions():
-
-    files = glob.glob("JavaScript/*.js")[:50]
-
-    all_solutions = []
-
-    for filepath in files:
-
-        filename = os.path.basename(filepath)
-
-        with open(filepath, "r", encoding="utf-8") as file:
-            code = file.read()
-
-        all_solutions.append({
-            "file": filename,
-            "code": code
-        })
-
-    return all_solutions
-
-
-# C Solutions API
-@app.get("/c-solutions")
-def c_solutions():
-
-    files = glob.glob("c/*.c")[:50]
-
-    all_solutions = []
-
-    for filepath in files:
-
-        filename = os.path.basename(filepath)
-
-        with open(filepath, "r", encoding="utf-8") as file:
-            code = file.read()
-
-        all_solutions.append({
-            "file": filename,
-            "code": code
-        })
-
-    return all_solutions
+    return {
+        "message": "Solution not found"
+    }

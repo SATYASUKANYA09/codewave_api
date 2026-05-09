@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Longest Semi-Repeating Subarray",
+    "id": 3641,
+    "language": "Java",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "import java.util.*;\n\nclass Solution {\n    public int longestSubarray(int[] nums, int k) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        int left = 0, repeated = 0, ans = 0;\n\n        for (int right = 0; right < nums.length; right++) {\n            freq.put(nums[right], freq.getOrDefault(nums[right], 0) + 1);\n\n            if (freq.get(nums[right]) == 2)\n                repeated++;\n\n            while (repeated > k) {\n                freq.put(nums[left], freq.get(nums[left]) - 1);\n\n                if (freq.get(nums[left]) == 1)\n                    repeated--;\n\n                left++;\n            }\n\n            ans = Math.max(ans, right - left + 1);\n        }\n\n        return ans;\n    }\n}"
+  },
+  {
+    "title": "Earliest Finish Time for Land and Water Rides I",
+    "id": 3633,
+    "language": "Java",
+    "time_complexity": "O(n^2)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution {\n    public int earliestFinishTime(int[] landStart, int[] landDur,\n                                  int[] waterStart, int[] waterDur) {\n        int ans = Integer.MAX_VALUE;\n\n        for (int i = 0; i < landStart.length; i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.length; j++) {\n                int start = Math.max(landEnd, waterStart[j]);\n                ans = Math.min(ans, start + waterDur[j]);\n            }\n        }\n\n        return ans;\n    }\n}"
+  },
+  {
+    "title": "Maximum Weight in Two Bags",
+    "id": 3647,
+    "language": "Java",
+    "time_complexity": "O(n log n)",
+    "space_complexity": "O(1)",
+    "solution": "import java.util.*;\n\nclass Solution {\n    public int maxWeight(int[] weights) {\n        Arrays.sort(weights);\n\n        int n = weights.length;\n        int bag1 = 0, bag2 = 0;\n\n        for (int i = 0; i < n / 2; i++)\n            bag1 += weights[n - 1 - i];\n\n        for (int i = n / 2; i < n; i++)\n            bag2 += weights[n - 1 - i];\n\n        return Math.abs(bag1 - bag2);\n    }\n}"
+  },
+  {
+    "title": "Maximum Balanced Shipments",
+    "id": 3638,
+    "language": "Java",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution {\n    public int maxBalancedShipments(int[] weight) {\n        int ans = 0;\n        int mn = weight[0];\n\n        for (int i = 1; i < weight.length; i++) {\n            if (weight[i] > mn) {\n                ans++;\n                mn = Integer.MAX_VALUE;\n            } else {\n                mn = Math.min(mn, weight[i]);\n            }\n        }\n\n        return ans;\n    }\n}"
+  },
+  {
+    "title": "Trionic Array II",
+    "id": 3640,
+    "language": "Java",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "class Solution {\n    public int trionic(int[] nums) {\n        int n = nums.length;\n        int[] inc = new int[n];\n        int[] dec = new int[n];\n\n        Arrays.fill(inc, 1);\n        Arrays.fill(dec, 1);\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] > nums[i - 1])\n                inc[i] = inc[i - 1] + 1;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                dec[i] = dec[i + 1] + 1;\n        }\n\n        int ans = 0;\n\n        for (int i = 0; i < n; i++)\n            ans = Math.max(ans, inc[i] + dec[i] - 1);\n\n        return ans;\n    }\n}"
+  },
+  {
+    "title": "Next Special Palindrome Number",
+    "id": 3646,
+    "language": "Java",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution {\n    private boolean isPalindrome(long n) {\n        long rev = 0, temp = n;\n\n        while (temp > 0) {\n            rev = rev * 10 + temp % 10;\n            temp /= 10;\n        }\n\n        return rev == n;\n    }\n\n    public long nextPalindrome(long n) {\n        n++;\n\n        while (!isPalindrome(n))\n            n++;\n\n        return n;\n    }\n}"
+  },
+  {
+    "title": "Sort Threats by Severity and Exploitability",
+    "id": 3631,
+    "language": "Java",
+    "time_complexity": "O(n log n)",
+    "space_complexity": "O(1)",
+    "solution": "import java.util.*;\n\nclass Solution {\n    public int[][] sortThreats(int[][] threats) {\n        Arrays.sort(threats, (a, b) -> {\n            if (a[0] != b[0])\n                return b[0] - a[0];\n            return b[1] - a[1];\n        });\n\n        return threats;\n    }\n}"
+  }
+]

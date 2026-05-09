@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Longest Semi-Repeating Subarray",
+    "id": 3641,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "from collections import defaultdict\n\nclass Solution:\n    def longestSubarray(self, nums, k):\n        freq = defaultdict(int)\n        left = 0\n        repeated = 0\n        ans = 0\n\n        for right in range(len(nums)):\n            freq[nums[right]] += 1\n\n            if freq[nums[right]] == 2:\n                repeated += 1\n\n            while repeated > k:\n                freq[nums[left]] -= 1\n                if freq[nums[left]] == 1:\n                    repeated -= 1\n                left += 1\n\n            ans = max(ans, right - left + 1)\n\n        return ans"
+  },
+  {
+    "title": "Earliest Finish Time for Land and Water Rides I",
+    "id": 3633,
+    "language": "Python",
+    "time_complexity": "O(n log n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution:\n    def earliestFinishTime(self, landStartTime, landDuration, waterStartTime, waterDuration):\n        ans = float('inf')\n\n        for i in range(len(landStartTime)):\n            land_end = landStartTime[i] + landDuration[i]\n\n            for j in range(len(waterStartTime)):\n                start = max(land_end, waterStartTime[j])\n                ans = min(ans, start + waterDuration[j])\n\n        for i in range(len(waterStartTime)):\n            water_end = waterStartTime[i] + waterDuration[i]\n\n            for j in range(len(landStartTime)):\n                start = max(water_end, landStartTime[j])\n                ans = min(ans, start + landDuration[j])\n\n        return ans"
+  },
+  {
+    "title": "Maximum Weight in Two Bags",
+    "id": 3647,
+    "language": "Python",
+    "time_complexity": "O(n log n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution:\n    def maxWeight(self, weights):\n        weights.sort(reverse=True)\n        n = len(weights)\n\n        bag1 = sum(weights[:n//2])\n        bag2 = sum(weights[n//2:])\n\n        return abs(bag1 - bag2)"
+  },
+  {
+    "title": "Find Stores with Inventory Imbalance",
+    "id": 3626,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "SELECT store_id\nFROM inventory\nGROUP BY store_id\nHAVING ABS(SUM(CASE WHEN product_type = 'in' THEN quantity ELSE 0 END) -\n           SUM(CASE WHEN product_type = 'out' THEN quantity ELSE 0 END)) > 100;"
+  },
+  {
+    "title": "Maximum Balanced Shipments",
+    "id": 3638,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution:\n    def maxBalancedShipments(self, weight):\n        ans = 0\n        mn = weight[0]\n\n        for i in range(1, len(weight)):\n            if weight[i] > mn:\n                ans += 1\n                mn = float('inf')\n            else:\n                mn = min(mn, weight[i])\n\n        return ans"
+  },
+  {
+    "title": "Trionic Array II",
+    "id": 3640,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "class Solution:\n    def trionic(self, nums):\n        n = len(nums)\n        inc = [1] * n\n        dec = [1] * n\n\n        for i in range(1, n):\n            if nums[i] > nums[i - 1]:\n                inc[i] = inc[i - 1] + 1\n\n        for i in range(n - 2, -1, -1):\n            if nums[i] > nums[i + 1]:\n                dec[i] = dec[i + 1] + 1\n\n        ans = 0\n        for i in range(n):\n            ans = max(ans, inc[i] + dec[i] - 1)\n\n        return ans"
+  },
+  {
+    "title": "Next Special Palindrome Number",
+    "id": 3646,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)",
+    "solution": "class Solution:\n    def nextPalindrome(self, num):\n        s = str(num + 1)\n\n        while True:\n            if s == s[::-1]:\n                return int(s)\n            s = str(int(s) + 1)"
+  },
+  {
+    "title": "Sort Threats by Severity and Exploitability",
+    "id": 3631,
+    "language": "Python",
+    "time_complexity": "O(n log n)",
+    "space_complexity": "O(1)",
+    "solution": "class Solution:\n    def sortThreats(self, threats):\n        threats.sort(key=lambda x: (-x[1], -x[2]))\n        return threats"
+  },
+  {
+    "title": "Find Students with Study Spiral Pattern",
+    "id": 3617,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "solution": "SELECT student_id\nFROM study_logs\nGROUP BY student_id\nHAVING COUNT(DISTINCT subject) >= 3;"
+  },
+  {
+    "title": "Find Books with Polarized Opinions",
+    "id": 3642,
+    "language": "Python",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "solution": "SELECT book_id\nFROM reviews\nGROUP BY book_id\nHAVING MAX(rating) - MIN(rating) >= 4;"
+  }
+]
