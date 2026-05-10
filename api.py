@@ -99,20 +99,38 @@ def get_solution(
     # Search matching question
     for item in solutions:
 
-        if item["title"].lower().strip() == title.lower().strip():
+       # Search matching question
+for item in solutions:
+    db_title = (
+        item["title"]
+        .lower()
+        .replace("-", "")
+        .replace(" ", "")
+        .strip()
+    )
 
-            return {
+    search_title = (
+        title
+        .lower()
+        .replace("-", "")
+        .replace(" ", "")
+        .strip()
+    )
 
-                "question": item["title"],
+    if db_title == search_title:
 
-                "language": language,
+        return {
 
-                "time_complexity": item.get("time_complexity"),
+            "question": item["title"],
 
-                "space_complexity": item.get("space_complexity"),
+            "language": language,
 
-                "optimized_code": item.get("solution")
-            }
+            "time_complexity": item.get("time_complexity"),
+
+            "space_complexity": item.get("space_complexity"),
+
+            "optimized_code": item.get("solution")
+        }
 
     return {
         "message": "Solution not found"
