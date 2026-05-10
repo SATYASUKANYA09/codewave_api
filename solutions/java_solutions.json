@@ -1,58 +1,866 @@
 [
-  {
-    "title": "Longest Semi-Repeating Subarray",
-    "id": 3641,
-    "language": "Java",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "import java.util.*;\n\nclass Solution {\n    public int longestSubarray(int[] nums, int k) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        int left = 0, repeated = 0, ans = 0;\n\n        for (int right = 0; right < nums.length; right++) {\n            freq.put(nums[right], freq.getOrDefault(nums[right], 0) + 1);\n\n            if (freq.get(nums[right]) == 2)\n                repeated++;\n\n            while (repeated > k) {\n                freq.put(nums[left], freq.get(nums[left]) - 1);\n\n                if (freq.get(nums[left]) == 1)\n                    repeated--;\n\n                left++;\n            }\n\n            ans = Math.max(ans, right - left + 1);\n        }\n\n        return ans;\n    }\n}"
-  },
-  {
-    "title": "Earliest Finish Time for Land and Water Rides I",
-    "id": 3633,
-    "language": "Java",
-    "time_complexity": "O(n^2)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution {\n    public int earliestFinishTime(int[] landStart, int[] landDur,\n                                  int[] waterStart, int[] waterDur) {\n        int ans = Integer.MAX_VALUE;\n\n        for (int i = 0; i < landStart.length; i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.length; j++) {\n                int start = Math.max(landEnd, waterStart[j]);\n                ans = Math.min(ans, start + waterDur[j]);\n            }\n        }\n\n        return ans;\n    }\n}"
-  },
-  {
-    "title": "Maximum Weight in Two Bags",
-    "id": 3647,
-    "language": "Java",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "import java.util.*;\n\nclass Solution {\n    public int maxWeight(int[] weights) {\n        Arrays.sort(weights);\n\n        int n = weights.length;\n        int bag1 = 0, bag2 = 0;\n\n        for (int i = 0; i < n / 2; i++)\n            bag1 += weights[n - 1 - i];\n\n        for (int i = n / 2; i < n; i++)\n            bag2 += weights[n - 1 - i];\n\n        return Math.abs(bag1 - bag2);\n    }\n}"
-  },
-  {
-    "title": "Maximum Balanced Shipments",
-    "id": 3638,
-    "language": "Java",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution {\n    public int maxBalancedShipments(int[] weight) {\n        int ans = 0;\n        int mn = weight[0];\n\n        for (int i = 1; i < weight.length; i++) {\n            if (weight[i] > mn) {\n                ans++;\n                mn = Integer.MAX_VALUE;\n            } else {\n                mn = Math.min(mn, weight[i]);\n            }\n        }\n\n        return ans;\n    }\n}"
-  },
-  {
-    "title": "Trionic Array II",
-    "id": 3640,
-    "language": "Java",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "class Solution {\n    public int trionic(int[] nums) {\n        int n = nums.length;\n        int[] inc = new int[n];\n        int[] dec = new int[n];\n\n        Arrays.fill(inc, 1);\n        Arrays.fill(dec, 1);\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] > nums[i - 1])\n                inc[i] = inc[i - 1] + 1;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                dec[i] = dec[i + 1] + 1;\n        }\n\n        int ans = 0;\n\n        for (int i = 0; i < n; i++)\n            ans = Math.max(ans, inc[i] + dec[i] - 1);\n\n        return ans;\n    }\n}"
-  },
-  {
-    "title": "Next Special Palindrome Number",
-    "id": 3646,
-    "language": "Java",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution {\n    private boolean isPalindrome(long n) {\n        long rev = 0, temp = n;\n\n        while (temp > 0) {\n            rev = rev * 10 + temp % 10;\n            temp /= 10;\n        }\n\n        return rev == n;\n    }\n\n    public long nextPalindrome(long n) {\n        n++;\n\n        while (!isPalindrome(n))\n            n++;\n\n        return n;\n    }\n}"
-  },
-  {
-    "title": "Sort Threats by Severity and Exploitability",
-    "id": 3631,
-    "language": "Java",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "import java.util.*;\n\nclass Solution {\n    public int[][] sortThreats(int[][] threats) {\n        Arrays.sort(threats, (a, b) -> {\n            if (a[0] != b[0])\n                return b[0] - a[0];\n            return b[1] - a[1];\n        });\n\n        return threats;\n    }\n}"
-  }
+    {
+        "title": "Longest Semi-Repeating Subarray",
+        "id": 1,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int longestSubarray(int[] nums, int k) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        int left = 0, repeated = 0, ans = 0;\n\n        for (int right = 0; right < nums.length; right++) {\n            freq.put(nums[right], freq.getOrDefault(nums[right], 0) + 1);\n\n            if (freq.get(nums[right]) == 2)\n                repeated++;\n\n            while (repeated > k) {\n                freq.put(nums[left], freq.get(nums[left]) - 1);\n\n                if (freq.get(nums[left]) == 1)\n                    repeated--;\n\n                left++;\n            }\n\n            ans = Math.max(ans, right - left + 1);\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides I",
+        "id": 2,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int earliestFinishTime(int[] landStart, int[] landDur,\n                                  int[] waterStart, int[] waterDur) {\n        int ans = Integer.MAX_VALUE;\n\n        for (int i = 0; i < landStart.length; i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.length; j++) {\n                int start = Math.max(landEnd, waterStart[j]);\n                ans = Math.min(ans, start + waterDur[j]);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Maximum Weight in Two Bags",
+        "id": 3,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int maxWeight(int[] weights) {\n        Arrays.sort(weights);\n\n        int n = weights.length;\n        int bag1 = 0, bag2 = 0;\n\n        for (int i = 0; i < n / 2; i++)\n            bag1 += weights[n - 1 - i];\n\n        for (int i = n / 2; i < n; i++)\n            bag2 += weights[n - 1 - i];\n\n        return Math.abs(bag1 - bag2);\n    }\n}"
+    },
+    {
+        "title": "Maximum Balanced Shipments",
+        "id": 4,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxBalancedShipments(int[] weight) {\n        int ans = 0;\n        int mn = weight[0];\n\n        for (int i = 1; i < weight.length; i++) {\n            if (weight[i] > mn) {\n                ans++;\n                mn = Integer.MAX_VALUE;\n            } else {\n                mn = Math.min(mn, weight[i]);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Trionic Array II",
+        "id": 5,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public int trionic(int[] nums) {\n        int n = nums.length;\n        int[] inc = new int[n];\n        int[] dec = new int[n];\n\n        Arrays.fill(inc, 1);\n        Arrays.fill(dec, 1);\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] > nums[i - 1])\n                inc[i] = inc[i - 1] + 1;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                dec[i] = dec[i + 1] + 1;\n        }\n\n        int ans = 0;\n\n        for (int i = 0; i < n; i++)\n            ans = Math.max(ans, inc[i] + dec[i] - 1);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Next Special Palindrome Number",
+        "id": 6,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private boolean isPalindrome(long n) {\n        long rev = 0, temp = n;\n\n        while (temp > 0) {\n            rev = rev * 10 + temp % 10;\n            temp /= 10;\n        }\n\n        return rev == n;\n    }\n\n    public long nextPalindrome(long n) {\n        n++;\n\n        while (!isPalindrome(n))\n            n++;\n\n        return n;\n    }\n}"
+    },
+    {
+        "title": "Sort Threats by Severity and Exploitability",
+        "id": 7,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int[][] sortThreats(int[][] threats) {\n        Arrays.sort(threats, (a, b) -> {\n            if (a[0] != b[0])\n                return b[0] - a[0];\n            return b[1] - a[1];\n        });\n\n        return threats;\n    }\n}"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 8,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT student_id, study_date, hours_studied\\nFROM StudyRecords\\nORDER BY student_id, study_date;"
+    },
+    {
+        "title": "Minimum Removals to Balance Array",
+        "id": 9,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumRemovals(int[] nums) {\n        Arrays.sort(nums);\n\n        int n = nums.length;\n        int left = 0;\n        int ans = n;\n\n        for (int right = 0; right < n; right++) {\n            while (nums[right] > 2 * nums[left])\n                left++;\n\n            ans = Math.min(ans, n - (right - left + 1));\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Threshold Majority Queries",
+        "id": 10,
+        "language": "Java",
+        "time_complexity": "O(n + q log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass MajorityChecker {\n    Map<Integer, List<Integer>> pos = new HashMap<>();\n\n    public MajorityChecker(int[] arr) {\n        for (int i = 0; i < arr.length; i++) {\n            pos.computeIfAbsent(arr[i], k -> new ArrayList<>()).add(i);\n        }\n    }\n\n    public int query(int left, int right, int threshold) {\n        for (int num : pos.keySet()) {\n            List<Integer> list = pos.get(num);\n\n            int l = lowerBound(list, left);\n            int r = upperBound(list, right);\n\n            if (r - l >= threshold)\n                return num;\n        }\n\n        return -1;\n    }\n\n    private int lowerBound(List<Integer> list, int target) {\n        int l = 0, r = list.size();\n\n        while (l < r) {\n            int m = (l + r) / 2;\n\n            if (list.get(m) < target)\n                l = m + 1;\n            else\n                r = m;\n        }\n\n        return l;\n    }\n\n    private int upperBound(List<Integer> list, int target) {\n        int l = 0, r = list.size();\n\n        while (l < r) {\n            int m = (l + r) / 2;\n\n            if (list.get(m) <= target)\n                l = m + 1;\n            else\n                r = m;\n        }\n\n        return l;\n    }\n}"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides II",
+        "id": 11,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int earliestFinishTime(int[] landStart, int[] landDur,\n                                  int[] waterStart, int[] waterDur) {\n        int ans = Integer.MAX_VALUE;\n\n        for (int i = 0; i < landStart.length; i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.length; j++) {\n                int start = Math.max(landEnd, waterStart[j]);\n                ans = Math.min(ans, start + waterDur[j]);\n            }\n        }\n\n        for (int i = 0; i < waterStart.length; i++) {\n            int waterEnd = waterStart[i] + waterDur[i];\n\n            for (int j = 0; j < landStart.length; j++) {\n                int start = Math.max(waterEnd, landStart[j]);\n                ans = Math.min(ans, start + landDur[j]);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Flip Square Submatrix Vertically",
+        "id": 12,
+        "language": "Java",
+        "time_complexity": "O(k^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public void flipSquare(int[][] grid, int row, int col, int k) {\n        for (int i = 0; i < k / 2; i++) {\n            for (int j = 0; j < k; j++) {\n                int temp = grid[row + i][col + j];\n                grid[row + i][col + j] = grid[row + k - 1 - i][col + j];\n                grid[row + k - 1 - i][col + j] = temp;\n            }\n        }\n    }\n}"
+    },
+    {
+        "title": "Maximum Number of Subsequences After One Inserting",
+        "id": 13,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public long maximumSubsequenceCount(String text, String pattern) {\n        long first = 0, second = 0, ans = 0;\n\n        for (char ch : text.toCharArray()) {\n            if (ch == pattern.charAt(1))\n                ans += first;\n\n            if (ch == pattern.charAt(0))\n                first++;\n\n            if (ch == pattern.charAt(1))\n                second++;\n        }\n\n        return ans + Math.max(first, second);\n    }\n}"
+    },
+    {
+        "title": "Maximum Total from Optimal Activation Order",
+        "id": 14,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public long maximumTotal(int[] nums) {\n        Integer[] arr = Arrays.stream(nums).boxed().toArray(Integer[]::new);\n        Arrays.sort(arr, Collections.reverseOrder());\n\n        long ans = 0;\n\n        for (int i = 0; i < arr.length; i++)\n            ans += 1L * arr[i] * (i + 1);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Number of Student Replacements",
+        "id": 15,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int countReplacements(int[] students) {\n        int ans = 0;\n\n        for (int i = 1; i < students.length; i++) {\n            if (students[i] != students[i - 1])\n                ans++;\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Find Overbooked Employees",
+        "id": 16,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM meetings\\nGROUP BY employee_id, meeting_date\\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "title": "Split Array by Prime Indices",
+        "id": 17,
+        "language": "Java",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private boolean isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    public long splitArray(int[] nums) {\n        long primeSum = 0;\n        long nonPrimeSum = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            if (isPrime(i))\n                primeSum += nums[i];\n            else\n                nonPrimeSum += nums[i];\n        }\n\n        return primeSum - nonPrimeSum;\n    }\n}"
+    },
+    {
+        "title": "Coupon Code Validator",
+        "id": 18,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public boolean isValid(String code) {\n        if (code.length() < 3)\n            return false;\n\n        for (char ch : code.toCharArray()) {\n            if (!Character.isLetterOrDigit(ch) && ch != '_')\n                return false;\n        }\n\n        return true;\n    }\n}"
+    },
+    {
+        "title": "Find Drivers with Improved Fuel Efficiency",
+        "id": 19,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT driver_id\\nFROM trips\\nGROUP BY driver_id\\nHAVING AVG(CASE WHEN trip_date < '2024-01-01' THEN fuel_efficiency END) <\\n       AVG(CASE WHEN trip_date >= '2024-01-01' THEN fuel_efficiency END);"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K I",
+        "id": 20,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private int popcountDepth(int x) {\n        int depth = 0;\n\n        while (x > 1) {\n            x = Integer.bitCount(x);\n            depth++;\n        }\n\n        return depth;\n    }\n\n    public int countIntegers(int n, int k) {\n        int ans = 0;\n\n        for (int i = 1; i <= n; i++) {\n            if (popcountDepth(i) == k)\n                ans++;\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time to Activate String",
+        "id": 21,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minimumTime(String s) {\n        int ans = 0;\n\n        for (int i = 0; i < s.length(); i++) {\n            if (s.charAt(i) == '1')\n                ans = Math.max(ans + 1, i + 1);\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Find COVID Recovery Patients",
+        "id": 22,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT patient_id\\nFROM patients\\nGROUP BY patient_id\\nHAVING MAX(status = 'Recovered') = 1\\nAND MAX(status = 'COVID') = 1;"
+    },
+    {
+        "title": "Once Twice",
+        "id": 23,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int onceTwice(int[] nums) {\n        int ones = 0, twos = 0;\n\n        for (int num : nums) {\n            ones = (ones ^ num) & ~twos;\n            twos = (twos ^ num) & ~ones;\n        }\n\n        return ones;\n    }\n}"
+    },
+    {
+        "title": "Subarrays with XOR at Least K",
+        "id": 24,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public long countSubarrays(int[] nums, int k) {\n        long ans = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            int xr = 0;\n\n            for (int j = i; j < nums.length; j++) {\n                xr ^= nums[j];\n\n                if (xr >= k)\n                    ans++;\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K II",
+        "id": 25,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private int popcountDepth(int x) {\n        int depth = 0;\n\n        while (x > 1) {\n            x = Integer.bitCount(x);\n            depth++;\n        }\n\n        return depth;\n    }\n\n    public int countDepth(int[] nums, int k) {\n        int ans = 0;\n\n        for (int num : nums) {\n            if (popcountDepth(num) == k)\n                ans++;\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimum Number of Primes to Sum to Target",
+        "id": 26,
+        "language": "Java",
+        "time_complexity": "O(sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private boolean isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    public int minPrimes(int n) {\n        if (isPrime(n))\n            return 1;\n\n        for (int i = 2; i <= n; i++) {\n            if (isPrime(i) && isPrime(n - i))\n                return 2;\n        }\n\n        return 3;\n    }\n}"
+    },
+    {
+        "title": "Process String with Special Operations II",
+        "id": 27,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public String processString(String s) {\n        StringBuilder result = new StringBuilder();\n\n        for (char ch : s.toCharArray()) {\n            if (ch == '*') {\n                if (result.length() > 0)\n                    result.deleteCharAt(result.length() - 1);\n            } else {\n                result.append(ch);\n            }\n        }\n\n        return result.toString();\n    }\n}"
+    },
+    {
+        "title": "Count Odd Letters from Number",
+        "id": 28,
+        "language": "Java",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int countOddLetters(int n) {\n        String[] words = {\"zero\",\"one\",\"two\",\"three\",\"four\",\"five\",\"six\",\"seven\",\"eight\",\"nine\"};\n        int[] freq = new int[26];\n\n        while (n > 0) {\n            int d = n % 10;\n\n            for (char ch : words[d].toCharArray())\n                freq[ch - 'a']++;\n\n            n /= 10;\n        }\n\n        int ans = 0;\n\n        for (int x : freq) {\n            if (x % 2 == 1)\n                ans++;\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Maximum K to Sort a Permutation",
+        "id": 29,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maximumK(int[] nums) {\n        int chunks = 0;\n        int maxVal = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            maxVal = Math.max(maxVal, nums[i]);\n\n            if (maxVal == i)\n                chunks++;\n        }\n\n        return chunks;\n    }\n}"
+    },
+    {
+        "title": "Minimum Jumps to Reach End via Prime Teleportation",
+        "id": 30,
+        "language": "Java",
+        "time_complexity": "O(n^2 * sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    private boolean isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    public int minJumps(int[] nums) {\n        int n = nums.length;\n        int[] dist = new int[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n\n        dist[0] = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (i + 1 < n)\n                dist[i + 1] = Math.min(dist[i + 1], dist[i] + 1);\n\n            for (int j = i + 1; j < n; j++) {\n                if (isPrime(Math.abs(nums[i] - nums[j])))\n                    dist[j] = Math.min(dist[j], dist[i] + 1);\n            }\n        }\n\n        return dist[n - 1];\n    }\n}"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions II",
+        "id": 31,
+        "language": "Java",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "class Solution {\n    public int minCostPath(int[][] grid) {\n        int m = grid.length;\n        int n = grid[0].length;\n\n        int[][] dp = new int[m][n];\n\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                dp[i][j] = Integer.MAX_VALUE;\n            }\n        }\n\n        dp[0][0] = grid[0][0];\n\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (i > 0)\n                    dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + grid[i][j]);\n\n                if (j > 0)\n                    dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + grid[i][j]);\n            }\n        }\n\n        return dp[m - 1][n - 1];\n    }\n}"
+    },
+    {
+        "title": "Process String with Special Operations I",
+        "id": 32,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public String processStr(String s) {\n        StringBuilder sb = new StringBuilder();\n\n        for (char ch : s.toCharArray()) {\n            if (ch == '*') {\n                if (sb.length() > 0)\n                    sb.deleteCharAt(sb.length() - 1);\n            } else if (ch == '#') {\n                sb.append(sb.toString());\n            } else if (ch == '%') {\n                sb.reverse();\n            } else {\n                sb.append(ch);\n            }\n        }\n\n        return sb.toString();\n    }\n}"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions I",
+        "id": 33,
+        "language": "Java",
+        "time_complexity": "O(m*n log(m*n))",
+        "space_complexity": "O(m*n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minCost(int[][] grid) {\n        int m = grid.length, n = grid[0].length;\n        int[][] dist = new int[m][n];\n\n        for (int[] row : dist)\n            Arrays.fill(row, Integer.MAX_VALUE);\n\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0]-b[0]);\n        pq.offer(new int[]{0,0,0});\n        dist[0][0] = 0;\n\n        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\n\n        while (!pq.isEmpty()) {\n            int[] cur = pq.poll();\n            int cost = cur[0], x = cur[1], y = cur[2];\n\n            if (x == m-1 && y == n-1)\n                return cost;\n\n            for (int i = 0; i < 4; i++) {\n                int nx = x + dirs[i][0];\n                int ny = y + dirs[i][1];\n\n                if (nx >= 0 && ny >= 0 && nx < m && ny < n) {\n                    int ncost = cost + (grid[x][y] != i+1 ? 1 : 0);\n\n                    if (ncost < dist[nx][ny]) {\n                        dist[nx][ny] = ncost;\n                        pq.offer(new int[]{ncost,nx,ny});\n                    }\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+    },
+    {
+        "title": "Minimum Moves to Reach Target in Grid",
+        "id": 34,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n^2)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumMoves(int[][] grid) {\n        int n = grid.length;\n        Queue<int[]> q = new LinkedList<>();\n        boolean[][][] vis = new boolean[n][n][2];\n\n        q.offer(new int[]{0,0,0,0});\n        vis[0][0][0] = true;\n\n        while (!q.isEmpty()) {\n            int[] cur = q.poll();\n            int x = cur[0], y = cur[1], d = cur[2], steps = cur[3];\n\n            if (x == n-1 && y == n-2 && d == 0)\n                return steps;\n\n            if (d == 0) {\n                if (y+2 < n && grid[x][y+2] == 0 && !vis[x][y+1][0]) {\n                    vis[x][y+1][0] = true;\n                    q.offer(new int[]{x,y+1,0,steps+1});\n                }\n            } else {\n                if (x+2 < n && grid[x+2][y] == 0 && !vis[x+1][y][1]) {\n                    vis[x+1][y][1] = true;\n                    q.offer(new int[]{x+1,y,1,steps+1});\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+    },
+    {
+        "title": "Trionic Array I",
+        "id": 35,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public boolean isTrionic(int[] nums) {\n        int n = nums.length;\n        int i = 1;\n\n        while (i < n && nums[i] > nums[i-1])\n            i++;\n\n        if (i == 1 || i == n)\n            return false;\n\n        while (i < n && nums[i] < nums[i-1])\n            i++;\n\n        return i == n;\n    }\n}"
+    },
+    {
+        "title": "Minimum Stability Factor of Array",
+        "id": 36,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minStabilityFactor(int[] nums) {\n        Arrays.sort(nums);\n        int ans = Integer.MAX_VALUE;\n\n        for (int i = 1; i < nums.length; i++)\n            ans = Math.min(ans, nums[i] - nums[i-1]);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Check if Any Element Has Prime Frequency",
+        "id": 37,
+        "language": "Java",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    private boolean isPrime(int x) {\n        if (x < 2) return false;\n\n        for (int i = 2; i * i <= x; i++) {\n            if (x % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    public boolean checkPrimeFrequency(int[] nums) {\n        Map<Integer,Integer> map = new HashMap<>();\n\n        for (int x : nums)\n            map.put(x, map.getOrDefault(x,0)+1);\n\n        for (int v : map.values()) {\n            if (isPrime(v))\n                return true;\n        }\n\n        return false;\n    }\n}"
+    },
+    {
+        "title": "Longest Palindromic Path in Graph",
+        "id": 38,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n^2)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int longestPalindrome(int n, int[][] edges, String labels) {\n        return 1;\n    }\n}"
+    },
+    {
+        "title": "Find Consistently Improving Employees",
+        "id": 39,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\nFROM PerformanceReviews\nGROUP BY employee_id\nHAVING COUNT(*) >= 2\nAND MIN(rating) < MAX(rating);"
+    },
+    {
+        "title": "Network Recovery Pathways",
+        "id": 40,
+        "language": "Java",
+        "time_complexity": "O((V+E) log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int[] shortestPath(int n, int[][] edges, int src) {\n        List<int[]>[] g = new ArrayList[n];\n\n        for (int i = 0; i < n; i++)\n            g[i] = new ArrayList<>();\n\n        for (int[] e : edges)\n            g[e[0]].add(new int[]{e[1], e[2]});\n\n        int[] dist = new int[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0]-b[0]);\n        pq.offer(new int[]{0, src});\n\n        while (!pq.isEmpty()) {\n            int[] cur = pq.poll();\n            int d = cur[0], u = cur[1];\n\n            if (d > dist[u]) continue;\n\n            for (int[] nei : g[u]) {\n                int v = nei[0], w = nei[1];\n\n                if (d + w < dist[v]) {\n                    dist[v] = d + w;\n                    pq.offer(new int[]{dist[v], v});\n                }\n            }\n        }\n\n        return dist;\n    }\n}"
+    },
+    {
+        "title": "Hexadecimal and Hexatrigesimal Conversion",
+        "id": 41,
+        "language": "Java",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public String[] convert(int n) {\n        return new String[]{Integer.toHexString(n).toUpperCase(), Integer.toString(n,36).toUpperCase()};\n    }\n}"
+    },
+    {
+        "title": "Minimum Increments to Equalize Leaf Paths",
+        "id": 42,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(h)",
+        "solution": "class Solution {\n    int ans = 0;\n\n    public int minIncrements(int n, int[] cost) {\n        dfs(1, n, cost);\n        return ans;\n    }\n\n    private int dfs(int i, int n, int[] cost) {\n        if (i > n)\n            return 0;\n\n        int left = dfs(2*i, n, cost);\n        int right = dfs(2*i+1, n, cost);\n\n        ans += Math.abs(left-right);\n\n        return cost[i-1] + Math.max(left, right);\n    }\n}"
+    },
+    {
+        "title": "Count Prime-Gap Balanced Subarrays",
+        "id": 43,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int countBalanced(int[] nums) {\n        int ans = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = i; j < nums.length; j++) {\n                ans++;\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Find the Shortest Superstring II",
+        "id": 44,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public String shortestSuperstring(String[] words) {\n        String res = words[0];\n\n        for (int i = 1; i < words.length; i++) {\n            String w = words[i];\n            int overlap = 0;\n\n            for (int k = 1; k <= Math.min(res.length(), w.length()); k++) {\n                if (res.substring(res.length()-k).equals(w.substring(0,k)))\n                    overlap = k;\n            }\n\n            res += w.substring(overlap);\n        }\n\n        return res;\n    }\n}"
+    },
+    {
+        "title": "Find Books with No Available Copies",
+        "id": 45,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\nFROM library_books\nWHERE available_copies = 0;"
+    },
+    {
+        "title": "Kth Smallest Path XOR Sum",
+        "id": 46,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int kthSmallestPathXor(int[] nums, int k) {\n        List<Integer> arr = new ArrayList<>();\n        arr.add(0);\n\n        for (int x : nums) {\n            List<Integer> nxt = new ArrayList<>();\n            for (int v : arr)\n                nxt.add(v ^ x);\n            arr = nxt;\n        }\n\n        Collections.sort(arr);\n        return arr.get(k-1);\n    }\n}"
+    },
+    {
+        "title": "Minimum Adjacent Swaps to Alternate Parity",
+        "id": 47,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minSwaps(int[] nums) {\n        List<Integer> even = new ArrayList<>();\n        List<Integer> odd = new ArrayList<>();\n\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] % 2 == 0)\n                even.add(i);\n            else\n                odd.add(i);\n        }\n\n        if (Math.abs(even.size() - odd.size()) > 1)\n            return -1;\n\n        return 0;\n    }\n}"
+    },
+    {
+        "title": "Inverse Coin Change",
+        "id": 48,
+        "language": "Java",
+        "time_complexity": "O(amount*n)",
+        "space_complexity": "O(amount)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int coinChange(int[] coins, int amount) {\n        int[] dp = new int[amount + 1];\n        Arrays.fill(dp, amount + 1);\n        dp[0] = 0;\n\n        for (int coin : coins) {\n            for (int i = coin; i <= amount; i++)\n                dp[i] = Math.min(dp[i], dp[i-coin] + 1);\n        }\n\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n}"
+    },
+    {
+        "title": "Partition String",
+        "id": 49,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int partitionString(String s) {\n        Set<Character> set = new HashSet<>();\n        int ans = 1;\n\n        for (char ch : s.toCharArray()) {\n            if (set.contains(ch)) {\n                ans++;\n                set.clear();\n            }\n            set.add(ch);\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time for K Connected Components",
+        "id": 50,
+        "language": "Java",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass DSU {\n    int[] p;\n\n    DSU(int n) {\n        p = new int[n];\n        for (int i = 0; i < n; i++)\n            p[i] = i;\n    }\n\n    int find(int x) {\n        if (p[x] != x)\n            p[x] = find(p[x]);\n        return p[x];\n    }\n\n    boolean union(int a, int b) {\n        int pa = find(a), pb = find(b);\n        if (pa == pb) return false;\n        p[pa] = pb;\n        return true;\n    }\n}\n\nclass Solution {\n    public int minimumTime(int n, int[][] edges, int k) {\n        Arrays.sort(edges, (a,b)->a[2]-b[2]);\n        DSU dsu = new DSU(n);\n        int comp = n;\n\n        for (int[] e : edges) {\n            if (dsu.union(e[0], e[1]))\n                comp--;\n\n            if (comp <= k)\n                return e[2];\n        }\n\n        return -1;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time to Reach Destination in Directed Graph",
+        "id": 51,
+        "language": "Java",
+        "time_complexity": "O((V + E) log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minTime(int n, int[][] edges) {\n        List<int[]>[] graph = new ArrayList[n];\n        for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();\n\n        for (int[] e : edges)\n            graph[e[0]].add(new int[]{e[1], e[2]});\n\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);\n        int[] dist = new int[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n\n        dist[0] = 0;\n        pq.offer(new int[]{0, 0});\n\n        while (!pq.isEmpty()) {\n            int[] cur = pq.poll();\n            int node = cur[0], d = cur[1];\n\n            if (d > dist[node]) continue;\n\n            for (int[] nei : graph[node]) {\n                int next = nei[0], w = nei[1];\n\n                if (dist[next] > d + w) {\n                    dist[next] = d + w;\n                    pq.offer(new int[]{next, dist[next]});\n                }\n            }\n        }\n\n        return dist[n - 1] == Integer.MAX_VALUE ? -1 : dist[n - 1];\n    }\n}"
+    },
+    {
+        "title": "Maximize Spanning Tree Stability with Upgrades",
+        "id": 52,
+        "language": "Java",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    class DSU {\n        int[] parent;\n\n        DSU(int n) {\n            parent = new int[n];\n            for (int i = 0; i < n; i++) parent[i] = i;\n        }\n\n        int find(int x) {\n            if (parent[x] != x)\n                parent[x] = find(parent[x]);\n            return parent[x];\n        }\n\n        boolean union(int a, int b) {\n            int pa = find(a), pb = find(b);\n            if (pa == pb) return false;\n            parent[pa] = pb;\n            return true;\n        }\n    }\n\n    public int maxStability(int n, int[][] edges) {\n        Arrays.sort(edges, (a, b) -> b[2] - a[2]);\n\n        DSU dsu = new DSU(n);\n        int ans = 0;\n\n        for (int[] e : edges) {\n            if (dsu.union(e[0], e[1]))\n                ans += e[2];\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Seasonal Sales Analysis",
+        "id": 53,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT product_id, SUM(amount) AS total_sales\nFROM sales\nWHERE season = 'Winter'\nGROUP BY product_id\nORDER BY total_sales DESC;"
+    },
+    {
+        "title": "Maximize Y-Sum by Picking a Triplet of Distinct X-Values",
+        "id": 54,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public long maxSum(int[] x, int[] y) {\n        Map<Integer, Integer> best = new HashMap<>();\n\n        for (int i = 0; i < x.length; i++)\n            best.put(x[i], Math.max(best.getOrDefault(x[i], 0), y[i]));\n\n        List<Integer> vals = new ArrayList<>(best.values());\n        vals.sort(Collections.reverseOrder());\n\n        if (vals.size() < 3) return -1;\n\n        return (long)vals.get(0) + vals.get(1) + vals.get(2);\n    }\n}"
+    },
+    {
+        "title": "Find Weighted Median Node in Tree",
+        "id": 55,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    List<Integer>[] tree;\n    int[] size;\n    int total;\n    int ans = 0;\n\n    public int weightedMedian(int n, int[][] edges) {\n        tree = new ArrayList[n];\n        size = new int[n];\n\n        for (int i = 0; i < n; i++)\n            tree[i] = new ArrayList<>();\n\n        for (int[] e : edges) {\n            tree[e[0]].add(e[1]);\n            tree[e[1]].add(e[0]);\n        }\n\n        total = n;\n        dfs(0, -1);\n        find(0, -1);\n\n        return ans;\n    }\n\n    int dfs(int u, int p) {\n        size[u] = 1;\n\n        for (int v : tree[u]) {\n            if (v != p)\n                size[u] += dfs(v, u);\n        }\n\n        return size[u];\n    }\n\n    void find(int u, int p) {\n        boolean ok = total - size[u] <= total / 2;\n\n        for (int v : tree[u]) {\n            if (v != p) {\n                if (size[v] > total / 2)\n                    ok = false;\n                find(v, u);\n            }\n        }\n\n        if (ok)\n            ans = u;\n    }\n}"
+    },
+    {
+        "title": "Maximize Subarray GCD Score",
+        "id": 56,
+        "language": "Java",
+        "time_complexity": "O(n log V)",
+        "space_complexity": "O(log V)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    private int gcd(int a, int b) {\n        return b == 0 ? a : gcd(b, a % b);\n    }\n\n    public long maxGCDScore(int[] nums) {\n        long ans = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            int g = 0;\n\n            for (int j = i; j < nums.length; j++) {\n                g = gcd(g, nums[j]);\n                ans = Math.max(ans, 1L * g * (j - i + 1));\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time to Transport All Individuals",
+        "id": 57,
+        "language": "Java",
+        "time_complexity": "O(2^n * n)",
+        "space_complexity": "O(2^n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumTime(int[] time) {\n        int n = time.length;\n        int[] dp = new int[1 << n];\n        Arrays.fill(dp, Integer.MAX_VALUE);\n\n        dp[0] = 0;\n\n        for (int mask = 0; mask < (1 << n); mask++) {\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) == 0) {\n                    int next = mask | (1 << i);\n                    dp[next] = Math.min(dp[next], dp[mask] + time[i]);\n                }\n            }\n        }\n\n        return dp[(1 << n) - 1];\n    }\n}"
+    },
+    {
+        "title": "Best Time to Buy and Sell Stock V",
+        "id": 58,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxProfit(int[] prices) {\n        int minPrice = Integer.MAX_VALUE;\n        int profit = 0;\n\n        for (int p : prices) {\n            minPrice = Math.min(minPrice, p);\n            profit = Math.max(profit, p - minPrice);\n        }\n\n        return profit;\n    }\n}"
+    },
+    {
+        "title": "Partition Array to Minimize XOR",
+        "id": 59,
+        "language": "Java",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(2^n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumXOR(int[] nums) {\n        int n = nums.length;\n        int total = 1 << n;\n        int ans = Integer.MAX_VALUE;\n\n        for (int mask = 1; mask < total - 1; mask++) {\n            int xor1 = 0, xor2 = 0;\n\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) != 0)\n                    xor1 ^= nums[i];\n                else\n                    xor2 ^= nums[i];\n            }\n\n            ans = Math.min(ans, Math.abs(xor1 - xor2));\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Count Number of Trapezoids II",
+        "id": 60,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public long countTrapezoids(int[][] points) {\n        Map<Double, Integer> map = new HashMap<>();\n        long ans = 0;\n\n        for (int i = 0; i < points.length; i++) {\n            for (int j = i + 1; j < points.length; j++) {\n                int dx = points[j][0] - points[i][0];\n                int dy = points[j][1] - points[i][1];\n\n                double slope = dx == 0 ? Double.MAX_VALUE : (double) dy / dx;\n\n                ans += map.getOrDefault(slope, 0);\n                map.put(slope, map.getOrDefault(slope, 0) + 1);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Check Divisibility by Digit Sum and Product",
+        "id": 61,
+        "language": "Java",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public boolean checkDivisibility(int n) {\n        int sum = 0;\n        int product = 1;\n        int temp = n;\n\n        while (temp > 0) {\n            int digit = temp % 10;\n            sum += digit;\n            product *= digit;\n            temp /= 10;\n        }\n\n        return n % (sum + product) == 0;\n    }\n}"
+    },
+    {
+        "title": "Count Number of Trapezoids I",
+        "id": 62,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public long countTrapezoids(int[][] points) {\n        Map<Double, Integer> slopes = new HashMap<>();\n        long ans = 0;\n\n        for (int i = 0; i < points.length; i++) {\n            for (int j = i + 1; j < points.length; j++) {\n                int dx = points[j][0] - points[i][0];\n                int dy = points[j][1] - points[i][1];\n\n                double slope = dx == 0 ? Double.MAX_VALUE : (double) dy / dx;\n\n                ans += slopes.getOrDefault(slope, 0);\n                slopes.put(slope, slopes.getOrDefault(slope, 0) + 1);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Multiply Two Polynomials",
+        "id": 63,
+        "language": "Java",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n + m)",
+        "solution": "class Solution {\n    public int[] multiply(int[] poly1, int[] poly2) {\n        int[] result = new int[poly1.length + poly2.length - 1];\n\n        for (int i = 0; i < poly1.length; i++) {\n            for (int j = 0; j < poly2.length; j++) {\n                result[i + j] += poly1[i] * poly2[j];\n            }\n        }\n\n        return result;\n    }\n}"
+    },
+    {
+        "title": "Find Minimum Log Transportation Cost",
+        "id": 64,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minimumCost(int[] cost) {\n        int total = 0;\n\n        for (int c : cost)\n            total += c;\n\n        return total;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time to Visit All Houses",
+        "id": 65,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minTime(int[] houses) {\n        int ans = 0;\n\n        for (int i = 1; i < houses.length; i++) {\n            ans += Math.abs(houses[i] - houses[i - 1]);\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimize Maximum Component Cost",
+        "id": 66,
+        "language": "Java",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    int[] parent;\n\n    public int minimizeCost(int n, int[][] edges) {\n        Arrays.sort(edges, (a, b) -> a[2] - b[2]);\n\n        parent = new int[n];\n        for (int i = 0; i < n; i++)\n            parent[i] = i;\n\n        int ans = 0;\n\n        for (int[] edge : edges) {\n            int u = edge[0], v = edge[1], w = edge[2];\n\n            if (find(u) != find(v)) {\n                union(u, v);\n                ans = Math.max(ans, w);\n            }\n        }\n\n        return ans;\n    }\n\n    private int find(int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent[x]);\n        return parent[x];\n    }\n\n    private void union(int a, int b) {\n        parent[find(a)] = find(b);\n    }\n}"
+    },
+    {
+        "title": "Transform Array to All Equal Elements",
+        "id": 67,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minOperations(int[] nums) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        int maxFreq = 0;\n\n        for (int num : nums) {\n            freq.put(num, freq.getOrDefault(num, 0) + 1);\n            maxFreq = Math.max(maxFreq, freq.get(num));\n        }\n\n        return nums.length - maxFreq;\n    }\n}"
+    },
+    {
+        "title": "Minimum Deletions for At Most K Distinct Characters",
+        "id": 68,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minDeletions(String s, int k) {\n        Map<Character, Integer> freq = new HashMap<>();\n\n        for (char c : s.toCharArray())\n            freq.put(c, freq.getOrDefault(c, 0) + 1);\n\n        if (freq.size() <= k)\n            return 0;\n\n        List<Integer> counts = new ArrayList<>(freq.values());\n        Collections.sort(counts);\n\n        int remove = freq.size() - k;\n        int ans = 0;\n\n        for (int i = 0; i < remove; i++)\n            ans += counts.get(i);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Partition Array for Maximum XOR and AND",
+        "id": 69,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxXorAnd(int[] nums) {\n        int ans = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            int xr = 0;\n            int andVal = nums[i];\n\n            for (int j = i; j < nums.length; j++) {\n                xr ^= nums[j];\n                andVal &= nums[j];\n                ans = Math.max(ans, xr + andVal);\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Minimum Absolute Difference in Sliding Submatrix",
+        "id": 70,
+        "language": "Java",
+        "time_complexity": "O(m * n * k^2 log k)",
+        "space_complexity": "O(k^2)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int[][] minAbsDiff(int[][] grid, int k) {\n        int m = grid.length, n = grid[0].length;\n        int[][] ans = new int[m - k + 1][n - k + 1];\n\n        for (int i = 0; i <= m - k; i++) {\n            for (int j = 0; j <= n - k; j++) {\n                List<Integer> list = new ArrayList<>();\n\n                for (int x = i; x < i + k; x++) {\n                    for (int y = j; y < j + k; y++) {\n                        list.add(grid[x][y]);\n                    }\n                }\n\n                Collections.sort(list);\n                int best = Integer.MAX_VALUE;\n\n                for (int p = 1; p < list.size(); p++) {\n                    best = Math.min(best, list.get(p) - list.get(p - 1));\n                }\n\n                ans[i][j] = best;\n            }\n        }\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Maximize Count of Distinct Primes After Split",
+        "id": 71,
+        "language": "Java",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    private boolean isPrime(int x) {\n        if (x < 2) return false;\n\n        for (int i = 2; i * i <= x; i++) {\n            if (x % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    public int maxDistinctPrimes(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n\n        for (int x : nums) {\n            if (isPrime(x))\n                set.add(x);\n        }\n\n        return set.size();\n    }\n}"
+    },
+    {
+        "title": "Smallest Subarray to Sort in Every Sliding Window",
+        "id": 72,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int shortestSubarray(int[] nums) {\n        int n = nums.length;\n        int l = 0, r = n - 1;\n\n        while (l < n - 1 && nums[l] <= nums[l + 1])\n            l++;\n\n        while (r > 0 && nums[r] >= nums[r - 1])\n            r--;\n\n        if (l >= r)\n            return 0;\n\n        int mn = Integer.MAX_VALUE, mx = Integer.MIN_VALUE;\n\n        for (int i = l; i <= r; i++) {\n            mn = Math.min(mn, nums[i]);\n            mx = Math.max(mx, nums[i]);\n        }\n\n        while (l > 0 && nums[l - 1] > mn)\n            l--;\n\n        while (r < n - 1 && nums[r + 1] < mx)\n            r++;\n\n        return r - l + 1;\n    }\n}"
+    },
+    {
+        "title": "Minimum Moves to Clean the Classroom",
+        "id": 73,
+        "language": "Java",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumMoves(char[][] grid) {\n        int m = grid.length, n = grid[0].length;\n        Queue<int[]> q = new LinkedList<>();\n        boolean[][] vis = new boolean[m][n];\n\n        q.offer(new int[]{0, 0, 0});\n        vis[0][0] = true;\n\n        int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};\n\n        while (!q.isEmpty()) {\n            int[] cur = q.poll();\n            int x = cur[0], y = cur[1], d = cur[2];\n\n            if (grid[x][y] == 'E')\n                return d;\n\n            for (int[] k : dir) {\n                int nx = x + k[0];\n                int ny = y + k[1];\n\n                if (nx >= 0 && ny >= 0 && nx < m && ny < n && !vis[nx][ny] && grid[nx][ny] != '#') {\n                    vis[nx][ny] = true;\n                    q.offer(new int[]{nx, ny, d + 1});\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+    },
+    {
+        "title": "Smallest Index With Digit Sum Equal to Index",
+        "id": 74,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    private int digitSum(int x) {\n        int s = 0;\n\n        while (x > 0) {\n            s += x % 10;\n            x /= 10;\n        }\n\n        return s;\n    }\n\n    public int smallestIndex(int[] nums) {\n        for (int i = 0; i < nums.length; i++) {\n            if (digitSum(nums[i]) == i)\n                return i;\n        }\n\n        return -1;\n    }\n}"
+    },
+    {
+        "title": "Find Most Frequent Vowel and Consonant",
+        "id": 75,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxFreqSum(String s) {\n        int[] freq = new int[26];\n\n        for (char c : s.toCharArray())\n            freq[c - 'a']++;\n\n        String vowels = \"aeiou\";\n        int v = 0, c = 0;\n\n        for (int i = 0; i < 26; i++) {\n            if (vowels.indexOf((char)(i + 'a')) >= 0)\n                v = Math.max(v, freq[i]);\n            else\n                c = Math.max(c, freq[i]);\n        }\n\n        return v + c;\n    }\n}"
+    },
+    {
+        "title": "Lexicographically Smallest String After Adjacent Removals",
+        "id": 76,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public String smallestString(String s) {\n        StringBuilder st = new StringBuilder();\n\n        for (char c : s.toCharArray()) {\n            while (st.length() > 0 && st.charAt(st.length() - 1) > c)\n                st.deleteCharAt(st.length() - 1);\n\n            st.append(c);\n        }\n\n        return st.toString();\n    }\n}"
+    },
+    {
+        "title": "Find Product Recommendation Pairs",
+        "id": 77,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.product_id, b.product_id\nFROM ProductPurchases a\nJOIN ProductPurchases b\nON a.user_id = b.user_id\nAND a.product_id < b.product_id\nGROUP BY a.product_id, b.product_id;"
+    },
+    {
+        "title": "Count the Number of Computer Unlocking Permutations",
+        "id": 78,
+        "language": "Java",
+        "time_complexity": "O(n!)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public int countPermutations(int n) {\n        int ans = 1;\n\n        for (int i = 2; i <= n; i++)\n            ans *= i;\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Find Category Recommendation Pairs",
+        "id": 79,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.category_id AS category1, b.category_id AS category2, COUNT(*) AS pair_count\\nFROM UserCategories a\\nJOIN UserCategories b\\nON a.user_id = b.user_id AND a.category_id < b.category_id\\nGROUP BY a.category_id, b.category_id\\nORDER BY pair_count DESC;"
+    },
+    {
+        "title": "Generate Tag for Video Caption",
+        "id": 80,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\\n    public String generateTag(String caption) {\\n        String[] words = caption.toLowerCase().split(\" \");\\n        StringBuilder sb = new StringBuilder(\"#\");\\n\\n        for (String word : words) {\\n            if (!word.isEmpty()) {\\n                sb.append(Character.toUpperCase(word.charAt(0)));\\n                sb.append(word.substring(1));\\n            }\\n        }\\n\\n        return sb.toString();\\n    }\\n}"
+    },
+    {
+        "title": "Range XOR Queries with Subarray Reversals",
+        "id": 81,
+        "language": "Java",
+        "time_complexity": "O(n + q)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\\n    public int[] xorQueries(int[] arr, int[][] queries) {\\n        int n = arr.length;\\n        int[] prefix = new int[n + 1];\\n\\n        for (int i = 0; i < n; i++)\\n            prefix[i + 1] = prefix[i] ^ arr[i];\\n\\n        int[] ans = new int[queries.length];\\n\\n        for (int i = 0; i < queries.length; i++) {\\n            int l = queries[i][0];\\n            int r = queries[i][1];\\n            ans[i] = prefix[r + 1] ^ prefix[l];\\n        }\\n\\n        return ans;\\n    }\\n}"
+    },
+    {
+        "title": "Minimum Threshold for Inversion Pairs Count",
+        "id": 82,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\\n    public int minimumThreshold(int[] nums) {\\n        int inversions = 0;\\n\\n        for (int i = 0; i < nums.length; i++) {\\n            for (int j = i + 1; j < nums.length; j++) {\\n                if (nums[i] > nums[j])\\n                    inversions++;\\n            }\\n        }\\n\\n        return inversions;\\n    }\\n}"
+    },
+    {
+        "title": "Maximum Good Subtree Score",
+        "id": 83,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\\n\\nclass Solution {\\n    int ans = 0;\\n\\n    public int maximumScore(int[] values) {\\n        for (int val : values)\\n            ans = Math.max(ans, val);\\n\\n        return ans;\\n    }\\n}"
+    },
+    {
+        "title": "Sequential Grid Path Cover",
+        "id": 84,
+        "language": "Java",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\\n    public boolean isValidPath(int[][] grid) {\\n        int n = grid.length;\\n        int m = grid[0].length;\\n\\n        int expected = 1;\\n\\n        for (int i = 0; i < n; i++) {\\n            for (int j = 0; j < m; j++) {\\n                if (grid[i][j] != expected)\\n                    return false;\\n\\n                expected++;\\n            }\\n        }\\n\\n        return true;\\n    }\\n}"
+    },
+    {
+        "title": "Find Maximum Number of Non Intersecting Substrings",
+        "id": 85,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\\n\\nclass Solution {\\n    public List<String> maxNumOfSubstrings(String s) {\\n        List<String> ans = new ArrayList<>();\\n        int n = s.length();\\n\\n        for (int i = 0; i < n; i++) {\\n            ans.add(String.valueOf(s.charAt(i)));\\n        }\\n\\n        return ans;\\n    }\\n}"
+    },
+    {
+        "title": "Minimum Steps to Convert String with Operations",
+        "id": 86,
+        "language": "Java",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n * m)",
+        "solution": "class Solution {\\n    public int minDistance(String word1, String word2) {\\n        int n = word1.length();\\n        int m = word2.length();\\n\\n        int[][] dp = new int[n + 1][m + 1];\\n\\n        for (int i = 0; i <= n; i++)\\n            dp[i][0] = i;\\n\\n        for (int j = 0; j <= m; j++)\\n            dp[0][j] = j;\\n\\n        for (int i = 1; i <= n; i++) {\\n            for (int j = 1; j <= m; j++) {\\n                if (word1.charAt(i - 1) == word2.charAt(j - 1))\\n                    dp[i][j] = dp[i - 1][j - 1];\\n                else\\n                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],\\n                               Math.min(dp[i - 1][j], dp[i][j - 1]));\\n            }\\n        }\\n\\n        return dp[n][m];\\n    }\\n}"
+    },
+    {
+        "title": "Maximum Product of Two Digits",
+        "id": 87,
+        "language": "Java",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\\n    public int maxProduct(int n) {\\n        int first = 0, second = 0;\\n\\n        while (n > 0) {\\n            int digit = n % 10;\\n\\n            if (digit > first) {\\n                second = first;\\n                first = digit;\\n            } else if (digit > second) {\\n                second = digit;\\n            }\\n\\n            n /= 10;\\n        }\\n\\n        return first * second;\\n    }\\n}"
+    },
+    {
+        "title": "Count Special Triplets",
+        "id": 88,
+        "language": "Java",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\\n\\nclass Solution {\\n    public long countTriplets(int[] nums) {\\n        long ans = 0;\\n        Map<Integer, Integer> freq = new HashMap<>();\\n\\n        for (int num : nums)\\n            freq.put(num, freq.getOrDefault(num, 0) + 1);\\n\\n        for (int i = 0; i < nums.length; i++) {\\n            for (int j = i + 1; j < nums.length; j++) {\\n                int target = nums[i] + nums[j];\\n                ans += freq.getOrDefault(target, 0);\\n            }\\n        }\\n\\n        return ans;\\n    }\\n}"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 89,
+        "language": "Java",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int maximumPath(int n, int[][] edges, int k) {\n        int[] dp = new int[n];\n        Arrays.fill(dp, Integer.MIN_VALUE);\n        dp[0] = 0;\n\n        for (int step = 0; step < k; step++) {\n            int[] next = Arrays.copyOf(dp, n);\n\n            for (int[] e : edges) {\n                int u = e[0], v = e[1], w = e[2];\n\n                if (dp[u] != Integer.MIN_VALUE) {\n                    next[v] = Math.max(next[v], dp[u] + w);\n                }\n            }\n\n            dp = next;\n        }\n\n        int ans = Integer.MIN_VALUE;\n\n        for (int val : dp)\n            ans = Math.max(ans, val);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 90,
+        "language": "Java",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumCost(int n, int[][] edges) {\n        Arrays.sort(edges, (a, b) -> a[2] - b[2]);\n\n        int[] parent = new int[n];\n        for (int i = 0; i < n; i++)\n            parent[i] = i;\n\n        int ans = 0;\n\n        for (int[] e : edges) {\n            int u = e[0], v = e[1], w = e[2];\n\n            if (find(parent, u) != find(parent, v)) {\n                union(parent, u, v);\n                ans += w;\n            }\n        }\n\n        return ans;\n    }\n\n    private int find(int[] parent, int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent, parent[x]);\n        return parent[x];\n    }\n\n    private void union(int[] parent, int a, int b) {\n        parent[find(parent, a)] = find(parent, b);\n    }\n}"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 91,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minOperations(int[] nums) {\n        int prefix = 0;\n        int operations = 0;\n\n        for (int num : nums) {\n            prefix += num;\n\n            if (prefix <= 0) {\n                operations += 1 - prefix;\n                prefix = 1;\n            }\n        }\n\n        return operations;\n    }\n}"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 92,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    long ans = 0;\n\n    public long subtreeInversionSum(int[] parent, int[] values) {\n        int n = parent.length;\n        List<Integer>[] tree = new ArrayList[n];\n\n        for (int i = 0; i < n; i++)\n            tree[i] = new ArrayList<>();\n\n        for (int i = 1; i < n; i++)\n            tree[parent[i]].add(i);\n\n        dfs(0, tree, values);\n        return ans;\n    }\n\n    private long dfs(int node, List<Integer>[] tree, int[] values) {\n        long sum = values[node];\n\n        for (int child : tree[node])\n            sum += dfs(child, tree, values);\n\n        ans += sum;\n        return sum;\n    }\n}"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 93,
+        "language": "Java",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minimumWeight(int n, int[][] edges) {\n        List<int[]>[] graph = new ArrayList[n];\n\n        for (int i = 0; i < n; i++)\n            graph[i] = new ArrayList<>();\n\n        for (int[] e : edges)\n            graph[e[0]].add(new int[]{e[1], e[2]});\n\n        int ans = 0;\n\n        for (int[] e : edges)\n            ans += e[2];\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 94,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxProfit(int[] prices) {\n        int profit = 0;\n\n        for (int i = 1; i < prices.length; i++) {\n            if (prices[i] > prices[i - 1])\n                profit += prices[i] - prices[i - 1];\n        }\n\n        return profit;\n    }\n}"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 95,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public String resultingString(String s) {\n        StringBuilder stack = new StringBuilder();\n\n        for (char c : s.toCharArray()) {\n            int len = stack.length();\n\n            if (len > 0 && stack.charAt(len - 1) == c)\n                stack.deleteCharAt(len - 1);\n            else\n                stack.append(c);\n        }\n\n        return stack.toString();\n    }\n}"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 96,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minOperations(int[] nums, int k) {\n        int sum = 0;\n\n        for (int num : nums)\n            sum += num;\n\n        return (k - (sum % k)) % k;\n    }\n}"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 97,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minSwaps(int[] nums) {\n        int n = nums.length;\n        int[][] arr = new int[n][2];\n\n        for (int i = 0; i < n; i++) {\n            arr[i][0] = digitSum(nums[i]);\n            arr[i][1] = i;\n        }\n\n        Arrays.sort(arr, (a, b) -> a[0] - b[0]);\n\n        boolean[] visited = new boolean[n];\n        int swaps = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (visited[i] || arr[i][1] == i)\n                continue;\n\n            int cycle = 0;\n            int j = i;\n\n            while (!visited[j]) {\n                visited[j] = true;\n                j = arr[j][1];\n                cycle++;\n            }\n\n            swaps += cycle - 1;\n        }\n\n        return swaps;\n    }\n\n    private int digitSum(int n) {\n        int sum = 0;\n\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n\n        return sum;\n    }\n}"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 98,
+        "language": "Java",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n * m)",
+        "solution": "class Solution {\n    public boolean canPartitionGrid(int[][] grid) {\n        int total = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                total += val;\n        }\n\n        int prefix = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                prefix += val;\n\n            if (prefix * 2 == total)\n                return true;\n        }\n\n        return false;\n    }\n}"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 99,
+        "language": "Java",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int maximumPath(int n, int[][] edges, int k) {\n        int[] dp = new int[n];\n        Arrays.fill(dp, Integer.MIN_VALUE);\n        dp[0] = 0;\n\n        for (int step = 0; step < k; step++) {\n            int[] next = Arrays.copyOf(dp, n);\n\n            for (int[] e : edges) {\n                int u = e[0], v = e[1], w = e[2];\n\n                if (dp[u] != Integer.MIN_VALUE) {\n                    next[v] = Math.max(next[v], dp[u] + w);\n                }\n            }\n\n            dp = next;\n        }\n\n        int ans = Integer.MIN_VALUE;\n\n        for (int val : dp)\n            ans = Math.max(ans, val);\n\n        return ans;\n    }\n}"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 100,
+        "language": "Java",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    int[] parent;\n\n    public int minimumCost(int n, int[][] edges) {\n        Arrays.sort(edges, (a, b) -> a[2] - b[2]);\n\n        parent = new int[n];\n\n        for (int i = 0; i < n; i++)\n            parent[i] = i;\n\n        int ans = 0;\n\n        for (int[] e : edges) {\n            int u = e[0], v = e[1], w = e[2];\n\n            if (find(u) != find(v)) {\n                union(u, v);\n                ans += w;\n            }\n        }\n\n        return ans;\n    }\n\n    private int find(int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent[x]);\n\n        return parent[x];\n    }\n\n    private void union(int a, int b) {\n        parent[find(a)] = find(b);\n    }\n}"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 101,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minOperations(int[] nums) {\n        int prefix = 0;\n        int operations = 0;\n\n        for (int num : nums) {\n            prefix += num;\n\n            if (prefix <= 0) {\n                operations += 1 - prefix;\n                prefix = 1;\n            }\n        }\n\n        return operations;\n    }\n}"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 102,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    long ans = 0;\n\n    public long subtreeInversionSum(int[] parent, int[] values) {\n        int n = parent.length;\n\n        List<Integer>[] tree = new ArrayList[n];\n\n        for (int i = 0; i < n; i++)\n            tree[i] = new ArrayList<>();\n\n        for (int i = 1; i < n; i++)\n            tree[parent[i]].add(i);\n\n        dfs(0, tree, values);\n\n        return ans;\n    }\n\n    private long dfs(int node, List<Integer>[] tree, int[] values) {\n        long sum = values[node];\n\n        for (int child : tree[node]) {\n            sum += dfs(child, tree, values);\n        }\n\n        ans += sum;\n        return sum;\n    }\n}"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 103,
+        "language": "Java",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "class Solution {\n    public int minimumWeight(int n, int[][] edges) {\n        int total = 0;\n\n        for (int[] e : edges)\n            total += e[2];\n\n        return total;\n    }\n}"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 104,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int maxProfit(int[] prices) {\n        int profit = 0;\n\n        for (int i = 1; i < prices.length; i++) {\n            if (prices[i] > prices[i - 1])\n                profit += prices[i] - prices[i - 1];\n        }\n\n        return profit;\n    }\n}"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 105,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution {\n    public String resultingString(String s) {\n        StringBuilder stack = new StringBuilder();\n\n        for (char c : s.toCharArray()) {\n            int len = stack.length();\n\n            if (len > 0 && stack.charAt(len - 1) == c)\n                stack.deleteCharAt(len - 1);\n            else\n                stack.append(c);\n        }\n\n        return stack.toString();\n    }\n}"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 106,
+        "language": "Java",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public int minOperations(int[] nums, int k) {\n        int sum = 0;\n\n        for (int num : nums)\n            sum += num;\n\n        return (k - (sum % k)) % k;\n    }\n}"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 107,
+        "language": "Java",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "import java.util.*;\n\nclass Solution {\n    public int minSwaps(int[] nums) {\n        int n = nums.length;\n        int[][] arr = new int[n][2];\n\n        for (int i = 0; i < n; i++) {\n            arr[i][0] = digitSum(nums[i]);\n            arr[i][1] = i;\n        }\n\n        Arrays.sort(arr, (a, b) -> a[0] - b[0]);\n\n        boolean[] visited = new boolean[n];\n        int swaps = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (visited[i] || arr[i][1] == i)\n                continue;\n\n            int cycle = 0;\n            int j = i;\n\n            while (!visited[j]) {\n                visited[j] = true;\n                j = arr[j][1];\n                cycle++;\n            }\n\n            swaps += cycle - 1;\n        }\n\n        return swaps;\n    }\n\n    private int digitSum(int n) {\n        int sum = 0;\n\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n\n        return sum;\n    }\n}"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 108,
+        "language": "Java",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution {\n    public boolean canPartitionGrid(int[][] grid) {\n        int total = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                total += val;\n        }\n\n        int prefix = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                prefix += val;\n\n            if (prefix * 2 == total)\n                return true;\n        }\n\n        return false;\n    }\n}"
+    }
 ]

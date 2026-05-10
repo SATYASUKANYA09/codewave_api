@@ -14,7 +14,7 @@ app.add_middleware(
 )
 
 # Load Questions JSON
-with open("codewave_100_questions.json", "r", encoding="utf-8") as file:
+with open("finalquestions_100.json", "r", encoding="utf-8") as file:
     questions = json.load(file)
 
 

@@ -1,82 +1,890 @@
 [
-  {
-    "title": "Longest Semi-Repeating Subarray",
-    "id": 3641,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "from collections import defaultdict\n\nclass Solution:\n    def longestSubarray(self, nums, k):\n        freq = defaultdict(int)\n        left = 0\n        repeated = 0\n        ans = 0\n\n        for right in range(len(nums)):\n            freq[nums[right]] += 1\n\n            if freq[nums[right]] == 2:\n                repeated += 1\n\n            while repeated > k:\n                freq[nums[left]] -= 1\n                if freq[nums[left]] == 1:\n                    repeated -= 1\n                left += 1\n\n            ans = max(ans, right - left + 1)\n\n        return ans"
-  },
-  {
-    "title": "Earliest Finish Time for Land and Water Rides I",
-    "id": 3633,
-    "language": "Python",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution:\n    def earliestFinishTime(self, landStartTime, landDuration, waterStartTime, waterDuration):\n        ans = float('inf')\n\n        for i in range(len(landStartTime)):\n            land_end = landStartTime[i] + landDuration[i]\n\n            for j in range(len(waterStartTime)):\n                start = max(land_end, waterStartTime[j])\n                ans = min(ans, start + waterDuration[j])\n\n        for i in range(len(waterStartTime)):\n            water_end = waterStartTime[i] + waterDuration[i]\n\n            for j in range(len(landStartTime)):\n                start = max(water_end, landStartTime[j])\n                ans = min(ans, start + landDuration[j])\n\n        return ans"
-  },
-  {
-    "title": "Maximum Weight in Two Bags",
-    "id": 3647,
-    "language": "Python",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution:\n    def maxWeight(self, weights):\n        weights.sort(reverse=True)\n        n = len(weights)\n\n        bag1 = sum(weights[:n//2])\n        bag2 = sum(weights[n//2:])\n\n        return abs(bag1 - bag2)"
-  },
-  {
-    "title": "Find Stores with Inventory Imbalance",
-    "id": 3626,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "SELECT store_id\nFROM inventory\nGROUP BY store_id\nHAVING ABS(SUM(CASE WHEN product_type = 'in' THEN quantity ELSE 0 END) -\n           SUM(CASE WHEN product_type = 'out' THEN quantity ELSE 0 END)) > 100;"
-  },
-  {
-    "title": "Maximum Balanced Shipments",
-    "id": 3638,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution:\n    def maxBalancedShipments(self, weight):\n        ans = 0\n        mn = weight[0]\n\n        for i in range(1, len(weight)):\n            if weight[i] > mn:\n                ans += 1\n                mn = float('inf')\n            else:\n                mn = min(mn, weight[i])\n\n        return ans"
-  },
-  {
-    "title": "Trionic Array II",
-    "id": 3640,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "class Solution:\n    def trionic(self, nums):\n        n = len(nums)\n        inc = [1] * n\n        dec = [1] * n\n\n        for i in range(1, n):\n            if nums[i] > nums[i - 1]:\n                inc[i] = inc[i - 1] + 1\n\n        for i in range(n - 2, -1, -1):\n            if nums[i] > nums[i + 1]:\n                dec[i] = dec[i + 1] + 1\n\n        ans = 0\n        for i in range(n):\n            ans = max(ans, inc[i] + dec[i] - 1)\n\n        return ans"
-  },
-  {
-    "title": "Next Special Palindrome Number",
-    "id": 3646,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "class Solution:\n    def nextPalindrome(self, num):\n        s = str(num + 1)\n\n        while True:\n            if s == s[::-1]:\n                return int(s)\n            s = str(int(s) + 1)"
-  },
-  {
-    "title": "Sort Threats by Severity and Exploitability",
-    "id": 3631,
-    "language": "Python",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "class Solution:\n    def sortThreats(self, threats):\n        threats.sort(key=lambda x: (-x[1], -x[2]))\n        return threats"
-  },
-  {
-    "title": "Find Students with Study Spiral Pattern",
-    "id": 3617,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "SELECT student_id\nFROM study_logs\nGROUP BY student_id\nHAVING COUNT(DISTINCT subject) >= 3;"
-  },
-  {
-    "title": "Find Books with Polarized Opinions",
-    "id": 3642,
-    "language": "Python",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "SELECT book_id\nFROM reviews\nGROUP BY book_id\nHAVING MAX(rating) - MIN(rating) >= 4;"
-  }
+    {
+        "title": "Longest Semi-Repeating Subarray",
+        "id": 1,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def longestSubarray(self, nums, k):\n        freq = defaultdict(int)\n        left = 0\n        repeated = 0\n        ans = 0\n\n        for right in range(len(nums)):\n            freq[nums[right]] += 1\n\n            if freq[nums[right]] == 2:\n                repeated += 1\n\n            while repeated > k:\n                freq[nums[left]] -= 1\n                if freq[nums[left]] == 1:\n                    repeated -= 1\n                left += 1\n\n            ans = max(ans, right - left + 1)\n\n        return ans"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides I",
+        "id": 2,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def earliestFinishTime(self, landStartTime, landDuration, waterStartTime, waterDuration):\n        ans = float('inf')\n\n        for i in range(len(landStartTime)):\n            land_end = landStartTime[i] + landDuration[i]\n\n            for j in range(len(waterStartTime)):\n                start = max(land_end, waterStartTime[j])\n                ans = min(ans, start + waterDuration[j])\n\n        for i in range(len(waterStartTime)):\n            water_end = waterStartTime[i] + waterDuration[i]\n\n            for j in range(len(landStartTime)):\n                start = max(water_end, landStartTime[j])\n                ans = min(ans, start + landDuration[j])\n\n        return ans"
+    },
+    {
+        "title": "Maximum Weight in Two Bags",
+        "id": 3,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxWeight(self, weights):\n        weights.sort(reverse=True)\n        n = len(weights)\n\n        bag1 = sum(weights[:n//2])\n        bag2 = sum(weights[n//2:])\n\n        return abs(bag1 - bag2)"
+    },
+    {
+        "title": "Find Stores with Inventory Imbalance",
+        "id": 4,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT store_id\nFROM inventory\nGROUP BY store_id\nHAVING ABS(SUM(CASE WHEN product_type = 'in' THEN quantity ELSE 0 END) -\n           SUM(CASE WHEN product_type = 'out' THEN quantity ELSE 0 END)) > 100;"
+    },
+    {
+        "title": "Maximum Balanced Shipments",
+        "id": 5,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxBalancedShipments(self, weight):\n        ans = 0\n        mn = weight[0]\n\n        for i in range(1, len(weight)):\n            if weight[i] > mn:\n                ans += 1\n                mn = float('inf')\n            else:\n                mn = min(mn, weight[i])\n\n        return ans"
+    },
+    {
+        "title": "Trionic Array II",
+        "id": 6,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def trionic(self, nums):\n        n = len(nums)\n        inc = [1] * n\n        dec = [1] * n\n\n        for i in range(1, n):\n            if nums[i] > nums[i - 1]:\n                inc[i] = inc[i - 1] + 1\n\n        for i in range(n - 2, -1, -1):\n            if nums[i] > nums[i + 1]:\n                dec[i] = dec[i + 1] + 1\n\n        ans = 0\n        for i in range(n):\n            ans = max(ans, inc[i] + dec[i] - 1)\n\n        return ans"
+    },
+    {
+        "title": "Next Special Palindrome Number",
+        "id": 7,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def nextPalindrome(self, num):\n        s = str(num + 1)\n\n        while True:\n            if s == s[::-1]:\n                return int(s)\n            s = str(int(s) + 1)"
+    },
+    {
+        "title": "Sort Threats by Severity and Exploitability",
+        "id": 8,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def sortThreats(self, threats):\n        threats.sort(key=lambda x: (-x[1], -x[2]))\n        return threats"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 9,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT student_id\nFROM study_logs\nGROUP BY student_id\nHAVING COUNT(DISTINCT subject) >= 3;"
+    },
+    {
+        "title": "Find Books with Polarized Opinions",
+        "id": 10,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\nFROM reviews\nGROUP BY book_id\nHAVING MAX(rating) - MIN(rating) >= 4;"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 11,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT student_id, study_date, hours_studied\\nFROM StudyRecords\\nORDER BY student_id, study_date;"
+    },
+    {
+        "title": "Minimum Removals to Balance Array",
+        "id": 12,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minimumRemovals(self, nums):\n        nums.sort()\n        n = len(nums)\n        left = 0\n        ans = n\n\n        for right in range(n):\n            while nums[right] > 2 * nums[left]:\n                left += 1\n\n            ans = min(ans, n - (right - left + 1))\n\n        return ans"
+    },
+    {
+        "title": "Threshold Majority Queries",
+        "id": 13,
+        "language": "Python",
+        "time_complexity": "O(n + q log n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\nfrom bisect import bisect_left, bisect_right\n\nclass MajorityChecker:\n    def __init__(self, arr):\n        self.pos = defaultdict(list)\n\n        for i, num in enumerate(arr):\n            self.pos[num].append(i)\n\n    def query(self, left, right, threshold):\n        for num, indices in self.pos.items():\n            cnt = bisect_right(indices, right) - bisect_left(indices, left)\n\n            if cnt >= threshold:\n                return num\n\n        return -1"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides II",
+        "id": 14,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def earliestFinishTime(self, landStart, landDur, waterStart, waterDur):\n        ans = float('inf')\n\n        for i in range(len(landStart)):\n            landEnd = landStart[i] + landDur[i]\n\n            for j in range(len(waterStart)):\n                start = max(landEnd, waterStart[j])\n                ans = min(ans, start + waterDur[j])\n\n        for i in range(len(waterStart)):\n            waterEnd = waterStart[i] + waterDur[i]\n\n            for j in range(len(landStart)):\n                start = max(waterEnd, landStart[j])\n                ans = min(ans, start + landDur[j])\n\n        return ans"
+    },
+    {
+        "title": "Flip Square Submatrix Vertically",
+        "id": 15,
+        "language": "Python",
+        "time_complexity": "O(k^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def flipSquare(self, grid, row, col, k):\n        for i in range(k // 2):\n            for j in range(k):\n                grid[row + i][col + j], grid[row + k - 1 - i][col + j] = \\\n                grid[row + k - 1 - i][col + j], grid[row + i][col + j]\n\n        return grid"
+    },
+    {
+        "title": "Maximum Number of Subsequences After One Inserting",
+        "id": 16,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maximumSubsequenceCount(self, text, pattern):\n        first = second = ans = 0\n\n        for ch in text:\n            if ch == pattern[1]:\n                ans += first\n\n            if ch == pattern[0]:\n                first += 1\n\n            if ch == pattern[1]:\n                second += 1\n\n        return ans + max(first, second)"
+    },
+    {
+        "title": "Maximum Total from Optimal Activation Order",
+        "id": 17,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maximumTotal(self, nums):\n        nums.sort(reverse=True)\n\n        ans = 0\n\n        for i, num in enumerate(nums):\n            ans += num * (i + 1)\n\n        return ans"
+    },
+    {
+        "title": "Number of Student Replacements",
+        "id": 18,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countReplacements(self, students):\n        ans = 0\n\n        for i in range(1, len(students)):\n            if students[i] != students[i - 1]:\n                ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Find Overbooked Employees",
+        "id": 19,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM meetings\\nGROUP BY employee_id, meeting_date\\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "title": "Split Array by Prime Indices",
+        "id": 20,
+        "language": "Python",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def isPrime(self, n):\n        if n < 2:\n            return False\n\n        i = 2\n        while i * i <= n:\n            if n % i == 0:\n                return False\n            i += 1\n\n        return True\n\n    def splitArray(self, nums):\n        primeSum = 0\n        nonPrimeSum = 0\n\n        for i, num in enumerate(nums):\n            if self.isPrime(i):\n                primeSum += num\n            else:\n                nonPrimeSum += num\n\n        return primeSum - nonPrimeSum"
+    },
+    {
+        "title": "Coupon Code Validator",
+        "id": 21,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def isValid(self, code: str) -> bool:\n        if len(code) < 3:\n            return False\n\n        for ch in code:\n            if not (ch.isalnum() or ch == '_'):\n                return False\n\n        return True"
+    },
+    {
+        "title": "Find Drivers with Improved Fuel Efficiency",
+        "id": 22,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT driver_id\\nFROM trips\\nGROUP BY driver_id\\nHAVING AVG(CASE WHEN trip_date < '2024-01-01' THEN fuel_efficiency END) <\\n       AVG(CASE WHEN trip_date >= '2024-01-01' THEN fuel_efficiency END);"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K I",
+        "id": 23,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def popcountDepth(self, x):\n        depth = 0\n\n        while x > 1:\n            x = bin(x).count('1')\n            depth += 1\n\n        return depth\n\n    def countIntegers(self, n: int, k: int) -> int:\n        ans = 0\n\n        for i in range(1, n + 1):\n            if self.popcountDepth(i) == k:\n                ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Minimum Time to Activate String",
+        "id": 24,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minimumTime(self, s: str) -> int:\n        ans = 0\n\n        for i, ch in enumerate(s):\n            if ch == '1':\n                ans = max(ans + 1, i + 1)\n\n        return ans"
+    },
+    {
+        "title": "Find COVID Recovery Patients",
+        "id": 25,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT patient_id\\nFROM patients\\nGROUP BY patient_id\\nHAVING MAX(status = 'Recovered') = 1\\nAND MAX(status = 'COVID') = 1;"
+    },
+    {
+        "title": "Once Twice",
+        "id": 26,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def onceTwice(self, nums):\n        ones = 0\n        twos = 0\n\n        for num in nums:\n            ones = (ones ^ num) & ~twos\n            twos = (twos ^ num) & ~ones\n\n        return ones"
+    },
+    {
+        "title": "Subarrays with XOR at Least K",
+        "id": 27,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countSubarrays(self, nums, k):\n        ans = 0\n\n        for i in range(len(nums)):\n            xr = 0\n\n            for j in range(i, len(nums)):\n                xr ^= nums[j]\n\n                if xr >= k:\n                    ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K II",
+        "id": 28,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def popcountDepth(self, x):\n        depth = 0\n\n        while x > 1:\n            x = bin(x).count('1')\n            depth += 1\n\n        return depth\n\n    def countDepth(self, nums, k):\n        ans = 0\n\n        for num in nums:\n            if self.popcountDepth(num) == k:\n                ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Minimum Number of Primes to Sum to Target",
+        "id": 29,
+        "language": "Python",
+        "time_complexity": "O(sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def isPrime(self, n):\n        if n < 2:\n            return False\n\n        i = 2\n        while i * i <= n:\n            if n % i == 0:\n                return False\n            i += 1\n\n        return True\n\n    def minPrimes(self, n):\n        if self.isPrime(n):\n            return 1\n\n        for i in range(2, n + 1):\n            if self.isPrime(i) and self.isPrime(n - i):\n                return 2\n\n        return 3"
+    },
+    {
+        "title": "Process String with Special Operations II",
+        "id": 30,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def processString(self, s: str) -> str:\n        result = []\n\n        for ch in s:\n            if ch == '*':\n                if result:\n                    result.pop()\n            else:\n                result.append(ch)\n\n        return ''.join(result)"
+    },
+    {
+        "title": "Count Odd Letters from Number",
+        "id": 31,
+        "language": "Python",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countOddLetters(self, n: int) -> int:\n        words = ['zero','one','two','three','four','five','six','seven','eight','nine']\n        freq = [0] * 26\n\n        while n > 0:\n            d = n % 10\n\n            for ch in words[d]:\n                freq[ord(ch) - ord('a')] += 1\n\n            n //= 10\n\n        ans = 0\n\n        for x in freq:\n            if x % 2 == 1:\n                ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Maximum K to Sort a Permutation",
+        "id": 32,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maximumK(self, nums):\n        chunks = 0\n        maxVal = 0\n\n        for i in range(len(nums)):\n            maxVal = max(maxVal, nums[i])\n\n            if maxVal == i:\n                chunks += 1\n\n        return chunks"
+    },
+    {
+        "title": "Minimum Jumps to Reach End via Prime Teleportation",
+        "id": 33,
+        "language": "Python",
+        "time_complexity": "O(n^2 * sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def isPrime(self, n):\n        if n < 2:\n            return False\n\n        i = 2\n        while i * i <= n:\n            if n % i == 0:\n                return False\n            i += 1\n\n        return True\n\n    def minJumps(self, nums):\n        n = len(nums)\n        dist = [float('inf')] * n\n        dist[0] = 0\n\n        for i in range(n):\n            if i + 1 < n:\n                dist[i + 1] = min(dist[i + 1], dist[i] + 1)\n\n            for j in range(i + 1, n):\n                if self.isPrime(abs(nums[i] - nums[j])):\n                    dist[j] = min(dist[j], dist[i] + 1)\n\n        return dist[-1]"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions II",
+        "id": 34,
+        "language": "Python",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "class Solution:\n    def minCostPath(self, grid):\n        m = len(grid)\n        n = len(grid[0])\n\n        dp = [[float('inf')] * n for _ in range(m)]\n        dp[0][0] = grid[0][0]\n\n        for i in range(m):\n            for j in range(n):\n                if i > 0:\n                    dp[i][j] = min(dp[i][j], dp[i - 1][j] + grid[i][j])\n\n                if j > 0:\n                    dp[i][j] = min(dp[i][j], dp[i][j - 1] + grid[i][j])\n\n        return dp[m - 1][n - 1]"
+    },
+    {
+        "title": "Process String with Special Operations I",
+        "id": 35,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def processStr(self, s: str) -> str:\n        res = []\n        for ch in s:\n            if ch == '*':\n                if res:\n                    res.pop()\n            elif ch == '#':\n                res += res\n            elif ch == '%':\n                res.reverse()\n            else:\n                res.append(ch)\n        return ''.join(res)"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions I",
+        "id": 36,
+        "language": "Python",
+        "time_complexity": "O(m*n)",
+        "space_complexity": "O(m*n)",
+        "solution": "from heapq import heappush, heappop\n\nclass Solution:\n    def minCost(self, grid):\n        m, n = len(grid), len(grid[0])\n        dist = [[float('inf')] * n for _ in range(m)]\n        pq = [(0, 0, 0)]\n        dist[0][0] = 0\n\n        dirs = [(0,1),(0,-1),(1,0),(-1,0)]\n\n        while pq:\n            cost, x, y = heappop(pq)\n            if (x, y) == (m-1, n-1):\n                return cost\n\n            for i, (dx, dy) in enumerate(dirs):\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < m and 0 <= ny < n:\n                    ncost = cost + (grid[x][y] != i + 1)\n                    if ncost < dist[nx][ny]:\n                        dist[nx][ny] = ncost\n                        heappush(pq, (ncost, nx, ny))\n\n        return -1"
+    },
+    {
+        "title": "Minimum Moves to Reach Target in Grid",
+        "id": 37,
+        "language": "Python",
+        "time_complexity": "O(m*n)",
+        "space_complexity": "O(m*n)",
+        "solution": "from collections import deque\n\nclass Solution:\n    def minimumMoves(self, grid):\n        n = len(grid)\n        q = deque([(0, 0, 0, 0)])\n        vis = set([(0,0,0)])\n\n        while q:\n            x, y, d, steps = q.popleft()\n            if x == n-1 and y == n-2 and d == 0:\n                return steps\n\n            if d == 0:\n                if y+2 < n and grid[x][y+2] == 0 and (x,y+1,0) not in vis:\n                    vis.add((x,y+1,0))\n                    q.append((x,y+1,0,steps+1))\n\n                if x+1 < n and grid[x+1][y] == 0 and grid[x+1][y+1] == 0:\n                    if (x+1,y,0) not in vis:\n                        vis.add((x+1,y,0))\n                        q.append((x+1,y,0,steps+1))\n                    if (x,y,1) not in vis:\n                        vis.add((x,y,1))\n                        q.append((x,y,1,steps+1))\n            else:\n                if x+2 < n and grid[x+2][y] == 0 and (x+1,y,1) not in vis:\n                    vis.add((x+1,y,1))\n                    q.append((x+1,y,1,steps+1))\n\n                if y+1 < n and grid[x][y+1] == 0 and grid[x+1][y+1] == 0:\n                    if (x,y+1,1) not in vis:\n                        vis.add((x,y+1,1))\n                        q.append((x,y+1,1,steps+1))\n                    if (x,y,0) not in vis:\n                        vis.add((x,y,0))\n                        q.append((x,y,0,steps+1))\n\n        return -1"
+    },
+    {
+        "title": "Trionic Array I",
+        "id": 38,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def isTrionic(self, nums):\n        n = len(nums)\n        i = 1\n\n        while i < n and nums[i] > nums[i-1]:\n            i += 1\n\n        if i == 1 or i == n:\n            return False\n\n        while i < n and nums[i] < nums[i-1]:\n            i += 1\n\n        return i == n"
+    },
+    {
+        "title": "Minimum Stability Factor of Array",
+        "id": 39,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minStabilityFactor(self, nums):\n        nums.sort()\n        ans = float('inf')\n\n        for i in range(1, len(nums)):\n            ans = min(ans, nums[i] - nums[i-1])\n\n        return ans"
+    },
+    {
+        "title": "Check if Any Element Has Prime Frequency",
+        "id": 40,
+        "language": "Python",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def checkPrimeFrequency(self, nums):\n        def isPrime(x):\n            if x < 2:\n                return False\n            for i in range(2, int(x**0.5)+1):\n                if x % i == 0:\n                    return False\n            return True\n\n        freq = Counter(nums)\n        return any(isPrime(v) for v in freq.values())"
+    },
+    {
+        "title": "Longest Palindromic Path in Graph",
+        "id": 41,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n^2)",
+        "solution": "from functools import lru_cache\n\nclass Solution:\n    def longestPalindrome(self, n, edges, labels):\n        g = [[] for _ in range(n)]\n\n        for u, v in edges:\n            g[u].append(v)\n            g[v].append(u)\n\n        @lru_cache(None)\n        def dfs(u, v):\n            ans = 0\n            if labels[u] == labels[v]:\n                ans = 2 if u != v else 1\n                for nu in g[u]:\n                    for nv in g[v]:\n                        ans = max(ans, 2 + dfs(nu, nv))\n            return ans\n\n        res = 1\n        for i in range(n):\n            for j in range(n):\n                res = max(res, dfs(i, j))\n\n        return res"
+    },
+    {
+        "title": "Find Consistently Improving Employees",
+        "id": 42,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\nFROM PerformanceReviews\nGROUP BY employee_id\nHAVING COUNT(*) >= 2\nAND MIN(rating) < MAX(rating);"
+    },
+    {
+        "title": "Network Recovery Pathways",
+        "id": 43,
+        "language": "Python",
+        "time_complexity": "O((V+E) log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "from heapq import heappush, heappop\nfrom collections import defaultdict\n\nclass Solution:\n    def shortestPath(self, n, edges, src):\n        g = defaultdict(list)\n\n        for u, v, w in edges:\n            g[u].append((v, w))\n\n        dist = [float('inf')] * n\n        dist[src] = 0\n        pq = [(0, src)]\n\n        while pq:\n            d, u = heappop(pq)\n            if d > dist[u]:\n                continue\n\n            for v, w in g[u]:\n                nd = d + w\n                if nd < dist[v]:\n                    dist[v] = nd\n                    heappush(pq, (nd, v))\n\n        return dist"
+    },
+    {
+        "title": "Hexadecimal and Hexatrigesimal Conversion",
+        "id": 44,
+        "language": "Python",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def convert(self, n):\n        digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'\n\n        def base(x, b):\n            if x == 0:\n                return '0'\n            res = ''\n            while x:\n                res = digits[x % b] + res\n                x //= b\n            return res\n\n        return [base(n, 16), base(n, 36)]"
+    },
+    {
+        "title": "Minimum Increments to Equalize Leaf Paths",
+        "id": 45,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(h)",
+        "solution": "class Solution:\n    def minIncrements(self, n, cost):\n        self.ans = 0\n\n        def dfs(i):\n            if i > n:\n                return 0\n\n            left = dfs(2*i)\n            right = dfs(2*i+1)\n\n            self.ans += abs(left-right)\n            return cost[i-1] + max(left, right)\n\n        dfs(1)\n        return self.ans"
+    },
+    {
+        "title": "Count Prime-Gap Balanced Subarrays",
+        "id": 46,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countBalanced(self, nums):\n        def isPrime(x):\n            if x < 2:\n                return False\n            for i in range(2, int(x**0.5)+1):\n                if x % i == 0:\n                    return False\n            return True\n\n        ans = 0\n        n = len(nums)\n\n        for i in range(n):\n            primes = []\n            for j in range(i, n):\n                if isPrime(nums[j]):\n                    primes.append(j)\n                if len(primes) >= 2:\n                    gaps = [primes[k]-primes[k-1] for k in range(1,len(primes))]\n                    if len(set(gaps)) == 1:\n                        ans += 1\n\n        return ans"
+    },
+    {
+        "title": "Find the Shortest Superstring II",
+        "id": 47,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def shortestSuperstring(self, words):\n        res = words[0]\n\n        for i in range(1, len(words)):\n            w = words[i]\n            overlap = 0\n\n            for k in range(1, min(len(res), len(w))+1):\n                if res[-k:] == w[:k]:\n                    overlap = k\n\n            res += w[overlap:]\n\n        return res"
+    },
+    {
+        "title": "Find Books with No Available Copies",
+        "id": 48,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\nFROM library_books\nWHERE available_copies = 0;"
+    },
+    {
+        "title": "Kth Smallest Path XOR Sum",
+        "id": 49,
+        "language": "Python",
+        "time_complexity": "O(n log k)",
+        "space_complexity": "O(k)",
+        "solution": "import heapq\n\nclass Solution:\n    def kthSmallestPathXor(self, nums, k):\n        pq = [0]\n\n        for x in nums:\n            nxt = []\n            while pq:\n                val = heapq.heappop(pq)\n                heapq.heappush(nxt, val ^ x)\n            pq = nxt\n\n        arr = sorted(pq)\n        return arr[k-1]"
+    },
+    {
+        "title": "Minimum Adjacent Swaps to Alternate Parity",
+        "id": 50,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def minSwaps(self, nums):\n        even = [i for i,x in enumerate(nums) if x%2==0]\n        odd = [i for i,x in enumerate(nums) if x%2]\n\n        if abs(len(even)-len(odd)) > 1:\n            return -1\n\n        def solve(start_even):\n            pos = even if start_even else odd\n            ans = 0\n            for i,p in enumerate(pos):\n                ans += abs(p - 2*i)\n            return ans\n\n        res = float('inf')\n        if len(even) >= len(odd):\n            res = min(res, solve(True))\n        if len(odd) >= len(even):\n            res = min(res, solve(False))\n\n        return res"
+    },
+    {
+        "title": "Inverse Coin Change",
+        "id": 51,
+        "language": "Python",
+        "time_complexity": "O(amount*n)",
+        "space_complexity": "O(amount)",
+        "solution": "class Solution:\n    def coinChange(self, coins, amount):\n        dp = [float('inf')] * (amount + 1)\n        dp[0] = 0\n\n        for coin in coins:\n            for x in range(coin, amount + 1):\n                dp[x] = min(dp[x], dp[x - coin] + 1)\n\n        return dp[amount] if dp[amount] != float('inf') else -1"
+    },
+    {
+        "title": "Partition String",
+        "id": 52,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def partitionString(self, s):\n        seen = set()\n        ans = 1\n\n        for ch in s:\n            if ch in seen:\n                ans += 1\n                seen.clear()\n            seen.add(ch)\n\n        return ans"
+    },
+    {
+        "title": "Minimum Time for K Connected Components",
+        "id": 53,
+        "language": "Python",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "class DSU:\n    def __init__(self, n):\n        self.p = list(range(n))\n\n    def find(self, x):\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n\n    def union(self, a, b):\n        pa, pb = self.find(a), self.find(b)\n        if pa != pb:\n            self.p[pa] = pb\n            return 1\n        return 0\n\nclass Solution:\n    def minimumTime(self, n, edges, k):\n        edges.sort(key=lambda x: x[2])\n        dsu = DSU(n)\n        comp = n\n\n        for u, v, w in edges:\n            comp -= dsu.union(u, v)\n            if comp <= k:\n                return w\n\n        return -1"
+    },
+    {
+        "title": "Minimum Time to Reach Destination in Directed Graph",
+        "id": 54,
+        "language": "Python",
+        "time_complexity": "O((V+E) log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "from heapq import heappush, heappop\nfrom collections import defaultdict\n\nclass Solution:\n    def minimumTime(self, n, edges):\n        g = defaultdict(list)\n\n        for u, v, w in edges:\n            g[u].append((v, w))\n\n        dist = [float('inf')] * n\n        dist[0] = 0\n        pq = [(0, 0)]\n\n        while pq:\n            d, u = heappop(pq)\n            if u == n - 1:\n                return d\n\n            if d > dist[u]:\n                continue\n\n            for v, w in g[u]:\n                nd = d + w\n                if nd < dist[v]:\n                    dist[v] = nd\n                    heappush(pq, (nd, v))\n\n        return -1"
+    },
+    {
+        "title": "Maximize Spanning Tree Stability with Upgrades",
+        "id": 55,
+        "language": "Python",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "class DSU:\n    def __init__(self, n):\n        self.p = list(range(n))\n\n    def find(self, x):\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n\n    def union(self, a, b):\n        pa, pb = self.find(a), self.find(b)\n        if pa != pb:\n            self.p[pa] = pb\n            return True\n        return False\n\nclass Solution:\n    def maxStability(self, n, edges):\n        edges.sort(key=lambda x: -x[2])\n        dsu = DSU(n)\n        ans = 0\n\n        for u, v, w in edges:\n            if dsu.union(u, v):\n                ans += w\n\n        return ans"
+    },
+    {
+        "title": "Seasonal Sales Analysis",
+        "id": 56,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT season, SUM(sales_amount) AS total_sales\nFROM Sales\nGROUP BY season;"
+    },
+    {
+        "title": "Maximize Y-Sum by Picking a Triplet of Distinct X-Values",
+        "id": 57,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def maxSum(self, points):\n        best = defaultdict(int)\n\n        for x, y in points:\n            best[x] = max(best[x], y)\n\n        vals = sorted(best.values(), reverse=True)\n\n        if len(vals) < 3:\n            return -1\n\n        return vals[0] + vals[1] + vals[2]"
+    },
+    {
+        "title": "Find Weighted Median Node in Tree",
+        "id": 58,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def findMedian(self, n, edges, weight):\n        g = defaultdict(list)\n\n        for u, v in edges:\n            g[u].append(v)\n            g[v].append(u)\n\n        total = sum(weight)\n        ans = 0\n\n        def dfs(u, p):\n            nonlocal ans\n            s = weight[u]\n\n            for v in g[u]:\n                if v != p:\n                    s += dfs(v, u)\n\n            if s * 2 >= total:\n                ans = u\n\n            return s\n\n        dfs(0, -1)\n        return ans"
+    },
+    {
+        "title": "Maximize Subarray GCD Score",
+        "id": 59,
+        "language": "Python",
+        "time_complexity": "O(n^2 log V)",
+        "space_complexity": "O(1)",
+        "solution": "from math import gcd\n\nclass Solution:\n    def maxGCDScore(self, nums):\n        ans = 0\n        n = len(nums)\n\n        for i in range(n):\n            g = 0\n            for j in range(i, n):\n                g = gcd(g, nums[j])\n                ans = max(ans, g * (j - i + 1))\n\n        return ans"
+    },
+    {
+        "title": "Minimum Time to Transport All Individuals",
+        "id": 60,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def minimumTime(self, time, totalTrips):\n        l, r = 1, min(time) * totalTrips\n\n        while l < r:\n            mid = (l + r) // 2\n            trips = sum(mid // t for t in time)\n\n            if trips >= totalTrips:\n                r = mid\n            else:\n                l = mid + 1\n\n        return l"
+    },
+    {
+        "title": "Best Time to Buy and Sell Stock V",
+        "id": 61,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxProfit(self, prices):\n        mn = prices[0]\n        ans = 0\n\n        for p in prices:\n            mn = min(mn, p)\n            ans = max(ans, p - mn)\n\n        return ans"
+    },
+    {
+        "title": "Partition Array to Minimize XOR",
+        "id": 62,
+        "language": "Python",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minimumXOR(self, nums):\n        n = len(nums)\n        total = 1 << n\n        ans = float('inf')\n\n        for mask in range(1, total - 1):\n            xor1 = 0\n            xor2 = 0\n\n            for i in range(n):\n                if mask & (1 << i):\n                    xor1 ^= nums[i]\n                else:\n                    xor2 ^= nums[i]\n\n            ans = min(ans, abs(xor1 - xor2))\n\n        return ans"
+    },
+    {
+        "title": "Count Number of Trapezoids II",
+        "id": 63,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def countTrapezoids(self, points):\n        slopes = defaultdict(int)\n        ans = 0\n\n        for i in range(len(points)):\n            for j in range(i + 1, len(points)):\n                dx = points[j][0] - points[i][0]\n                dy = points[j][1] - points[i][1]\n\n                slope = float('inf') if dx == 0 else dy / dx\n\n                ans += slopes[slope]\n                slopes[slope] += 1\n\n        return ans"
+    },
+    {
+        "title": "Check Divisibility by Digit Sum and Product",
+        "id": 64,
+        "language": "Python",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def checkDivisibility(self, n):\n        total_sum = 0\n        product = 1\n        temp = n\n\n        while temp > 0:\n            digit = temp % 10\n            total_sum += digit\n            product *= digit\n            temp //= 10\n\n        return n % (total_sum + product) == 0"
+    },
+    {
+        "title": "Count Number of Trapezoids I",
+        "id": 65,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def countTrapezoids(self, points):\n        slopes = defaultdict(int)\n        ans = 0\n\n        for i in range(len(points)):\n            for j in range(i + 1, len(points)):\n                dx = points[j][0] - points[i][0]\n                dy = points[j][1] - points[i][1]\n\n                slope = float('inf') if dx == 0 else dy / dx\n\n                ans += slopes[slope]\n                slopes[slope] += 1\n\n        return ans"
+    },
+    {
+        "title": "Multiply Two Polynomials",
+        "id": 66,
+        "language": "Python",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n + m)",
+        "solution": "class Solution:\n    def multiply(self, poly1, poly2):\n        result = [0] * (len(poly1) + len(poly2) - 1)\n\n        for i in range(len(poly1)):\n            for j in range(len(poly2)):\n                result[i + j] += poly1[i] * poly2[j]\n\n        return result"
+    },
+    {
+        "title": "Find Minimum Log Transportation Cost",
+        "id": 67,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minimumCost(self, cost):\n        return sum(cost)"
+    },
+    {
+        "title": "Minimum Time to Visit All Houses",
+        "id": 68,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minTime(self, houses):\n        ans = 0\n\n        for i in range(1, len(houses)):\n            ans += abs(houses[i] - houses[i - 1])\n\n        return ans"
+    },
+    {
+        "title": "Minimize Maximum Component Cost",
+        "id": 69,
+        "language": "Python",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def minimizeCost(self, n, edges):\n        parent = list(range(n))\n\n        def find(x):\n            if parent[x] != x:\n                parent[x] = find(parent[x])\n            return parent[x]\n\n        def union(a, b):\n            parent[find(a)] = find(b)\n\n        edges.sort(key=lambda x: x[2])\n        ans = 0\n\n        for u, v, w in edges:\n            if find(u) != find(v):\n                union(u, v)\n                ans = max(ans, w)\n\n        return ans"
+    },
+    {
+        "title": "Transform Array to All Equal Elements",
+        "id": 70,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def minOperations(self, nums):\n        freq = Counter(nums)\n        max_freq = max(freq.values())\n\n        return len(nums) - max_freq"
+    },
+    {
+        "title": "Minimum Deletions for At Most K Distinct Characters",
+        "id": 71,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def minDeletions(self, s, k):\n        freq = Counter(s)\n\n        if len(freq) <= k:\n            return 0\n\n        counts = sorted(freq.values())\n        remove = len(freq) - k\n\n        return sum(counts[:remove])"
+    },
+    {
+        "title": "Partition Array for Maximum XOR and AND",
+        "id": 72,
+        "language": "Python",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maximumValue(self, nums):\n        n = len(nums)\n        total = 1 << n\n        ans = 0\n\n        for mask in range(1, total - 1):\n            xor_val = 0\n            and_val = -1\n\n            for i in range(n):\n                if mask & (1 << i):\n                    xor_val ^= nums[i]\n                else:\n                    if and_val == -1:\n                        and_val = nums[i]\n                    else:\n                        and_val &= nums[i]\n\n            ans = max(ans, xor_val + and_val)\n\n        return ans"
+    },
+    {
+        "title": "Minimum Absolute Difference in Sliding Submatrix",
+        "id": 73,
+        "language": "Python",
+        "time_complexity": "O((n * m * k * k) log(k*k))",
+        "space_complexity": "O(k*k)",
+        "solution": "class Solution:\n    def minAbsDiff(self, grid, k):\n        n = len(grid)\n        m = len(grid[0])\n        ans = [[0] * (m - k + 1) for _ in range(n - k + 1)]\n\n        for i in range(n - k + 1):\n            for j in range(m - k + 1):\n                arr = []\n\n                for x in range(i, i + k):\n                    for y in range(j, j + k):\n                        arr.append(grid[x][y])\n\n                arr.sort()\n                best = float('inf')\n\n                for p in range(1, len(arr)):\n                    best = min(best, arr[p] - arr[p - 1])\n\n                ans[i][j] = best\n\n        return ans"
+    },
+    {
+        "title": "Maximize Count of Distinct Primes After Split",
+        "id": 74,
+        "language": "Python",
+        "time_complexity": "O(n * sqrt(max(nums)))",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def maximizePrimes(self, nums):\n        def is_prime(n):\n            if n < 2:\n                return False\n\n            i = 2\n            while i * i <= n:\n                if n % i == 0:\n                    return False\n                i += 1\n\n            return True\n\n        left = set()\n        right = set()\n\n        for num in nums:\n            if is_prime(num):\n                right.add(num)\n\n        ans = len(right)\n\n        for num in nums:\n            if is_prime(num):\n                left.add(num)\n                right.discard(num)\n\n            ans = max(ans, len(left) + len(right))\n\n        return ans"
+    },
+    {
+        "title": "Smallest Subarray to Sort in Every Sliding Window",
+        "id": 75,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def shortestSubarray(self, nums):\n        n = len(nums)\n        left = n\n        right = 0\n\n        for i in range(1, n):\n            if nums[i] < nums[i - 1]:\n                right = i\n\n        for i in range(n - 2, -1, -1):\n            if nums[i] > nums[i + 1]:\n                left = i\n\n        return right - left + 1 if right > left else 0"
+    },
+    {
+        "title": "Minimum Moves to Clean the Classroom",
+        "id": 76,
+        "language": "Python",
+        "time_complexity": "O(2^k * n * m)",
+        "space_complexity": "O(2^k * n * m)",
+        "solution": "from collections import deque\n\nclass Solution:\n    def minimumMoves(self, classroom):\n        n = len(classroom)\n        m = len(classroom[0])\n\n        q = deque([(0, 0, 0)])\n        visited = [[False] * m for _ in range(n)]\n        visited[0][0] = True\n\n        dirs = [(1,0),(-1,0),(0,1),(0,-1)]\n\n        while q:\n            x, y, dist = q.popleft()\n\n            if x == n - 1 and y == m - 1:\n                return dist\n\n            for dx, dy in dirs:\n                nx = x + dx\n                ny = y + dy\n\n                if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and classroom[nx][ny] != '#':\n                    visited[nx][ny] = True\n                    q.append((nx, ny, dist + 1))\n\n        return -1"
+    },
+    {
+        "title": "Smallest Index With Digit Sum Equal to Index",
+        "id": 77,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def smallestIndex(self, nums):\n        for i, num in enumerate(nums):\n            if sum(map(int, str(num))) == i:\n                return i\n\n        return -1"
+    },
+    {
+        "title": "Find Most Frequent Vowel and Consonant",
+        "id": 78,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def maxFreqSum(self, s):\n        freq = Counter(s)\n        vowels = set('aeiou')\n\n        max_vowel = 0\n        max_consonant = 0\n\n        for ch, count in freq.items():\n            if ch in vowels:\n                max_vowel = max(max_vowel, count)\n            else:\n                max_consonant = max(max_consonant, count)\n\n        return max_vowel + max_consonant"
+    },
+    {
+        "title": "Lexicographically Smallest String After Adjacent Removals",
+        "id": 79,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def smallestString(self, s):\n        stack = []\n\n        for ch in s:\n            if stack and stack[-1] == ch:\n                stack.pop()\n            else:\n                stack.append(ch)\n\n        return ''.join(stack)"
+    },
+    {
+        "title": "Find Product Recommendation Pairs",
+        "id": 80,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.product_id AS product1, b.product_id AS product2, COUNT(*) AS customer_count\\nFROM ProductPurchases a\\nJOIN ProductPurchases b\\nON a.customer_id = b.customer_id AND a.product_id < b.product_id\\nGROUP BY a.product_id, b.product_id\\nORDER BY customer_count DESC;"
+    },
+    {
+        "title": "Count the Number of Computer Unlocking Permutations",
+        "id": 81,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countPermutations(self, n):\n        ans = 1\n\n        for i in range(2, n + 1):\n            ans *= i\n\n        return ans"
+    },
+    {
+        "title": "Partition Array for Maximum XOR and AND",
+        "id": 82,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxXorAnd(self, nums):\n        ans = 0\n\n        for i in range(len(nums)):\n            xr = 0\n            and_val = nums[i]\n\n            for j in range(i, len(nums)):\n                xr ^= nums[j]\n                and_val &= nums[j]\n                ans = max(ans, xr + and_val)\n\n        return ans"
+    },
+    {
+        "title": "Minimum Absolute Difference in Sliding Submatrix",
+        "id": 83,
+        "language": "Python",
+        "time_complexity": "O(m * n * k^2 log k)",
+        "space_complexity": "O(k^2)",
+        "solution": "class Solution:\n    def minAbsDiff(self, grid, k):\n        m, n = len(grid), len(grid[0])\n        ans = [[0] * (n - k + 1) for _ in range(m - k + 1)]\n\n        for i in range(m - k + 1):\n            for j in range(n - k + 1):\n                arr = []\n\n                for x in range(i, i + k):\n                    for y in range(j, j + k):\n                        arr.append(grid[x][y])\n\n                arr.sort()\n                best = float('inf')\n\n                for p in range(1, len(arr)):\n                    best = min(best, arr[p] - arr[p - 1])\n\n                ans[i][j] = best\n\n        return ans"
+    },
+    {
+        "title": "Maximize Count of Distinct Primes After Split",
+        "id": 84,
+        "language": "Python",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def maxDistinctPrimes(self, nums):\n        def is_prime(x):\n            if x < 2:\n                return False\n\n            i = 2\n            while i * i <= x:\n                if x % i == 0:\n                    return False\n                i += 1\n\n            return True\n\n        return len(set(x for x in nums if is_prime(x)))"
+    },
+    {
+        "title": "Smallest Subarray to Sort in Every Sliding Window",
+        "id": 85,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def shortestSubarray(self, nums):\n        n = len(nums)\n        l, r = 0, n - 1\n\n        while l < n - 1 and nums[l] <= nums[l + 1]:\n            l += 1\n\n        while r > 0 and nums[r] >= nums[r - 1]:\n            r -= 1\n\n        if l >= r:\n            return 0\n\n        mn = min(nums[l:r + 1])\n        mx = max(nums[l:r + 1])\n\n        while l > 0 and nums[l - 1] > mn:\n            l -= 1\n\n        while r < n - 1 and nums[r + 1] < mx:\n            r += 1\n\n        return r - l + 1"
+    },
+    {
+        "title": "Minimum Moves to Clean the Classroom",
+        "id": 86,
+        "language": "Python",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "from collections import deque\n\nclass Solution:\n    def minimumMoves(self, grid):\n        m, n = len(grid), len(grid[0])\n        q = deque([(0, 0, 0)])\n        vis = {(0, 0)}\n\n        dirs = [(1,0),(-1,0),(0,1),(0,-1)]\n\n        while q:\n            x, y, d = q.popleft()\n\n            if grid[x][y] == 'E':\n                return d\n\n            for dx, dy in dirs:\n                nx, ny = x + dx, y + dy\n\n                if 0 <= nx < m and 0 <= ny < n and (nx, ny) not in vis and grid[nx][ny] != '#':\n                    vis.add((nx, ny))\n                    q.append((nx, ny, d + 1))\n\n        return -1"
+    },
+    {
+        "title": "Smallest Index With Digit Sum Equal to Index",
+        "id": 87,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def smallestIndex(self, nums):\n        def digit_sum(x):\n            return sum(map(int, str(x)))\n\n        for i, val in enumerate(nums):\n            if digit_sum(val) == i:\n                return i\n\n        return -1"
+    },
+    {
+        "title": "Find Most Frequent Vowel and Consonant",
+        "id": 88,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def maxFreqSum(self, s):\n        freq = Counter(s)\n        vowels = set('aeiou')\n\n        v = max((freq[ch] for ch in vowels if ch in freq), default=0)\n        c = max((freq[ch] for ch in freq if ch not in vowels), default=0)\n\n        return v + c"
+    },
+    {
+        "title": "Lexicographically Smallest String After Adjacent Removals",
+        "id": 89,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def smallestString(self, s):\n        st = []\n\n        for ch in s:\n            while st and st[-1] > ch:\n                st.pop()\n\n            st.append(ch)\n\n        return ''.join(st)"
+    },
+    {
+        "title": "Find Product Recommendation Pairs",
+        "id": 90,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.product_id, b.product_id\\nFROM ProductPurchases a\\nJOIN ProductPurchases b\\nON a.user_id = b.user_id\\nAND a.product_id < b.product_id\\nGROUP BY a.product_id, b.product_id;"
+    },
+    {
+        "title": "Count the Number of Computer Unlocking Permutations",
+        "id": 91,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def countPermutations(self, n):\n        ans = 1\n\n        for i in range(2, n + 1):\n            ans *= i\n\n        return ans"
+    },
+    {
+        "title": "Find Category Recommendation Pairs",
+        "id": 92,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.category_id AS category1, b.category_id AS category2, COUNT(*) AS pair_count\\nFROM UserCategories a\\nJOIN UserCategories b\\nON a.user_id = b.user_id AND a.category_id < b.category_id\\nGROUP BY a.category_id, b.category_id\\nORDER BY pair_count DESC;"
+    },
+    {
+        "title": "Generate Tag for Video Caption",
+        "id": 93,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def generateTag(self, caption):\n        words = caption.lower().split()\n        result = '#'\n\n        for word in words:\n            result += word.capitalize()\n\n        return result"
+    },
+    {
+        "title": "Range XOR Queries with Subarray Reversals",
+        "id": 94,
+        "language": "Python",
+        "time_complexity": "O(n + q)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def xorQueries(self, arr, queries):\n        n = len(arr)\n        prefix = [0] * (n + 1)\n\n        for i in range(n):\n            prefix[i + 1] = prefix[i] ^ arr[i]\n\n        ans = []\n\n        for l, r in queries:\n            ans.append(prefix[r + 1] ^ prefix[l])\n\n        return ans"
+    },
+    {
+        "title": "Minimum Threshold for Inversion Pairs Count",
+        "id": 95,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minimumThreshold(self, nums):\n        inversions = 0\n\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                if nums[i] > nums[j]:\n                    inversions += 1\n\n        return inversions"
+    },
+    {
+        "title": "Maximum Good Subtree Score",
+        "id": 96,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maximumScore(self, values):\n        return max(values)"
+    },
+    {
+        "title": "Sequential Grid Path Cover",
+        "id": 97,
+        "language": "Python",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def isValidPath(self, grid):\n        expected = 1\n\n        for row in grid:\n            for val in row:\n                if val != expected:\n                    return False\n                expected += 1\n\n        return True"
+    },
+    {
+        "title": "Find Maximum Number of Non Intersecting Substrings",
+        "id": 98,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def maxNumOfSubstrings(self, s):\n        return [ch for ch in s]"
+    },
+    {
+        "title": "Minimum Steps to Convert String with Operations",
+        "id": 99,
+        "language": "Python",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n * m)",
+        "solution": "class Solution:\n    def minDistance(self, word1, word2):\n        n = len(word1)\n        m = len(word2)\n\n        dp = [[0] * (m + 1) for _ in range(n + 1)]\n\n        for i in range(n + 1):\n            dp[i][0] = i\n\n        for j in range(m + 1):\n            dp[0][j] = j\n\n        for i in range(1, n + 1):\n            for j in range(1, m + 1):\n                if word1[i - 1] == word2[j - 1]:\n                    dp[i][j] = dp[i - 1][j - 1]\n                else:\n                    dp[i][j] = 1 + min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1])\n\n        return dp[n][m]"
+    },
+    {
+        "title": "Maximum Product of Two Digits",
+        "id": 100,
+        "language": "Python",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxProduct(self, n):\n        first = 0\n        second = 0\n\n        while n > 0:\n            digit = n % 10\n\n            if digit > first:\n                second = first\n                first = digit\n            elif digit > second:\n                second = digit\n\n            n //= 10\n\n        return first * second"
+    },
+    {
+        "title": "Count Special Triplets",
+        "id": 101,
+        "language": "Python",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import Counter\n\nclass Solution:\n    def countTriplets(self, nums):\n        freq = Counter(nums)\n        ans = 0\n\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                target = nums[i] + nums[j]\n                ans += freq[target]\n\n        return ans"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 102,
+        "language": "Python",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def maximumPath(self, n, edges, k):\n        dp = [float('-inf')] * n\n        dp[0] = 0\n\n        for _ in range(k):\n            nxt = dp[:]\n\n            for u, v, w in edges:\n                if dp[u] != float('-inf'):\n                    nxt[v] = max(nxt[v], dp[u] + w)\n\n            dp = nxt\n\n        return max(dp)"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 103,
+        "language": "Python",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "class Solution:\n    def minimumCost(self, n, edges):\n        parent = list(range(n))\n\n        def find(x):\n            if parent[x] != x:\n                parent[x] = find(parent[x])\n            return parent[x]\n\n        def union(a, b):\n            parent[find(a)] = find(b)\n\n        edges.sort(key=lambda x: x[2])\n        ans = 0\n\n        for u, v, w in edges:\n            if find(u) != find(v):\n                union(u, v)\n                ans += w\n\n        return ans"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 104,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minOperations(self, nums):\n        prefix = 0\n        operations = 0\n\n        for num in nums:\n            prefix += num\n\n            if prefix <= 0:\n                operations += 1 - prefix\n                prefix = 1\n\n        return operations"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 105,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "from collections import defaultdict\n\nclass Solution:\n    def subtreeInversionSum(self, parent, values):\n        tree = defaultdict(list)\n\n        for i in range(1, len(parent)):\n            tree[parent[i]].append(i)\n\n        self.ans = 0\n\n        def dfs(node):\n            total = values[node]\n\n            for child in tree[node]:\n                total += dfs(child)\n\n            self.ans += total\n            return total\n\n        dfs(0)\n        return self.ans"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 106,
+        "language": "Python",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "class Solution:\n    def minimumWeight(self, n, edges):\n        total = 0\n\n        for u, v, w in edges:\n            total += w\n\n        return total"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 107,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def maxProfit(self, prices):\n        profit = 0\n\n        for i in range(1, len(prices)):\n            if prices[i] > prices[i - 1]:\n                profit += prices[i] - prices[i - 1]\n\n        return profit"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 108,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def resultingString(self, s):\n        stack = []\n\n        for ch in s:\n            if stack and stack[-1] == ch:\n                stack.pop()\n            else:\n                stack.append(ch)\n\n        return ''.join(stack)"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 109,
+        "language": "Python",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def minOperations(self, nums, k):\n        total = sum(nums)\n        return (k - (total % k)) % k"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 110,
+        "language": "Python",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "class Solution:\n    def minSwaps(self, nums):\n        def digit_sum(x):\n            s = 0\n            while x:\n                s += x % 10\n                x //= 10\n            return s\n\n        arr = sorted([(digit_sum(nums[i]), i) for i in range(len(nums))])\n        visited = [False] * len(nums)\n        swaps = 0\n\n        for i in range(len(nums)):\n            if visited[i] or arr[i][1] == i:\n                continue\n\n            cycle = 0\n            j = i\n\n            while not visited[j]:\n                visited[j] = True\n                j = arr[j][1]\n                cycle += 1\n\n            swaps += cycle - 1\n\n        return swaps"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 111,
+        "language": "Python",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "class Solution:\n    def canPartitionGrid(self, grid):\n        total = sum(sum(row) for row in grid)\n        prefix = 0\n\n        for row in grid:\n            prefix += sum(row)\n\n            if prefix * 2 == total:\n                return True\n\n        return False"
+    }
 ]

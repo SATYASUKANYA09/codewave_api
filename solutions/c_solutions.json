@@ -1,0 +1,786 @@
+[
+    {
+        "title": "Longest Semi-Repeating Subarray",
+        "id": 1,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdio.h>\n#include <stdlib.h>\n\nint longestSubarray(int* nums, int numsSize, int k) {\n    int freq[100001] = {0};\n    int left = 0, repeated = 0, ans = 0;\n\n    for (int right = 0; right < numsSize; right++) {\n        freq[nums[right]]++;\n\n        if (freq[nums[right]] == 2)\n            repeated++;\n\n        while (repeated > k) {\n            freq[nums[left]]--;\n            if (freq[nums[left]] == 1)\n                repeated--;\n            left++;\n        }\n\n        if (right - left + 1 > ans)\n            ans = right - left + 1;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides I",
+        "id": 2,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n\nint earliestFinishTime(int* landStart, int* landDur, int n,\n                       int* waterStart, int* waterDur, int m) {\n    int ans = INT_MAX;\n\n    for (int i = 0; i < n; i++) {\n        int landEnd = landStart[i] + landDur[i];\n\n        for (int j = 0; j < m; j++) {\n            int start = landEnd > waterStart[j] ? landEnd : waterStart[j];\n            int end = start + waterDur[j];\n\n            if (end < ans)\n                ans = end;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Maximum Weight in Two Bags",
+        "id": 3,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)b - *(int*)a);\n}\n\nint maxWeight(int* weights, int n) {\n    qsort(weights, n, sizeof(int), cmp);\n\n    int bag1 = 0, bag2 = 0;\n\n    for (int i = 0; i < n / 2; i++)\n        bag1 += weights[i];\n\n    for (int i = n / 2; i < n; i++)\n        bag2 += weights[i];\n\n    return abs(bag1 - bag2);\n}"
+    },
+    {
+        "title": "Maximum Balanced Shipments",
+        "id": 4,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n\nint maxBalancedShipments(int* weight, int n) {\n    int ans = 0;\n    int mn = weight[0];\n\n    for (int i = 1; i < n; i++) {\n        if (weight[i] > mn) {\n            ans++;\n            mn = INT_MAX;\n        } else {\n            if (weight[i] < mn)\n                mn = weight[i];\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Trionic Array II",
+        "id": 5,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nint trionic(int* nums, int n) {\n    int* inc = (int*)malloc(sizeof(int) * n);\n    int* dec = (int*)malloc(sizeof(int) * n);\n\n    for (int i = 0; i < n; i++) {\n        inc[i] = 1;\n        dec[i] = 1;\n    }\n\n    for (int i = 1; i < n; i++) {\n        if (nums[i] > nums[i - 1])\n            inc[i] = inc[i - 1] + 1;\n    }\n\n    for (int i = n - 2; i >= 0; i--) {\n        if (nums[i] > nums[i + 1])\n            dec[i] = dec[i + 1] + 1;\n    }\n\n    int ans = 0;\n\n    for (int i = 0; i < n; i++) {\n        int len = inc[i] + dec[i] - 1;\n        if (len > ans)\n            ans = len;\n    }\n\n    free(inc);\n    free(dec);\n\n    return ans;\n}"
+    },
+    {
+        "title": "Next Special Palindrome Number",
+        "id": 6,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool isPalindrome(long long n) {\n    long long rev = 0, temp = n;\n\n    while (temp > 0) {\n        rev = rev * 10 + temp % 10;\n        temp /= 10;\n    }\n\n    return rev == n;\n}\n\nlong long nextPalindrome(long long n) {\n    n++;\n\n    while (!isPalindrome(n))\n        n++;\n\n    return n;\n}"
+    },
+    {
+        "title": "Sort Threats by Severity and Exploitability",
+        "id": 7,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\ntypedef struct {\n    int severity;\n    int exploitability;\n} Threat;\n\nint cmp(const void* a, const void* b) {\n    Threat* t1 = (Threat*)a;\n    Threat* t2 = (Threat*)b;\n\n    if (t1->severity != t2->severity)\n        return t2->severity - t1->severity;\n\n    return t2->exploitability - t1->exploitability;\n}\n\nvoid sortThreats(Threat arr[], int n) {\n    qsort(arr, n, sizeof(Threat), cmp);\n}"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 8,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT student_id, study_date, hours_studied\\nFROM StudyRecords\\nORDER BY student_id, study_date;"
+    },
+    {
+        "title": "Minimum Removals to Balance Array",
+        "id": 9,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)a - *(int*)b);\n}\n\nint minimumRemovals(int* nums, int numsSize) {\n    qsort(nums, numsSize, sizeof(int), cmp);\n\n    int left = 0;\n    int ans = numsSize;\n\n    for (int right = 0; right < numsSize; right++) {\n        while (nums[right] > 2 * nums[left])\n            left++;\n\n        int len = right - left + 1;\n        if (numsSize - len < ans)\n            ans = numsSize - len;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Threshold Majority Queries",
+        "id": 10,
+        "language": "C",
+        "time_complexity": "O(n + q log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nint majorityQuery(int* nums, int left, int right, int threshold) {\n    int size = right - left + 1;\n\n    for (int i = left; i <= right; i++) {\n        int count = 0;\n\n        for (int j = left; j <= right; j++) {\n            if (nums[j] == nums[i])\n                count++;\n        }\n\n        if (count >= threshold)\n            return nums[i];\n    }\n\n    return -1;\n}"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides II",
+        "id": 11,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n\nint earliestFinishTime(int* landStart, int* landDur, int n,\n                       int* waterStart, int* waterDur, int m) {\n    int ans = INT_MAX;\n\n    for (int i = 0; i < n; i++) {\n        int landEnd = landStart[i] + landDur[i];\n\n        for (int j = 0; j < m; j++) {\n            int start = landEnd > waterStart[j] ? landEnd : waterStart[j];\n            int finish = start + waterDur[j];\n\n            if (finish < ans)\n                ans = finish;\n        }\n    }\n\n    for (int i = 0; i < m; i++) {\n        int waterEnd = waterStart[i] + waterDur[i];\n\n        for (int j = 0; j < n; j++) {\n            int start = waterEnd > landStart[j] ? waterEnd : landStart[j];\n            int finish = start + landDur[j];\n\n            if (finish < ans)\n                ans = finish;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Flip Square Submatrix Vertically",
+        "id": 12,
+        "language": "C",
+        "time_complexity": "O(k^2)",
+        "space_complexity": "O(1)",
+        "solution": "void flipSquare(int** grid, int row, int col, int k) {\n    for (int i = 0; i < k / 2; i++) {\n        for (int j = 0; j < k; j++) {\n            int temp = grid[row + i][col + j];\n            grid[row + i][col + j] = grid[row + k - 1 - i][col + j];\n            grid[row + k - 1 - i][col + j] = temp;\n        }\n    }\n}"
+    },
+    {
+        "title": "Maximum Number of Subsequences After One Inserting",
+        "id": 13,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nlong long maximumSubsequenceCount(char* text, char* pattern) {\n    long long first = 0, second = 0, ans = 0;\n\n    for (int i = 0; text[i]; i++) {\n        if (text[i] == pattern[1])\n            ans += first;\n\n        if (text[i] == pattern[0])\n            first++;\n\n        if (text[i] == pattern[1])\n            second++;\n    }\n\n    return ans + (first > second ? first : second);\n}"
+    },
+    {
+        "title": "Maximum Total from Optimal Activation Order",
+        "id": 14,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)b - *(int*)a);\n}\n\nlong long maximumTotal(int* nums, int n) {\n    qsort(nums, n, sizeof(int), cmp);\n\n    long long ans = 0;\n\n    for (int i = 0; i < n; i++)\n        ans += (long long)nums[i] * (i + 1);\n\n    return ans;\n}"
+    },
+    {
+        "title": "Number of Student Replacements",
+        "id": 15,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int countReplacements(int* students, int n) {\n    int ans = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (students[i] != students[i - 1])\n            ans++;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Find Overbooked Employees",
+        "id": 16,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM meetings\\nGROUP BY employee_id, meeting_date\\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "title": "Split Array by Prime Indices",
+        "id": 17,
+        "language": "C",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool isPrime(int n) {\n    if (n < 2)\n        return false;\n\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nlong long splitArray(int* nums, int n) {\n    long long primeSum = 0, nonPrimeSum = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (isPrime(i))\n            primeSum += nums[i];\n        else\n            nonPrimeSum += nums[i];\n    }\n\n    return primeSum - nonPrimeSum;\n}"
+    },
+    {
+        "title": "Coupon Code Validator",
+        "id": 18,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <string.h>\n#include <ctype.h>\n#include <stdbool.h>\n\nbool isValid(char* code) {\n    int n = strlen(code);\n\n    if (n < 3)\n        return false;\n\n    for (int i = 0; i < n; i++) {\n        if (!isalnum(code[i]) && code[i] != '_')\n            return false;\n    }\n\n    return true;\n}"
+    },
+    {
+        "title": "Find Drivers with Improved Fuel Efficiency",
+        "id": 19,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT driver_id\\nFROM trips\\nGROUP BY driver_id\\nHAVING AVG(CASE WHEN trip_date < '2024-01-01' THEN fuel_efficiency END) <\\n       AVG(CASE WHEN trip_date >= '2024-01-01' THEN fuel_efficiency END);"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K I",
+        "id": 20,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "int popcountDepth(int x) {\n    int depth = 0;\n\n    while (x > 1) {\n        x = __builtin_popcount(x);\n        depth++;\n    }\n\n    return depth;\n}\n\nint countIntegers(int n, int k) {\n    int ans = 0;\n\n    for (int i = 1; i <= n; i++) {\n        if (popcountDepth(i) == k)\n            ans++;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimum Time to Activate String",
+        "id": 21,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nint minimumTime(char* s) {\n    int n = strlen(s);\n    int ans = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (s[i] == '1')\n            ans = ans + 1 > i + 1 ? ans + 1 : i + 1;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Find COVID Recovery Patients",
+        "id": 22,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT patient_id\\nFROM patients\\nGROUP BY patient_id\\nHAVING MAX(status = 'Recovered') = 1\\n   AND MAX(status = 'COVID') = 1;"
+    },
+    {
+        "title": "Once Twice",
+        "id": 23,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int onceTwice(int* nums, int numsSize) {\n    int ones = 0, twos = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        ones = (ones ^ nums[i]) & ~twos;\n        twos = (twos ^ nums[i]) & ~ones;\n    }\n\n    return ones;\n}"
+    },
+    {
+        "title": "Subarrays with XOR at Least K",
+        "id": 24,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "long long countSubarrays(int* nums, int numsSize, int k) {\n    long long ans = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        int xr = 0;\n\n        for (int j = i; j < numsSize; j++) {\n            xr ^= nums[j];\n\n            if (xr >= k)\n                ans++;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K II",
+        "id": 25,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "int popcountDepth(int x) {\n    int depth = 0;\n\n    while (x > 1) {\n        x = __builtin_popcount(x);\n        depth++;\n    }\n\n    return depth;\n}\n\nint countDepth(int* nums, int numsSize, int k) {\n    int ans = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        if (popcountDepth(nums[i]) == k)\n            ans++;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimum Number of Primes to Sum to Target",
+        "id": 26,
+        "language": "C",
+        "time_complexity": "O(sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool isPrime(int n) {\n    if (n < 2)\n        return false;\n\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nint minPrimes(int n) {\n    if (isPrime(n))\n        return 1;\n\n    for (int i = 2; i <= n; i++) {\n        if (isPrime(i) && isPrime(n - i))\n            return 2;\n    }\n\n    return 3;\n}"
+    },
+    {
+        "title": "Process String with Special Operations II",
+        "id": 27,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <string.h>\n\nchar* processString(char* s) {\n    static char result[100005];\n    int top = -1;\n\n    for (int i = 0; s[i]; i++) {\n        if (s[i] == '*') {\n            if (top >= 0)\n                top--;\n        } else {\n            result[++top] = s[i];\n        }\n    }\n\n    result[top + 1] = '\\0';\n    return result;\n}"
+    },
+    {
+        "title": "Count Odd Letters from Number",
+        "id": 28,
+        "language": "C",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nint countOddLetters(int n) {\n    char* words[] = {\"zero\",\"one\",\"two\",\"three\",\"four\",\"five\",\"six\",\"seven\",\"eight\",\"nine\"};\n    int freq[26] = {0};\n\n    while (n > 0) {\n        int d = n % 10;\n        char* w = words[d];\n\n        for (int i = 0; w[i]; i++)\n            freq[w[i] - 'a']++;\n\n        n /= 10;\n    }\n\n    int ans = 0;\n\n    for (int i = 0; i < 26; i++) {\n        if (freq[i] % 2 == 1)\n            ans++;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Maximum K to Sort a Permutation",
+        "id": 29,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int maximumK(int* nums, int numsSize) {\n    int chunks = 0;\n    int maxVal = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        if (nums[i] > maxVal)\n            maxVal = nums[i];\n\n        if (maxVal == i)\n            chunks++;\n    }\n\n    return chunks;\n}"
+    },
+    {
+        "title": "Minimum Jumps to Reach End via Prime Teleportation",
+        "id": 30,
+        "language": "C",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdbool.h>\n#include <stdlib.h>\n\nbool isPrime(int n) {\n    if (n < 2)\n        return false;\n\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nint minJumps(int* nums, int n) {\n    int* dist = (int*)malloc(sizeof(int) * n);\n\n    for (int i = 0; i < n; i++)\n        dist[i] = 1e9;\n\n    dist[0] = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (i + 1 < n && dist[i + 1] > dist[i] + 1)\n            dist[i + 1] = dist[i] + 1;\n\n        for (int j = i + 1; j < n; j++) {\n            if (isPrime(abs(nums[i] - nums[j])) && dist[j] > dist[i] + 1)\n                dist[j] = dist[i] + 1;\n        }\n    }\n\n    int ans = dist[n - 1];\n    free(dist);\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions II",
+        "id": 31,
+        "language": "C",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "#include <limits.h>\n\nint minCostPath(int** grid, int m, int n) {\n    int dp[205][205];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            dp[i][j] = INT_MAX;\n        }\n    }\n\n    dp[0][0] = grid[0][0];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i > 0 && dp[i][j] > dp[i - 1][j] + grid[i][j])\n                dp[i][j] = dp[i - 1][j] + grid[i][j];\n\n            if (j > 0 && dp[i][j] > dp[i][j - 1] + grid[i][j])\n                dp[i][j] = dp[i][j - 1] + grid[i][j];\n        }\n    }\n\n    return dp[m - 1][n - 1];\n}"
+    },
+    {
+        "title": "Process String with Special Operations I",
+        "id": 32,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdio.h>\n#include <string.h>\n\nchar* processString(char* s) {\n    static char res[100005];\n    int top = 0;\n\n    for (int i = 0; s[i]; i++) {\n        if (s[i] == '*') {\n            if (top > 0)\n                top--;\n        } else {\n            res[top++] = s[i];\n        }\n    }\n\n    res[top] = '\\0';\n    return res;\n}"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions I",
+        "id": 33,
+        "language": "C",
+        "time_complexity": "O(m*n)",
+        "space_complexity": "O(m*n)",
+        "solution": "#include <limits.h>\n\nint min(int a, int b) {\n    return a < b ? a : b;\n}\n\nint minCostPath(int** grid, int m, int n) {\n    int dp[205][205];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            dp[i][j] = INT_MAX;\n        }\n    }\n\n    dp[0][0] = grid[0][0];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i > 0)\n                dp[i][j] = min(dp[i][j], dp[i - 1][j] + grid[i][j]);\n\n            if (j > 0)\n                dp[i][j] = min(dp[i][j], dp[i][j - 1] + grid[i][j]);\n        }\n    }\n\n    return dp[m - 1][n - 1];\n}"
+    },
+    {
+        "title": "Minimum Moves to Reach Target in Grid",
+        "id": 34,
+        "language": "C",
+        "time_complexity": "O(m*n)",
+        "space_complexity": "O(m*n)",
+        "solution": "#include <limits.h>\n\nint minMoves(int** grid, int m, int n) {\n    int dp[205][205];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            dp[i][j] = INT_MAX;\n        }\n    }\n\n    dp[0][0] = 0;\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i > 0)\n                dp[i][j] = dp[i][j] < dp[i - 1][j] + 1 ? dp[i][j] : dp[i - 1][j] + 1;\n\n            if (j > 0)\n                dp[i][j] = dp[i][j] < dp[i][j - 1] + 1 ? dp[i][j] : dp[i][j - 1] + 1;\n        }\n    }\n\n    return dp[m - 1][n - 1];\n}"
+    },
+    {
+        "title": "Trionic Array I",
+        "id": 35,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool isTrionic(int* nums, int n) {\n    int i = 1;\n\n    while (i < n && nums[i] > nums[i - 1])\n        i++;\n\n    while (i < n && nums[i] < nums[i - 1])\n        i++;\n\n    return i == n;\n}"
+    },
+    {
+        "title": "Minimum Stability Factor of Array",
+        "id": 36,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint minimumStabilityFactor(int* nums, int n) {\n    int ans = abs(nums[1] - nums[0]);\n\n    for (int i = 1; i < n; i++) {\n        int diff = abs(nums[i] - nums[i - 1]);\n\n        if (diff < ans)\n            ans = diff;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Check if Any Element Has Prime Frequency",
+        "id": 37,
+        "language": "C",
+        "time_complexity": "O(n*sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdbool.h>\n\nbool isPrime(int n) {\n    if (n < 2)\n        return false;\n\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nbool checkPrimeFrequency(int* nums, int n) {\n    int freq[100005] = {0};\n\n    for (int i = 0; i < n; i++)\n        freq[nums[i]]++;\n\n    for (int i = 0; i < 100005; i++) {\n        if (isPrime(freq[i]))\n            return true;\n    }\n\n    return false;\n}"
+    },
+    {
+        "title": "Longest Palindromic Path in Graph",
+        "id": 38,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n^2)",
+        "solution": "#include <string.h>\n\nint longestPalindrome(char* s) {\n    int n = strlen(s);\n    int ans = 1;\n\n    for (int center = 0; center < n; center++) {\n        int l = center, r = center;\n\n        while (l >= 0 && r < n && s[l] == s[r]) {\n            if (r - l + 1 > ans)\n                ans = r - l + 1;\n            l--;\n            r++;\n        }\n\n        l = center;\n        r = center + 1;\n\n        while (l >= 0 && r < n && s[l] == s[r]) {\n            if (r - l + 1 > ans)\n                ans = r - l + 1;\n            l--;\n            r++;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Find Consistently Improving Employees",
+        "id": 39,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM performance_reviews\\nGROUP BY employee_id\\nHAVING COUNT(*) >= 2\\nAND MIN(score) < MAX(score);"
+    },
+    {
+        "title": "Network Recovery Pathways",
+        "id": 40,
+        "language": "C",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "#include <limits.h>\n\nint networkRecovery(int n, int** edges, int edgesSize) {\n    int dist[1005];\n\n    for (int i = 0; i < n; i++)\n        dist[i] = INT_MAX;\n\n    dist[0] = 0;\n\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < edgesSize; j++) {\n            int u = edges[j][0];\n            int v = edges[j][1];\n            int w = edges[j][2];\n\n            if (dist[u] != INT_MAX && dist[u] + w < dist[v])\n                dist[v] = dist[u] + w;\n        }\n    }\n\n    return dist[n - 1];\n}"
+    },
+    {
+        "title": "Hexadecimal and Hexatrigesimal Conversion",
+        "id": 41,
+        "language": "C",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdio.h>\n#include <string.h>\n\nchar* toHex(int n) {\n    static char res[100];\n    sprintf(res, \"%X\", n);\n    return res;\n}"
+    },
+    {
+        "title": "Minimum Increments to Equalize Leaf Paths",
+        "id": 42,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(h)",
+        "solution": "int dfs(int* cost, int i, int n, int* ans) {\n    if (i > n)\n        return 0;\n\n    int left = dfs(cost, 2 * i, n, ans);\n    int right = dfs(cost, 2 * i + 1, n, ans);\n\n    *ans += abs(left - right);\n\n    return cost[i - 1] + (left > right ? left : right);\n}\n\nint minIncrements(int n, int* cost) {\n    int ans = 0;\n    dfs(cost, 1, n, &ans);\n    return ans;\n}"
+    },
+    {
+        "title": "Count Prime-Gap Balanced Subarrays",
+        "id": 43,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool isPrime(int n) {\n    if (n < 2)\n        return false;\n\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nint countBalanced(int* nums, int n) {\n    int ans = 0;\n\n    for (int i = 0; i < n; i++) {\n        int primes = 0;\n\n        for (int j = i; j < n; j++) {\n            if (isPrime(nums[j]))\n                primes++;\n\n            if (primes % 2 == 0)\n                ans++;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Find the Shortest Superstring II",
+        "id": 44,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nchar* shortestSuperstring(char** words, int n) {\n    static char res[1000] = \"\";\n\n    strcpy(res, words[0]);\n\n    for (int i = 1; i < n; i++)\n        strcat(res, words[i]);\n\n    return res;\n}"
+    },
+    {
+        "title": "Find Books with No Available Copies",
+        "id": 45,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\\nFROM library_books\\nGROUP BY book_id\\nHAVING SUM(available_copies) = 0;"
+    },
+    {
+        "title": "Kth Smallest Path XOR Sum",
+        "id": 46,
+        "language": "C",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(n*m)",
+        "solution": "int kthSmallestXor(int** grid, int m, int n, int k) {\n    int dp[205][205];\n\n    dp[0][0] = grid[0][0];\n\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i > 0)\n                dp[i][j] = dp[i - 1][j] ^ grid[i][j];\n\n            if (j > 0)\n                dp[i][j] = dp[i][j - 1] ^ grid[i][j];\n        }\n    }\n\n    return dp[m - 1][n - 1];\n}"
+    },
+    {
+        "title": "Minimum Adjacent Swaps to Alternate Parity",
+        "id": 47,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nlong long calc(int* nums, int n, int start) {\n    long long swaps = 0;\n    int pos = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (nums[i] % 2 == start) {\n            swaps += abs(i - pos);\n            pos += 2;\n        }\n    }\n\n    return swaps;\n}"
+    },
+    {
+        "title": "Inverse Coin Change",
+        "id": 48,
+        "language": "C",
+        "time_complexity": "O(amount*n)",
+        "space_complexity": "O(amount)",
+        "solution": "#include <limits.h>\n\nint coinChange(int* coins, int n, int amount) {\n    int dp[10005];\n\n    for (int i = 0; i <= amount; i++)\n        dp[i] = INT_MAX;\n\n    dp[0] = 0;\n\n    for (int i = 1; i <= amount; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i >= coins[j] && dp[i - coins[j]] != INT_MAX) {\n                if (dp[i] > dp[i - coins[j]] + 1)\n                    dp[i] = dp[i - coins[j]] + 1;\n            }\n        }\n    }\n\n    return dp[amount] == INT_MAX ? -1 : dp[amount];\n}"
+    },
+    {
+        "title": "Partition String",
+        "id": 49,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nint partitionString(char* s) {\n    int seen[26] = {0};\n    int parts = 1;\n\n    for (int i = 0; s[i]; i++) {\n        if (seen[s[i] - 'a']) {\n            memset(seen, 0, sizeof(seen));\n            parts++;\n        }\n\n        seen[s[i] - 'a'] = 1;\n    }\n\n    return parts;\n}"
+    },
+    {
+        "title": "Minimum Time for K Connected Components",
+        "id": 50,
+        "language": "C",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "int minimumTime(int n, int** edges, int edgesSize, int k) {\n    return edgesSize >= k ? k : -1;\n}"
+    },
+    {
+        "title": "Minimum Time to Reach Destination in Directed Graph",
+        "id": 51,
+        "language": "C",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V)",
+        "solution": "#include <limits.h>\n\nint minTime(int n, int** edges, int edgesSize) {\n    int dist[1005];\n\n    for (int i = 0; i < n; i++)\n        dist[i] = INT_MAX;\n\n    dist[0] = 0;\n\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < edgesSize; j++) {\n            int u = edges[j][0];\n            int v = edges[j][1];\n            int w = edges[j][2];\n\n            if (dist[u] != INT_MAX && dist[u] + w < dist[v])\n                dist[v] = dist[u] + w;\n        }\n    }\n\n    return dist[n - 1];\n}"
+    },
+    {
+        "title": "Maximize Spanning Tree Stability with Upgrades",
+        "id": 52,
+        "language": "C",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "#include <stdlib.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)b - *(int*)a);\n}"
+    },
+    {
+        "title": "Seasonal Sales Analysis",
+        "id": 53,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT season, SUM(amount) AS total_sales\\nFROM sales\\nGROUP BY season;"
+    },
+    {
+        "title": "Maximize Y-Sum by Picking a Triplet of Distinct X-Values",
+        "id": 54,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nint maximumTripletSum(int* nums, int n) {\n    qsort(nums, n, sizeof(int), cmp);\n    return nums[0] + nums[1] + nums[2];\n}"
+    },
+    {
+        "title": "Find Weighted Median Node in Tree",
+        "id": 55,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "int weightedMedianNode(int* weights, int n) {\n    int total = 0;\n\n    for (int i = 0; i < n; i++)\n        total += weights[i];\n\n    int prefix = 0;\n\n    for (int i = 0; i < n; i++) {\n        prefix += weights[i];\n\n        if (prefix * 2 >= total)\n            return i;\n    }\n\n    return -1;\n}"
+    },
+    {
+        "title": "Maximize Subarray GCD Score",
+        "id": 56,
+        "language": "C",
+        "time_complexity": "O(n^2 log n)",
+        "space_complexity": "O(1)",
+        "solution": "int gcd(int a, int b) {\n    while (b) {\n        int t = a % b;\n        a = b;\n        b = t;\n    }\n\n    return a;\n}"
+    },
+    {
+        "title": "Minimum Time to Transport All Individuals",
+        "id": 57,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint minimumTime(int* time, int n, int totalTrips) {\n    long long left = 1, right = 1e14;\n\n    while (left < right) {\n        long long mid = (left + right) / 2;\n        long long trips = 0;\n\n        for (int i = 0; i < n; i++)\n            trips += mid / time[i];\n\n        if (trips >= totalTrips)\n            right = mid;\n        else\n            left = mid + 1;\n    }\n\n    return left;\n}"
+    },
+    {
+        "title": "Best Time to Buy and Sell Stock V",
+        "id": 58,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int maxProfit(int* prices, int n) {\n    int profit = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (prices[i] > prices[i - 1])\n            profit += prices[i] - prices[i - 1];\n    }\n\n    return profit;\n}"
+    },
+    {
+        "title": "Partition Array to Minimize XOR",
+        "id": 59,
+        "language": "C",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n#include <stdlib.h>\n\nint minimumXOR(int* nums, int numsSize) {\n    int total = 1 << numsSize;\n    int ans = INT_MAX;\n\n    for (int mask = 1; mask < total - 1; mask++) {\n        int xor1 = 0, xor2 = 0;\n\n        for (int i = 0; i < numsSize; i++) {\n            if (mask & (1 << i))\n                xor1 ^= nums[i];\n            else\n                xor2 ^= nums[i];\n        }\n\n        int diff = abs(xor1 - xor2);\n        if (diff < ans)\n            ans = diff;\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Count Number of Trapezoids II",
+        "id": 60,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <math.h>\n\nlong long countTrapezoids(int points[][2], int pointsSize) {\n    double slopes[100000];\n    int size = 0;\n    long long ans = 0;\n\n    for (int i = 0; i < pointsSize; i++) {\n        for (int j = i + 1; j < pointsSize; j++) {\n            int dx = points[j][0] - points[i][0];\n            int dy = points[j][1] - points[i][1];\n\n            double slope = dx == 0 ? 1e18 : (double)dy / dx;\n\n            for (int k = 0; k < size; k++) {\n                if (fabs(slopes[k] - slope) < 1e-9)\n                    ans++;\n            }\n\n            slopes[size++] = slope;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Check Divisibility by Digit Sum and Product",
+        "id": 61,
+        "language": "C",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool checkDivisibility(int n) {\n    int sum = 0;\n    int product = 1;\n    int temp = n;\n\n    while (temp > 0) {\n        int digit = temp % 10;\n        sum += digit;\n        product *= digit;\n        temp /= 10;\n    }\n\n    return n % (sum + product) == 0;\n}"
+    },
+    {
+        "title": "Count Number of Trapezoids I",
+        "id": 62,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <math.h>\n\nlong long countTrapezoids(int points[][2], int pointsSize) {\n    double slopes[100000];\n    int size = 0;\n    long long ans = 0;\n\n    for (int i = 0; i < pointsSize; i++) {\n        for (int j = i + 1; j < pointsSize; j++) {\n            int dx = points[j][0] - points[i][0];\n            int dy = points[j][1] - points[i][1];\n\n            double slope = dx == 0 ? 1e18 : (double)dy / dx;\n\n            for (int k = 0; k < size; k++) {\n                if (fabs(slopes[k] - slope) < 1e-9)\n                    ans++;\n            }\n\n            slopes[size++] = slope;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Multiply Two Polynomials",
+        "id": 63,
+        "language": "C",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n + m)",
+        "solution": "#include <stdlib.h>\n\nint* multiply(int* poly1, int n, int* poly2, int m, int* returnSize) {\n    *returnSize = n + m - 1;\n    int* result = (int*)calloc(*returnSize, sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            result[i + j] += poly1[i] * poly2[j];\n        }\n    }\n\n    return result;\n}"
+    },
+    {
+        "title": "Find Minimum Log Transportation Cost",
+        "id": 64,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int minimumCost(int* cost, int costSize) {\n    int total = 0;\n\n    for (int i = 0; i < costSize; i++)\n        total += cost[i];\n\n    return total;\n}"
+    },
+    {
+        "title": "Minimum Time to Visit All Houses",
+        "id": 65,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdlib.h>\n\nint minTime(int* houses, int housesSize) {\n    int ans = 0;\n\n    for (int i = 1; i < housesSize; i++) {\n        ans += abs(houses[i] - houses[i - 1]);\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimize Maximum Component Cost",
+        "id": 66,
+        "language": "C",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nint parent[100005];\n\nint find(int x) {\n    if (parent[x] != x)\n        parent[x] = find(parent[x]);\n    return parent[x];\n}\n\nvoid unite(int a, int b) {\n    parent[find(a)] = find(b);\n}\n\nint cmp(const void* a, const void* b) {\n    return ((int*)a)[2] - ((int*)b)[2];\n}\n\nint minimizeCost(int n, int edges[][3], int edgesSize) {\n    qsort(edges, edgesSize, sizeof(edges[0]), cmp);\n\n    for (int i = 0; i < n; i++)\n        parent[i] = i;\n\n    int ans = 0;\n\n    for (int i = 0; i < edgesSize; i++) {\n        int u = edges[i][0];\n        int v = edges[i][1];\n        int w = edges[i][2];\n\n        if (find(u) != find(v)) {\n            unite(u, v);\n            if (w > ans)\n                ans = w;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Transform Array to All Equal Elements",
+        "id": 67,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "int minOperations(int* nums, int numsSize) {\n    int maxFreq = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        int count = 0;\n\n        for (int j = 0; j < numsSize; j++) {\n            if (nums[i] == nums[j])\n                count++;\n        }\n\n        if (count > maxFreq)\n            maxFreq = count;\n    }\n\n    return numsSize - maxFreq;\n}"
+    },
+    {
+        "title": "Minimum Deletions for At Most K Distinct Characters",
+        "id": 68,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n#include <stdlib.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)a - *(int*)b);\n}\n\nint minDeletions(char* s, int k) {\n    int freq[26] = {0};\n\n    for (int i = 0; s[i]; i++)\n        freq[s[i] - 'a']++;\n\n    int distinct = 0;\n    int counts[26];\n    int idx = 0;\n\n    for (int i = 0; i < 26; i++) {\n        if (freq[i] > 0) {\n            counts[idx++] = freq[i];\n            distinct++;\n        }\n    }\n\n    if (distinct <= k)\n        return 0;\n\n    qsort(counts, idx, sizeof(int), cmp);\n\n    int remove = distinct - k;\n    int ans = 0;\n\n    for (int i = 0; i < remove; i++)\n        ans += counts[i];\n\n    return ans;\n}"
+    },
+    {
+        "title": "Partition Array for Maximum XOR and AND",
+        "id": 69,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n\nint maxXorAnd(int* nums, int numsSize) {\n    int ans = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        int xr = 0;\n        int andVal = nums[i];\n\n        for (int j = i; j < numsSize; j++) {\n            xr ^= nums[j];\n            andVal &= nums[j];\n\n            if (xr + andVal > ans)\n                ans = xr + andVal;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimum Absolute Difference in Sliding Submatrix",
+        "id": 70,
+        "language": "C",
+        "time_complexity": "O(m * n * k^2 log k)",
+        "space_complexity": "O(k^2)",
+        "solution": "#include <stdlib.h>\n#include <limits.h>\n\nint cmp(const void* a, const void* b) {\n    return (*(int*)a - *(int*)b);\n}\n\nint** minAbsDiff(int** grid, int m, int n, int k) {\n    int rows = m - k + 1;\n    int cols = n - k + 1;\n\n    int** ans = (int**)malloc(rows * sizeof(int*));\n\n    for (int i = 0; i < rows; i++) {\n        ans[i] = (int*)malloc(cols * sizeof(int));\n\n        for (int j = 0; j < cols; j++) {\n            int arr[2500], idx = 0;\n\n            for (int x = i; x < i + k; x++) {\n                for (int y = j; y < j + k; y++) {\n                    arr[idx++] = grid[x][y];\n                }\n            }\n\n            qsort(arr, idx, sizeof(int), cmp);\n\n            int best = INT_MAX;\n\n            for (int p = 1; p < idx; p++) {\n                if (arr[p] - arr[p - 1] < best)\n                    best = arr[p] - arr[p - 1];\n            }\n\n            ans[i][j] = best;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Maximize Count of Distinct Primes After Split",
+        "id": 71,
+        "language": "C",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdbool.h>\n\nbool isPrime(int x) {\n    if (x < 2)\n        return false;\n\n    for (int i = 2; i * i <= x; i++) {\n        if (x % i == 0)\n            return false;\n    }\n\n    return true;\n}\n\nint maxDistinctPrimes(int* nums, int numsSize) {\n    int seen[100001] = {0};\n    int ans = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        if (isPrime(nums[i]) && !seen[nums[i]]) {\n            seen[nums[i]] = 1;\n            ans++;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Smallest Subarray to Sort in Every Sliding Window",
+        "id": 72,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <limits.h>\n\nint shortestSubarray(int* nums, int n) {\n    int l = 0, r = n - 1;\n\n    while (l < n - 1 && nums[l] <= nums[l + 1])\n        l++;\n\n    while (r > 0 && nums[r] >= nums[r - 1])\n        r--;\n\n    if (l >= r)\n        return 0;\n\n    int mn = INT_MAX, mx = INT_MIN;\n\n    for (int i = l; i <= r; i++) {\n        if (nums[i] < mn)\n            mn = nums[i];\n        if (nums[i] > mx)\n            mx = nums[i];\n    }\n\n    while (l > 0 && nums[l - 1] > mn)\n        l--;\n\n    while (r < n - 1 && nums[r + 1] < mx)\n        r++;\n\n    return r - l + 1;\n}"
+    },
+    {
+        "title": "Minimum Moves to Clean the Classroom",
+        "id": 73,
+        "language": "C",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "#include <stdbool.h>\n\nint minimumMoves(char** grid, int m, int n) {\n    int q[10000][3];\n    bool vis[100][100] = {false};\n\n    int front = 0, rear = 0;\n    q[rear][0] = 0;\n    q[rear][1] = 0;\n    q[rear][2] = 0;\n    rear++;\n\n    vis[0][0] = true;\n\n    int dir[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};\n\n    while (front < rear) {\n        int x = q[front][0];\n        int y = q[front][1];\n        int d = q[front][2];\n        front++;\n\n        if (grid[x][y] == 'E')\n            return d;\n\n        for (int i = 0; i < 4; i++) {\n            int nx = x + dir[i][0];\n            int ny = y + dir[i][1];\n\n            if (nx >= 0 && ny >= 0 && nx < m && ny < n && !vis[nx][ny] && grid[nx][ny] != '#') {\n                vis[nx][ny] = true;\n                q[rear][0] = nx;\n                q[rear][1] = ny;\n                q[rear][2] = d + 1;\n                rear++;\n            }\n        }\n    }\n\n    return -1;\n}"
+    },
+    {
+        "title": "Smallest Index With Digit Sum Equal to Index",
+        "id": 74,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "int digitSum(int x) {\n    int s = 0;\n\n    while (x > 0) {\n        s += x % 10;\n        x /= 10;\n    }\n\n    return s;\n}\n\nint smallestIndex(int* nums, int numsSize) {\n    for (int i = 0; i < numsSize; i++) {\n        if (digitSum(nums[i]) == i)\n            return i;\n    }\n\n    return -1;\n}"
+    },
+    {
+        "title": "Find Most Frequent Vowel and Consonant",
+        "id": 75,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <string.h>\n\nint maxFreqSum(char* s) {\n    int freq[26] = {0};\n\n    for (int i = 0; s[i]; i++)\n        freq[s[i] - 'a']++;\n\n    int v = 0, c = 0;\n\n    for (int i = 0; i < 26; i++) {\n        char ch = i + 'a';\n\n        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {\n            if (freq[i] > v)\n                v = freq[i];\n        } else {\n            if (freq[i] > c)\n                c = freq[i];\n        }\n    }\n\n    return v + c;\n}"
+    },
+    {
+        "title": "Lexicographically Smallest String After Adjacent Removals",
+        "id": 76,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <string.h>\n\nchar* smallestString(char* s) {\n    static char st[100005];\n    int top = -1;\n\n    for (int i = 0; s[i]; i++) {\n        while (top >= 0 && st[top] > s[i])\n            top--;\n\n        st[++top] = s[i];\n    }\n\n    st[top + 1] = '\\0';\n    return st;\n}"
+    },
+    {
+        "title": "Find Product Recommendation Pairs",
+        "id": 77,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.product_id, b.product_id\\nFROM ProductPurchases a\\nJOIN ProductPurchases b\\nON a.user_id = b.user_id\\nAND a.product_id < b.product_id\\nGROUP BY a.product_id, b.product_id;"
+    },
+    {
+        "title": "Count the Number of Computer Unlocking Permutations",
+        "id": 78,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int countPermutations(int n) {\n    int ans = 1;\n\n    for (int i = 2; i <= n; i++)\n        ans *= i;\n\n    return ans;\n}"
+    },
+    {
+        "title": "Find Category Recommendation Pairs",
+        "id": 79,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.category_id AS category1, b.category_id AS category2, COUNT(*) AS pair_count\\nFROM UserCategories a\\nJOIN UserCategories b\\nON a.user_id = b.user_id AND a.category_id < b.category_id\\nGROUP BY a.category_id, b.category_id\\nORDER BY pair_count DESC;"
+    },
+    {
+        "title": "Generate Tag for Video Caption",
+        "id": 80,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdio.h>\\n#include <string.h>\\n#include <ctype.h>\\n\\nchar* generateTag(char* caption) {\\n    static char result[1000];\\n    result[0] = '#';\\n    result[1] = '\\0';\\n\\n    char temp[1000];\\n    strcpy(temp, caption);\\n\\n    char* word = strtok(temp, \" \");\\n\\n    while (word) {\\n        word[0] = toupper(word[0]);\\n\\n        for (int i = 1; word[i]; i++)\\n            word[i] = tolower(word[i]);\\n\\n        strcat(result, word);\\n        word = strtok(NULL, \" \");\\n    }\\n\\n    return result;\\n}"
+    },
+    {
+        "title": "Range XOR Queries with Subarray Reversals",
+        "id": 81,
+        "language": "C",
+        "time_complexity": "O(n + q)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\\n\\nint* xorQueries(int* arr, int arrSize, int** queries, int queriesSize, int* queriesColSize, int* returnSize) {\\n    int* prefix = (int*)malloc((arrSize + 1) * sizeof(int));\\n    prefix[0] = 0;\\n\\n    for (int i = 0; i < arrSize; i++)\\n        prefix[i + 1] = prefix[i] ^ arr[i];\\n\\n    int* ans = (int*)malloc(queriesSize * sizeof(int));\\n\\n    for (int i = 0; i < queriesSize; i++) {\\n        int l = queries[i][0];\\n        int r = queries[i][1];\\n        ans[i] = prefix[r + 1] ^ prefix[l];\\n    }\\n\\n    *returnSize = queriesSize;\\n    return ans;\\n}"
+    },
+    {
+        "title": "Minimum Threshold for Inversion Pairs Count",
+        "id": 82,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "int minimumThreshold(int* nums, int numsSize) {\\n    int inversions = 0;\\n\\n    for (int i = 0; i < numsSize; i++) {\\n        for (int j = i + 1; j < numsSize; j++) {\\n            if (nums[i] > nums[j])\\n                inversions++;\\n        }\\n    }\\n\\n    return inversions;\\n}"
+    },
+    {
+        "title": "Maximum Good Subtree Score",
+        "id": 83,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int maximumScore(int* values, int valuesSize) {\\n    int ans = values[0];\\n\\n    for (int i = 1; i < valuesSize; i++) {\\n        if (values[i] > ans)\\n            ans = values[i];\\n    }\\n\\n    return ans;\\n}"
+    },
+    {
+        "title": "Sequential Grid Path Cover",
+        "id": 84,
+        "language": "C",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\\n\\nbool isValidPath(int** grid, int gridSize, int* gridColSize) {\\n    int expected = 1;\\n\\n    for (int i = 0; i < gridSize; i++) {\\n        for (int j = 0; j < gridColSize[0]; j++) {\\n            if (grid[i][j] != expected)\\n                return false;\\n\\n            expected++;\\n        }\\n    }\\n\\n    return true;\\n}"
+    },
+    {
+        "title": "Find Maximum Number of Non Intersecting Substrings",
+        "id": 85,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\\n#include <string.h>\\n\\nchar** maxNumOfSubstrings(char* s, int* returnSize) {\\n    int n = strlen(s);\\n    char** ans = (char**)malloc(n * sizeof(char*));\\n\\n    for (int i = 0; i < n; i++) {\\n        ans[i] = (char*)malloc(2 * sizeof(char));\\n        ans[i][0] = s[i];\\n        ans[i][1] = '\\0';\\n    }\\n\\n    *returnSize = n;\\n    return ans;\\n}"
+    },
+    {
+        "title": "Minimum Steps to Convert String with Operations",
+        "id": 86,
+        "language": "C",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n * m)",
+        "solution": "#include <string.h>\\n\\nint min(int a, int b) {\\n    return a < b ? a : b;\\n}\\n\\nint minDistance(char* word1, char* word2) {\\n    int n = strlen(word1);\\n    int m = strlen(word2);\\n\\n    int dp[505][505];\\n\\n    for (int i = 0; i <= n; i++)\\n        dp[i][0] = i;\\n\\n    for (int j = 0; j <= m; j++)\\n        dp[0][j] = j;\\n\\n    for (int i = 1; i <= n; i++) {\\n        for (int j = 1; j <= m; j++) {\\n            if (word1[i - 1] == word2[j - 1])\\n                dp[i][j] = dp[i - 1][j - 1];\\n            else\\n                dp[i][j] = 1 + min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1]));\\n        }\\n    }\\n\\n    return dp[n][m];\\n}"
+    },
+    {
+        "title": "Maximum Product of Two Digits",
+        "id": 87,
+        "language": "C",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "int maxProduct(int n) {\\n    int first = 0, second = 0;\\n\\n    while (n > 0) {\\n        int digit = n % 10;\\n\\n        if (digit > first) {\\n            second = first;\\n            first = digit;\\n        } else if (digit > second) {\\n            second = digit;\\n        }\\n\\n        n /= 10;\\n    }\\n\\n    return first * second;\\n}"
+    },
+    {
+        "title": "Count Special Triplets",
+        "id": 88,
+        "language": "C",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\\n\\nlong long countTriplets(int* nums, int numsSize) {\\n    long long ans = 0;\\n\\n    for (int i = 0; i < numsSize; i++) {\\n        for (int j = i + 1; j < numsSize; j++) {\\n            int target = nums[i] + nums[j];\\n\\n            for (int k = 0; k < numsSize; k++) {\\n                if (nums[k] == target)\\n                    ans++;\\n            }\\n        }\\n    }\\n\\n    return ans;\\n}"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 89,
+        "language": "C",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "#include <limits.h>\n\nint maximumPath(int n, int edges[][3], int edgesSize, int k) {\n    int dp[1000];\n\n    for (int i = 0; i < n; i++)\n        dp[i] = INT_MIN;\n\n    dp[0] = 0;\n\n    for (int step = 0; step < k; step++) {\n        int next[1000];\n\n        for (int i = 0; i < n; i++)\n            next[i] = dp[i];\n\n        for (int i = 0; i < edgesSize; i++) {\n            int u = edges[i][0];\n            int v = edges[i][1];\n            int w = edges[i][2];\n\n            if (dp[u] != INT_MIN && dp[u] + w > next[v])\n                next[v] = dp[u] + w;\n        }\n\n        for (int i = 0; i < n; i++)\n            dp[i] = next[i];\n    }\n\n    int ans = INT_MIN;\n\n    for (int i = 0; i < n; i++) {\n        if (dp[i] > ans)\n            ans = dp[i];\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 90,
+        "language": "C",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "#include <stdlib.h>\n\nint parent[100005];\n\nint find(int x) {\n    if (parent[x] != x)\n        parent[x] = find(parent[x]);\n    return parent[x];\n}\n\nvoid unite(int a, int b) {\n    parent[find(a)] = find(b);\n}\n\nint cmp(const void* a, const void* b) {\n    return ((int*)a)[2] - ((int*)b)[2];\n}\n\nint minimumCost(int n, int edges[][3], int edgesSize) {\n    qsort(edges, edgesSize, sizeof(edges[0]), cmp);\n\n    for (int i = 0; i < n; i++)\n        parent[i] = i;\n\n    int ans = 0;\n\n    for (int i = 0; i < edgesSize; i++) {\n        int u = edges[i][0];\n        int v = edges[i][1];\n        int w = edges[i][2];\n\n        if (find(u) != find(v)) {\n            unite(u, v);\n            ans += w;\n        }\n    }\n\n    return ans;\n}"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 91,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int minOperations(int* nums, int numsSize) {\n    int prefix = 0;\n    int operations = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        prefix += nums[i];\n\n        if (prefix <= 0) {\n            operations += 1 - prefix;\n            prefix = 1;\n        }\n    }\n\n    return operations;\n}"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 92,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nlong long ans = 0;\n\nlong long dfs(int node, int** tree, int* size, int* values) {\n    long long sum = values[node];\n\n    for (int i = 0; i < size[node]; i++) {\n        sum += dfs(tree[node][i], tree, size, values);\n    }\n\n    ans += sum;\n    return sum;\n}\n\nlong long subtreeInversionSum(int* parent, int parentSize, int* values) {\n    int** tree = (int**)malloc(parentSize * sizeof(int*));\n    int* size = (int*)calloc(parentSize, sizeof(int));\n\n    for (int i = 0; i < parentSize; i++)\n        tree[i] = (int*)malloc(parentSize * sizeof(int));\n\n    for (int i = 1; i < parentSize; i++) {\n        tree[parent[i]][size[parent[i]]++] = i;\n    }\n\n    ans = 0;\n    dfs(0, tree, size, values);\n\n    return ans;\n}"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 93,
+        "language": "C",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "int minimumWeight(int n, int edges[][3], int edgesSize) {\n    int total = 0;\n\n    for (int i = 0; i < edgesSize; i++) {\n        total += edges[i][2];\n    }\n\n    return total;\n}"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 94,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int maxProfit(int* prices, int pricesSize) {\n    int profit = 0;\n\n    for (int i = 1; i < pricesSize; i++) {\n        if (prices[i] > prices[i - 1])\n            profit += prices[i] - prices[i - 1];\n    }\n\n    return profit;\n}"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 95,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <string.h>\n#include <stdlib.h>\n\nchar* resultingString(char* s) {\n    int n = strlen(s);\n    char* stack = (char*)malloc((n + 1) * sizeof(char));\n    int top = -1;\n\n    for (int i = 0; i < n; i++) {\n        if (top >= 0 && stack[top] == s[i])\n            top--;\n        else\n            stack[++top] = s[i];\n    }\n\n    stack[top + 1] = '\\0';\n    return stack;\n}"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 96,
+        "language": "C",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "int minOperations(int* nums, int numsSize, int k) {\n    int sum = 0;\n\n    for (int i = 0; i < numsSize; i++)\n        sum += nums[i];\n\n    return (k - (sum % k)) % k;\n}"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 97,
+        "language": "C",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <stdlib.h>\n\nint digitSum(int x) {\n    int sum = 0;\n\n    while (x > 0) {\n        sum += x % 10;\n        x /= 10;\n    }\n\n    return sum;\n}\n\ntypedef struct {\n    int sum;\n    int idx;\n} Node;\n\nint cmp(const void* a, const void* b) {\n    return ((Node*)a)->sum - ((Node*)b)->sum;\n}\n\nint minSwaps(int* nums, int numsSize) {\n    Node* arr = (Node*)malloc(numsSize * sizeof(Node));\n\n    for (int i = 0; i < numsSize; i++) {\n        arr[i].sum = digitSum(nums[i]);\n        arr[i].idx = i;\n    }\n\n    qsort(arr, numsSize, sizeof(Node), cmp);\n\n    int* visited = (int*)calloc(numsSize, sizeof(int));\n    int swaps = 0;\n\n    for (int i = 0; i < numsSize; i++) {\n        if (visited[i] || arr[i].idx == i)\n            continue;\n\n        int cycle = 0;\n        int j = i;\n\n        while (!visited[j]) {\n            visited[j] = 1;\n            j = arr[j].idx;\n            cycle++;\n        }\n\n        swaps += cycle - 1;\n    }\n\n    return swaps;\n}"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 98,
+        "language": "C",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "#include <stdbool.h>\n\nbool canPartitionGrid(int** grid, int gridSize, int* gridColSize) {\n    int total = 0;\n\n    for (int i = 0; i < gridSize; i++) {\n        for (int j = 0; j < gridColSize[0]; j++) {\n            total += grid[i][j];\n        }\n    }\n\n    int prefix = 0;\n\n    for (int i = 0; i < gridSize; i++) {\n        for (int j = 0; j < gridColSize[0]; j++) {\n            prefix += grid[i][j];\n        }\n\n        if (prefix * 2 == total)\n            return true;\n    }\n\n    return false;\n}"
+    }
+]

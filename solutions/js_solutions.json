@@ -1,58 +1,546 @@
 [
-  {
-    "title": "Longest Semi-Repeating Subarray",
-    "id": 3641,
-    "language": "JavaScript",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "var longestSubarray = function(nums, k) {\n    let freq = new Map();\n    let left = 0, repeated = 0, ans = 0;\n\n    for (let right = 0; right < nums.length; right++) {\n        freq.set(nums[right], (freq.get(nums[right]) || 0) + 1);\n\n        if (freq.get(nums[right]) === 2)\n            repeated++;\n\n        while (repeated > k) {\n            freq.set(nums[left], freq.get(nums[left]) - 1);\n\n            if (freq.get(nums[left]) === 1)\n                repeated--;\n\n            left++;\n        }\n\n        ans = Math.max(ans, right - left + 1);\n    }\n\n    return ans;\n};"
-  },
-  {
-    "title": "Earliest Finish Time for Land and Water Rides I",
-    "id": 3633,
-    "language": "JavaScript",
-    "time_complexity": "O(n^2)",
-    "space_complexity": "O(1)",
-    "solution": "var earliestFinishTime = function(landStart, landDur, waterStart, waterDur) {\n    let ans = Infinity;\n\n    for (let i = 0; i < landStart.length; i++) {\n        let landEnd = landStart[i] + landDur[i];\n\n        for (let j = 0; j < waterStart.length; j++) {\n            let start = Math.max(landEnd, waterStart[j]);\n            ans = Math.min(ans, start + waterDur[j]);\n        }\n    }\n\n    return ans;\n};"
-  },
-  {
-    "title": "Maximum Weight in Two Bags",
-    "id": 3647,
-    "language": "JavaScript",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "var maxWeight = function(weights) {\n    weights.sort((a, b) => b - a);\n\n    let n = weights.length;\n    let bag1 = 0, bag2 = 0;\n\n    for (let i = 0; i < n / 2; i++)\n        bag1 += weights[i];\n\n    for (let i = Math.floor(n / 2); i < n; i++)\n        bag2 += weights[i];\n\n    return Math.abs(bag1 - bag2);\n};"
-  },
-  {
-    "title": "Maximum Balanced Shipments",
-    "id": 3638,
-    "language": "JavaScript",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "var maxBalancedShipments = function(weight) {\n    let ans = 0;\n    let mn = weight[0];\n\n    for (let i = 1; i < weight.length; i++) {\n        if (weight[i] > mn) {\n            ans++;\n            mn = Infinity;\n        } else {\n            mn = Math.min(mn, weight[i]);\n        }\n    }\n\n    return ans;\n};"
-  },
-  {
-    "title": "Trionic Array II",
-    "id": 3640,
-    "language": "JavaScript",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "var trionic = function(nums) {\n    let n = nums.length;\n    let inc = new Array(n).fill(1);\n    let dec = new Array(n).fill(1);\n\n    for (let i = 1; i < n; i++) {\n        if (nums[i] > nums[i - 1])\n            inc[i] = inc[i - 1] + 1;\n    }\n\n    for (let i = n - 2; i >= 0; i--) {\n        if (nums[i] > nums[i + 1])\n            dec[i] = dec[i + 1] + 1;\n    }\n\n    let ans = 0;\n\n    for (let i = 0; i < n; i++)\n        ans = Math.max(ans, inc[i] + dec[i] - 1);\n\n    return ans;\n};"
-  },
-  {
-    "title": "Next Special Palindrome Number",
-    "id": 3646,
-    "language": "JavaScript",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "var nextPalindrome = function(n) {\n    n++;\n\n    while (true) {\n        let s = n.toString();\n\n        if (s === s.split('').reverse().join(''))\n            return n;\n\n        n++;\n    }\n};"
-  },
-  {
-    "title": "Sort Threats by Severity and Exploitability",
-    "id": 3631,
-    "language": "JavaScript",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "var sortThreats = function(threats) {\n    threats.sort((a, b) => {\n        if (a[0] !== b[0])\n            return b[0] - a[0];\n\n        return b[1] - a[1];\n    });\n\n    return threats;\n};"
-  }
+    {
+        "title": "Longest Semi-Repeating Subarray",
+        "id": 1,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var longestSubarray = function(nums, k) {\n    let freq = new Map();\n    let left = 0, repeated = 0, ans = 0;\n\n    for (let right = 0; right < nums.length; right++) {\n        freq.set(nums[right], (freq.get(nums[right]) || 0) + 1);\n\n        if (freq.get(nums[right]) === 2)\n            repeated++;\n\n        while (repeated > k) {\n            freq.set(nums[left], freq.get(nums[left]) - 1);\n\n            if (freq.get(nums[left]) === 1)\n                repeated--;\n\n            left++;\n        }\n\n        ans = Math.max(ans, right - left + 1);\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides I",
+        "id": 2,
+        "language": "JavaScript",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "var earliestFinishTime = function(landStart, landDur, waterStart, waterDur) {\n    let ans = Infinity;\n\n    for (let i = 0; i < landStart.length; i++) {\n        let landEnd = landStart[i] + landDur[i];\n\n        for (let j = 0; j < waterStart.length; j++) {\n            let start = Math.max(landEnd, waterStart[j]);\n            ans = Math.min(ans, start + waterDur[j]);\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Maximum Weight in Two Bags",
+        "id": 3,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var maxWeight = function(weights) {\n    weights.sort((a, b) => b - a);\n\n    let n = weights.length;\n    let bag1 = 0, bag2 = 0;\n\n    for (let i = 0; i < n / 2; i++)\n        bag1 += weights[i];\n\n    for (let i = Math.floor(n / 2); i < n; i++)\n        bag2 += weights[i];\n\n    return Math.abs(bag1 - bag2);\n};"
+    },
+    {
+        "title": "Maximum Balanced Shipments",
+        "id": 4,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var maxBalancedShipments = function(weight) {\n    let ans = 0;\n    let mn = weight[0];\n\n    for (let i = 1; i < weight.length; i++) {\n        if (weight[i] > mn) {\n            ans++;\n            mn = Infinity;\n        } else {\n            mn = Math.min(mn, weight[i]);\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Trionic Array II",
+        "id": 5,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var trionic = function(nums) {\n    let n = nums.length;\n    let inc = new Array(n).fill(1);\n    let dec = new Array(n).fill(1);\n\n    for (let i = 1; i < n; i++) {\n        if (nums[i] > nums[i - 1])\n            inc[i] = inc[i - 1] + 1;\n    }\n\n    for (let i = n - 2; i >= 0; i--) {\n        if (nums[i] > nums[i + 1])\n            dec[i] = dec[i + 1] + 1;\n    }\n\n    let ans = 0;\n\n    for (let i = 0; i < n; i++)\n        ans = Math.max(ans, inc[i] + dec[i] - 1);\n\n    return ans;\n};"
+    },
+    {
+        "title": "Next Special Palindrome Number",
+        "id": 6,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var nextPalindrome = function(n) {\n    n++;\n\n    while (true) {\n        let s = n.toString();\n\n        if (s === s.split('').reverse().join(''))\n            return n;\n\n        n++;\n    }\n};"
+    },
+    {
+        "title": "Sort Threats by Severity and Exploitability",
+        "id": 7,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var sortThreats = function(threats) {\n    threats.sort((a, b) => {\n        if (a[0] !== b[0])\n            return b[0] - a[0];\n\n        return b[1] - a[1];\n    });\n\n    return threats;\n};"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 8,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT student_id, study_date, hours_studied\\nFROM StudyRecords\\nORDER BY student_id, study_date;"
+    },
+    {
+        "title": "Minimum Removals to Balance Array",
+        "id": 9,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var minimumRemovals = function(nums) {\n    nums.sort((a, b) => a - b);\n\n    let n = nums.length;\n    let left = 0;\n    let ans = n;\n\n    for (let right = 0; right < n; right++) {\n        while (nums[right] > 2 * nums[left])\n            left++;\n\n        ans = Math.min(ans, n - (right - left + 1));\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Threshold Majority Queries",
+        "id": 10,
+        "language": "JavaScript",
+        "time_complexity": "O(n + q log n)",
+        "space_complexity": "O(n)",
+        "solution": "class MajorityChecker {\n    constructor(arr) {\n        this.pos = new Map();\n\n        for (let i = 0; i < arr.length; i++) {\n            if (!this.pos.has(arr[i]))\n                this.pos.set(arr[i], []);\n\n            this.pos.get(arr[i]).push(i);\n        }\n    }\n\n    query(left, right, threshold) {\n        for (let [num, indices] of this.pos.entries()) {\n            let cnt = this.upperBound(indices, right) - this.lowerBound(indices, left);\n\n            if (cnt >= threshold)\n                return num;\n        }\n\n        return -1;\n    }\n\n    lowerBound(arr, target) {\n        let l = 0, r = arr.length;\n\n        while (l < r) {\n            let m = Math.floor((l + r) / 2);\n\n            if (arr[m] < target)\n                l = m + 1;\n            else\n                r = m;\n        }\n\n        return l;\n    }\n\n    upperBound(arr, target) {\n        let l = 0, r = arr.length;\n\n        while (l < r) {\n            let m = Math.floor((l + r) / 2);\n\n            if (arr[m] <= target)\n                l = m + 1;\n            else\n                r = m;\n        }\n\n        return l;\n    }\n}"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides II",
+        "id": 11,
+        "language": "JavaScript",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "var earliestFinishTime = function(landStart, landDur, waterStart, waterDur) {\n    let ans = Infinity;\n\n    for (let i = 0; i < landStart.length; i++) {\n        let landEnd = landStart[i] + landDur[i];\n\n        for (let j = 0; j < waterStart.length; j++) {\n            let start = Math.max(landEnd, waterStart[j]);\n            ans = Math.min(ans, start + waterDur[j]);\n        }\n    }\n\n    for (let i = 0; i < waterStart.length; i++) {\n        let waterEnd = waterStart[i] + waterDur[i];\n\n        for (let j = 0; j < landStart.length; j++) {\n            let start = Math.max(waterEnd, landStart[j]);\n            ans = Math.min(ans, start + landDur[j]);\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Flip Square Submatrix Vertically",
+        "id": 12,
+        "language": "JavaScript",
+        "time_complexity": "O(k^2)",
+        "space_complexity": "O(1)",
+        "solution": "var flipSquare = function(grid, row, col, k) {\n    for (let i = 0; i < Math.floor(k / 2); i++) {\n        for (let j = 0; j < k; j++) {\n            let temp = grid[row + i][col + j];\n            grid[row + i][col + j] = grid[row + k - 1 - i][col + j];\n            grid[row + k - 1 - i][col + j] = temp;\n        }\n    }\n\n    return grid;\n};"
+    },
+    {
+        "title": "Maximum Number of Subsequences After One Inserting",
+        "id": 13,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var maximumSubsequenceCount = function(text, pattern) {\n    let first = 0, second = 0, ans = 0;\n\n    for (let ch of text) {\n        if (ch === pattern[1])\n            ans += first;\n\n        if (ch === pattern[0])\n            first++;\n\n        if (ch === pattern[1])\n            second++;\n    }\n\n    return ans + Math.max(first, second);\n};"
+    },
+    {
+        "title": "Maximum Total from Optimal Activation Order",
+        "id": 14,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var maximumTotal = function(nums) {\n    nums.sort((a, b) => b - a);\n\n    let ans = 0;\n\n    for (let i = 0; i < nums.length; i++)\n        ans += nums[i] * (i + 1);\n\n    return ans;\n};"
+    },
+    {
+        "title": "Number of Student Replacements",
+        "id": 15,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var countReplacements = function(students) {\n    let ans = 0;\n\n    for (let i = 1; i < students.length; i++) {\n        if (students[i] !== students[i - 1])\n            ans++;\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Find Overbooked Employees",
+        "id": 16,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM meetings\\nGROUP BY employee_id, meeting_date\\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "title": "Split Array by Prime Indices",
+        "id": 17,
+        "language": "JavaScript",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "var isPrime = function(n) {\n    if (n < 2)\n        return false;\n\n    for (let i = 2; i * i <= n; i++) {\n        if (n % i === 0)\n            return false;\n    }\n\n    return true;\n};\n\nvar splitArray = function(nums) {\n    let primeSum = 0;\n    let nonPrimeSum = 0;\n\n    for (let i = 0; i < nums.length; i++) {\n        if (isPrime(i))\n            primeSum += nums[i];\n        else\n            nonPrimeSum += nums[i];\n    }\n\n    return primeSum - nonPrimeSum;\n};"
+    },
+    {
+        "title": "Coupon Code Validator",
+        "id": 18,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var isValid = function(code) {\n    if (code.length < 3)\n        return false;\n\n    for (let ch of code) {\n        if (!(/[a-zA-Z0-9_]/.test(ch)))\n            return false;\n    }\n\n    return true;\n};"
+    },
+    {
+        "title": "Find Drivers with Improved Fuel Efficiency",
+        "id": 19,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT driver_id\\nFROM trips\\nGROUP BY driver_id\\nHAVING AVG(CASE WHEN trip_date < '2024-01-01' THEN fuel_efficiency END) <\\n       AVG(CASE WHEN trip_date >= '2024-01-01' THEN fuel_efficiency END);"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K I",
+        "id": 20,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var countIntegers = function(n, k) {\n    function popcountDepth(x) {\n        let depth = 0;\n\n        while (x > 1) {\n            x = x.toString(2).split('1').length - 1;\n            depth++;\n        }\n\n        return depth;\n    }\n\n    let ans = 0;\n\n    for (let i = 1; i <= n; i++) {\n        if (popcountDepth(i) === k)\n            ans++;\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Minimum Time to Activate String",
+        "id": 21,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var minimumTime = function(s) {\n    let ans = 0;\n\n    for (let i = 0; i < s.length; i++) {\n        if (s[i] === '1')\n            ans = Math.max(ans + 1, i + 1);\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Find COVID Recovery Patients",
+        "id": 22,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT patient_id\\nFROM patients\\nGROUP BY patient_id\\nHAVING MAX(status = 'Recovered') = 1\\nAND MAX(status = 'COVID') = 1;"
+    },
+    {
+        "title": "Once Twice",
+        "id": 23,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var onceTwice = function(nums) {\n    let ones = 0, twos = 0;\n\n    for (let num of nums) {\n        ones = (ones ^ num) & ~twos;\n        twos = (twos ^ num) & ~ones;\n    }\n\n    return ones;\n};"
+    },
+    {
+        "title": "Subarrays with XOR at Least K",
+        "id": 24,
+        "language": "JavaScript",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "var countSubarrays = function(nums, k) {\n    let ans = 0;\n\n    for (let i = 0; i < nums.length; i++) {\n        let xr = 0;\n\n        for (let j = i; j < nums.length; j++) {\n            xr ^= nums[j];\n\n            if (xr >= k)\n                ans++;\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K II",
+        "id": 25,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var countDepth = function(nums, k) {\n    function popcountDepth(x) {\n        let depth = 0;\n\n        while (x > 1) {\n            x = x.toString(2).split('1').length - 1;\n            depth++;\n        }\n\n        return depth;\n    }\n\n    let ans = 0;\n\n    for (let num of nums) {\n        if (popcountDepth(num) === k)\n            ans++;\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Minimum Number of Primes to Sum to Target",
+        "id": 26,
+        "language": "JavaScript",
+        "time_complexity": "O(sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "var minPrimes = function(n) {\n    function isPrime(x) {\n        if (x < 2)\n            return false;\n\n        for (let i = 2; i * i <= x; i++) {\n            if (x % i === 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    if (isPrime(n))\n        return 1;\n\n    for (let i = 2; i <= n; i++) {\n        if (isPrime(i) && isPrime(n - i))\n            return 2;\n    }\n\n    return 3;\n};"
+    },
+    {
+        "title": "Process String with Special Operations II",
+        "id": 27,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var processString = function(s) {\n    let result = [];\n\n    for (let ch of s) {\n        if (ch === '*') {\n            if (result.length)\n                result.pop();\n        } else {\n            result.push(ch);\n        }\n    }\n\n    return result.join('');\n};"
+    },
+    {
+        "title": "Count Odd Letters from Number",
+        "id": 28,
+        "language": "JavaScript",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "var countOddLetters = function(n) {\n    const words = ['zero','one','two','three','four','five','six','seven','eight','nine'];\n    let freq = new Array(26).fill(0);\n\n    while (n > 0) {\n        let d = n % 10;\n\n        for (let ch of words[d])\n            freq[ch.charCodeAt(0) - 97]++;\n\n        n = Math.floor(n / 10);\n    }\n\n    let ans = 0;\n\n    for (let x of freq) {\n        if (x % 2)\n            ans++;\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Maximum K to Sort a Permutation",
+        "id": 29,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var maximumK = function(nums) {\n    let chunks = 0;\n    let maxVal = 0;\n\n    for (let i = 0; i < nums.length; i++) {\n        maxVal = Math.max(maxVal, nums[i]);\n\n        if (maxVal === i)\n            chunks++;\n    }\n\n    return chunks;\n};"
+    },
+    {
+        "title": "Minimum Jumps to Reach End via Prime Teleportation",
+        "id": 30,
+        "language": "JavaScript",
+        "time_complexity": "O(n^2 * sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "var minJumps = function(nums) {\n    function isPrime(x) {\n        if (x < 2)\n            return false;\n\n        for (let i = 2; i * i <= x; i++) {\n            if (x % i === 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    let n = nums.length;\n    let dist = new Array(n).fill(Infinity);\n    dist[0] = 0;\n\n    for (let i = 0; i < n; i++) {\n        if (i + 1 < n)\n            dist[i + 1] = Math.min(dist[i + 1], dist[i] + 1);\n\n        for (let j = i + 1; j < n; j++) {\n            if (isPrime(Math.abs(nums[i] - nums[j])))\n                dist[j] = Math.min(dist[j], dist[i] + 1);\n        }\n    }\n\n    return dist[n - 1];\n};"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions II",
+        "id": 31,
+        "language": "JavaScript",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "var minCostPath = function(grid) {\n    let m = grid.length;\n    let n = grid[0].length;\n\n    let dp = Array.from({length: m}, () => Array(n).fill(Infinity));\n    dp[0][0] = grid[0][0];\n\n    for (let i = 0; i < m; i++) {\n        for (let j = 0; j < n; j++) {\n            if (i > 0)\n                dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + grid[i][j]);\n\n            if (j > 0)\n                dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + grid[i][j]);\n        }\n    }\n\n    return dp[m - 1][n - 1];\n};"
+    },
+    {
+        "title": "Process String with Special Operations I",
+        "id": 32,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var processStr = function(s) {\n    let res = [];\n\n    for (let c of s) {\n        if (c === '*') {\n            if (res.length) res.pop();\n        } else {\n            res.push(c);\n        }\n    }\n\n    return res.join('');\n};"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions I",
+        "id": 33,
+        "language": "JavaScript",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(n*m)",
+        "solution": "var minCost = function(grid) {\n    const n = grid.length;\n    const m = grid[0].length;\n\n    let dist = Array.from({length:n},()=>Array(m).fill(Infinity));\n    let q = [[0,0]];\n    dist[0][0] = 0;\n\n    let dx = [0,0,1,-1];\n    let dy = [1,-1,0,0];\n\n    while(q.length){\n        let [x,y] = q.shift();\n\n        for(let d=0; d<4; d++){\n            let nx=x+dx[d], ny=y+dy[d];\n\n            if(nx>=0 && ny>=0 && nx<n && ny<m){\n                let cost = dist[x][y] + (grid[x][y] !== d+1);\n\n                if(cost < dist[nx][ny]){\n                    dist[nx][ny]=cost;\n                    q.push([nx,ny]);\n                }\n            }\n        }\n    }\n\n    return dist[n-1][m-1];\n};"
+    },
+    {
+        "title": "Minimum Moves to Reach Target in Grid",
+        "id": 34,
+        "language": "JavaScript",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(n*m)",
+        "solution": "var minMoves = function(grid) {\n    let n = grid.length;\n    let q = [[0,0,0]];\n    let vis = new Set(['0,0']);\n\n    let dx=[1,-1,0,0];\n    let dy=[0,0,1,-1];\n\n    while(q.length){\n        let [x,y,d]=q.shift();\n\n        if(x===n-1 && y===n-1)\n            return d;\n\n        for(let i=0;i<4;i++){\n            let nx=x+dx[i], ny=y+dy[i];\n\n            if(nx>=0 && ny>=0 && nx<n && ny<n && grid[nx][ny]===0){\n                let key=`${nx},${ny}`;\n\n                if(!vis.has(key)){\n                    vis.add(key);\n                    q.push([nx,ny,d+1]);\n                }\n            }\n        }\n    }\n\n    return -1;\n};"
+    },
+    {
+        "title": "Trionic Array I",
+        "id": 35,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var isTrionic = function(nums) {\n    let n = nums.length;\n    let i = 1;\n\n    while(i<n && nums[i]>nums[i-1]) i++;\n    while(i<n && nums[i]<nums[i-1]) i++;\n\n    return i===n;\n};"
+    },
+    {
+        "title": "Minimum Stability Factor of Array",
+        "id": 36,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "var minimumStability = function(nums) {\n    nums.sort((a,b)=>a-b);\n\n    let ans = Infinity;\n\n    for(let i=1;i<nums.length;i++)\n        ans = Math.min(ans, nums[i]-nums[i-1]);\n\n    return ans;\n};"
+    },
+    {
+        "title": "Check if Any Element Has Prime Frequency",
+        "id": 37,
+        "language": "JavaScript",
+        "time_complexity": "O(n√n)",
+        "space_complexity": "O(n)",
+        "solution": "var checkPrimeFrequency = function(nums) {\n    let mp = new Map();\n\n    for(let x of nums)\n        mp.set(x, (mp.get(x)||0)+1);\n\n    const isPrime = (n) => {\n        if(n < 2) return false;\n\n        for(let i=2;i*i<=n;i++)\n            if(n%i===0) return false;\n\n        return true;\n    };\n\n    for(let v of mp.values())\n        if(isPrime(v)) return true;\n\n    return false;\n};"
+    },
+    {
+        "title": "Longest Palindromic Path in Graph",
+        "id": 38,
+        "language": "JavaScript",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(1)",
+        "solution": "var longestPalindrome = function(graph) {\n    let ans = 1;\n\n    for(let s of graph){\n        let rev = s.split('').reverse().join('');\n\n        if(rev === s)\n            ans = Math.max(ans, s.length);\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Find Consistently Improving Employees",
+        "id": 39,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM performance_reviews\\nGROUP BY employee_id\\nHAVING COUNT(*) >= 2\\nAND MIN(score) < MAX(score);"
+    },
+    {
+        "title": "Network Recovery Pathways",
+        "id": 40,
+        "language": "JavaScript",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "var shortestPath = function(n, edges, src) {\n    let g = Array.from({length:n},()=>[]);\n\n    for(let [u,v,w] of edges)\n        g[u].push([v,w]);\n\n    let dist = Array(n).fill(Infinity);\n    dist[src] = 0;\n\n    let pq = [[0,src]];\n\n    while(pq.length){\n        pq.sort((a,b)=>a[0]-b[0]);\n\n        let [d,u] = pq.shift();\n\n        for(let [v,w] of g[u]){\n            if(dist[v] > d+w){\n                dist[v] = d+w;\n                pq.push([dist[v],v]);\n            }\n        }\n    }\n\n    return dist;\n};"
+    },
+    {
+        "title": "Hexadecimal and Hexatrigesimal Conversion",
+        "id": 41,
+        "language": "JavaScript",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "var toHex36 = function(n) {\n    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';\n\n    if(n===0) return '0';\n\n    let res = '';\n\n    while(n){\n        res = chars[n%36] + res;\n        n = Math.floor(n/36);\n    }\n\n    return res;\n};"
+    },
+    {
+        "title": "Minimum Increments to Equalize Leaf Paths",
+        "id": 42,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(h)",
+        "solution": "var minIncrements = function(n, cost) {\n    let ans = 0;\n\n    const dfs = (i) => {\n        if(i >= cost.length) return 0;\n\n        let l = dfs(2*i+1);\n        let r = dfs(2*i+2);\n\n        ans += Math.abs(l-r);\n\n        return cost[i] + Math.max(l,r);\n    };\n\n    dfs(0);\n    return ans;\n};"
+    },
+    {
+        "title": "Count Prime-Gap Balanced Subarrays",
+        "id": 43,
+        "language": "JavaScript",
+        "time_complexity": "O(n²)",
+        "space_complexity": "O(1)",
+        "solution": "var countBalanced = function(nums) {\n    let ans = 0;\n\n    for(let i=0;i<nums.length;i++){\n        let mn=nums[i], mx=nums[i];\n\n        for(let j=i;j<nums.length;j++){\n            mn=Math.min(mn,nums[j]);\n            mx=Math.max(mx,nums[j]);\n\n            if((mx-mn)%2===0)\n                ans++;\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Find the Shortest Superstring II",
+        "id": 44,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var shortestSuperstring = function(words) {\n    return words.join('');\n};"
+    },
+    {
+        "title": "Find Books with No Available Copies",
+        "id": 45,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\\nFROM library_books\\nWHERE available_copies = 0;"
+    },
+    {
+        "title": "Kth Smallest Path XOR Sum",
+        "id": 46,
+        "language": "JavaScript",
+        "time_complexity": "O(n² log n)",
+        "space_complexity": "O(n²)",
+        "solution": "var kthSmallestXor = function(nums, k) {\n    let vals=[];\n\n    for(let i=0;i<nums.length;i++){\n        let x=0;\n\n        for(let j=i;j<nums.length;j++){\n            x ^= nums[j];\n            vals.push(x);\n        }\n    }\n\n    vals.sort((a,b)=>a-b);\n\n    return vals[k-1];\n};"
+    },
+    {
+        "title": "Minimum Adjacent Swaps to Alternate Parity",
+        "id": 47,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var minSwaps = function(nums) {\n    let even=[], odd=[];\n\n    for(let i=0;i<nums.length;i++){\n        if(nums[i]%2===0) even.push(i);\n        else odd.push(i);\n    }\n\n    if(Math.abs(even.length-odd.length)>1)\n        return -1;\n\n    return 0;\n};"
+    },
+    {
+        "title": "Inverse Coin Change",
+        "id": 48,
+        "language": "JavaScript",
+        "time_complexity": "O(amount*n)",
+        "space_complexity": "O(amount)",
+        "solution": "var coinChange = function(coins, amount) {\n    let dp = Array(amount+1).fill(Infinity);\n    dp[0]=0;\n\n    for(let c of coins){\n        for(let i=c;i<=amount;i++)\n            dp[i]=Math.min(dp[i], dp[i-c]+1);\n    }\n\n    return dp[amount]===Infinity?-1:dp[amount];\n};"
+    },
+    {
+        "title": "Partition String",
+        "id": 49,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var partitionString = function(s) {\n    let set = new Set();\n    let ans = 1;\n\n    for(let c of s){\n        if(set.has(c)){\n            ans++;\n            set.clear();\n        }\n\n        set.add(c);\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Minimum Time for K Connected Components",
+        "id": 50,
+        "language": "JavaScript",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "class DSU {\n    constructor(n){\n        this.p = Array.from({length:n},(_,i)=>i);\n    }\n\n    find(x){\n        if(this.p[x]!==x)\n            this.p[x]=this.find(this.p[x]);\n\n        return this.p[x];\n    }\n\n    unite(a,b){\n        a=this.find(a);\n        b=this.find(b);\n\n        if(a===b) return false;\n\n        this.p[a]=b;\n        return true;\n    }\n}"
+    },
+    {
+        "title": "Minimum Time to Reach Destination in Directed Graph",
+        "id": 51,
+        "language": "JavaScript",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "var shortestPath = function(n, edges) {\n    let g = Array.from({length:n},()=>[]);\n\n    for(let [u,v,w] of edges)\n        g[u].push([v,w]);\n\n    let dist = Array(n).fill(Infinity);\n    dist[0]=0;\n\n    let pq=[[0,0]];\n\n    while(pq.length){\n        pq.sort((a,b)=>a[0]-b[0]);\n\n        let [d,u]=pq.shift();\n\n        for(let [v,w] of g[u]){\n            if(dist[v]>d+w){\n                dist[v]=d+w;\n                pq.push([dist[v],v]);\n            }\n        }\n    }\n\n    return dist[n-1];\n};"
+    },
+    {
+        "title": "Maximize Spanning Tree Stability with Upgrades",
+        "id": 52,
+        "language": "JavaScript",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "class DSU {\n    constructor(n){\n        this.p = Array.from({length:n},(_,i)=>i);\n    }\n\n    find(x){\n        if(this.p[x]!==x)\n            this.p[x]=this.find(this.p[x]);\n\n        return this.p[x];\n    }\n\n    unite(a,b){\n        a=this.find(a);\n        b=this.find(b);\n\n        if(a===b) return false;\n\n        this.p[a]=b;\n        return true;\n    }\n}"
+    },
+    {
+        "title": "Seasonal Sales Analysis",
+        "id": 53,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT season, SUM(sales_amount) AS total_sales\\nFROM sales\\nGROUP BY season;"
+    },
+    {
+        "title": "Maximize Y-Sum by Picking a Triplet of Distinct X-Values",
+        "id": 54,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "var maximizeSum = function(points) {\n    points.sort((a,b)=>b[1]-a[1]);\n\n    let used = new Set();\n    let ans = 0;\n\n    for(let [x,y] of points){\n        if(!used.has(x)){\n            used.add(x);\n            ans += y;\n        }\n\n        if(used.size===3) break;\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Find Weighted Median Node in Tree",
+        "id": 55,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var weightedMedian = function(weights) {\n    let sum = weights.reduce((a,b)=>a+b,0);\n    let cur = 0;\n\n    for(let i=0;i<weights.length;i++){\n        cur += weights[i];\n\n        if(cur*2 >= sum)\n            return i;\n    }\n\n    return -1;\n};"
+    },
+    {
+        "title": "Maximize Subarray GCD Score",
+        "id": 56,
+        "language": "JavaScript",
+        "time_complexity": "O(n² log n)",
+        "space_complexity": "O(1)",
+        "solution": "var gcdScore = function(nums) {\n    const gcd = (a,b)=>b===0?a:gcd(b,a%b);\n\n    let ans=0;\n\n    for(let i=0;i<nums.length;i++){\n        let g=0;\n\n        for(let j=i;j<nums.length;j++){\n            g=gcd(g,nums[j]);\n            ans=Math.max(ans,g*(j-i+1));\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Minimum Time to Transport All Individuals",
+        "id": 57,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var minTime = function(time) {\n    return Math.max(...time);\n};"
+    },
+    {
+        "title": "Best Time to Buy and Sell Stock V",
+        "id": 58,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var maxProfit = function(prices) {\n    let mn = Infinity;\n    let ans = 0;\n\n    for(let p of prices){\n        mn = Math.min(mn,p);\n        ans = Math.max(ans,p-mn);\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 59,
+        "language": "JavaScript",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "var maximumPath = function(n, edges, k) {\n    let dp = new Array(n).fill(-Infinity);\n    dp[0] = 0;\n\n    for (let step = 0; step < k; step++) {\n        let next = [...dp];\n\n        for (let [u, v, w] of edges) {\n            if (dp[u] !== -Infinity) {\n                next[v] = Math.max(next[v], dp[u] + w);\n            }\n        }\n\n        dp = next;\n    }\n\n    return Math.max(...dp);\n};"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 60,
+        "language": "JavaScript",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "var minimumCost = function(n, edges) {\n    let parent = Array.from({ length: n }, (_, i) => i);\n\n    const find = (x) => {\n        if (parent[x] !== x)\n            parent[x] = find(parent[x]);\n        return parent[x];\n    };\n\n    const union = (a, b) => {\n        parent[find(a)] = find(b);\n    };\n\n    edges.sort((a, b) => a[2] - b[2]);\n\n    let ans = 0;\n\n    for (let [u, v, w] of edges) {\n        if (find(u) !== find(v)) {\n            union(u, v);\n            ans += w;\n        }\n    }\n\n    return ans;\n};"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 61,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var minOperations = function(nums) {\n    let prefix = 0;\n    let operations = 0;\n\n    for (let num of nums) {\n        prefix += num;\n\n        if (prefix <= 0) {\n            operations += 1 - prefix;\n            prefix = 1;\n        }\n    }\n\n    return operations;\n};"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 62,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var subtreeInversionSum = function(parent, values) {\n    let n = parent.length;\n    let tree = Array.from({ length: n }, () => []);\n\n    for (let i = 1; i < n; i++) {\n        tree[parent[i]].push(i);\n    }\n\n    let ans = 0;\n\n    const dfs = (node) => {\n        let sum = values[node];\n\n        for (let child of tree[node]) {\n            sum += dfs(child);\n        }\n\n        ans += sum;\n        return sum;\n    };\n\n    dfs(0);\n    return ans;\n};"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 63,
+        "language": "JavaScript",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "var minimumWeight = function(n, edges) {\n    let total = 0;\n\n    for (let [u, v, w] of edges) {\n        total += w;\n    }\n\n    return total;\n};"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 64,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var maxProfit = function(prices) {\n    let profit = 0;\n\n    for (let i = 1; i < prices.length; i++) {\n        if (prices[i] > prices[i - 1]) {\n            profit += prices[i] - prices[i - 1];\n        }\n    }\n\n    return profit;\n};"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 65,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "var resultingString = function(s) {\n    let stack = [];\n\n    for (let ch of s) {\n        if (stack.length && stack[stack.length - 1] === ch)\n            stack.pop();\n        else\n            stack.push(ch);\n    }\n\n    return stack.join('');\n};"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 66,
+        "language": "JavaScript",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "var minOperations = function(nums, k) {\n    let sum = 0;\n\n    for (let num of nums)\n        sum += num;\n\n    return (k - (sum % k)) % k;\n};"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 67,
+        "language": "JavaScript",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "var minSwaps = function(nums) {\n    const digitSum = (x) => {\n        let sum = 0;\n\n        while (x > 0) {\n            sum += x % 10;\n            x = Math.floor(x / 10);\n        }\n\n        return sum;\n    };\n\n    let arr = nums.map((num, idx) => [digitSum(num), idx]);\n    arr.sort((a, b) => a[0] - b[0]);\n\n    let visited = new Array(nums.length).fill(false);\n    let swaps = 0;\n\n    for (let i = 0; i < nums.length; i++) {\n        if (visited[i] || arr[i][1] === i)\n            continue;\n\n        let cycle = 0;\n        let j = i;\n\n        while (!visited[j]) {\n            visited[j] = true;\n            j = arr[j][1];\n            cycle++;\n        }\n\n        swaps += cycle - 1;\n    }\n\n    return swaps;\n};"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 68,
+        "language": "JavaScript",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "var canPartitionGrid = function(grid) {\n    let total = 0;\n\n    for (let row of grid) {\n        for (let val of row)\n            total += val;\n    }\n\n    let prefix = 0;\n\n    for (let row of grid) {\n        for (let val of row)\n            prefix += val;\n\n        if (prefix * 2 === total)\n            return true;\n    }\n\n    return false;\n};"
+    }
 ]

@@ -1,58 +1,786 @@
 [
-  {
-    "title": "Longest Semi-Repeating Subarray",
-    "id": 3641,
-    "language": "C++",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int longestSubarray(vector<int>& nums, int k) {\n        unordered_map<int, int> freq;\n        int left = 0, repeated = 0, ans = 0;\n\n        for (int right = 0; right < nums.size(); right++) {\n            freq[nums[right]]++;\n\n            if (freq[nums[right]] == 2)\n                repeated++;\n\n            while (repeated > k) {\n                freq[nums[left]]--;\n\n                if (freq[nums[left]] == 1)\n                    repeated--;\n\n                left++;\n            }\n\n            ans = max(ans, right - left + 1);\n        }\n\n        return ans;\n    }\n};"
-  },
-  {
-    "title": "Earliest Finish Time for Land and Water Rides I",
-    "id": 3633,
-    "language": "C++",
-    "time_complexity": "O(n^2)",
-    "space_complexity": "O(1)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int earliestFinishTime(vector<int>& landStart, vector<int>& landDur,\n                           vector<int>& waterStart, vector<int>& waterDur) {\n        int ans = INT_MAX;\n\n        for (int i = 0; i < landStart.size(); i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.size(); j++) {\n                int start = max(landEnd, waterStart[j]);\n                ans = min(ans, start + waterDur[j]);\n            }\n        }\n\n        return ans;\n    }\n};"
-  },
-  {
-    "title": "Maximum Weight in Two Bags",
-    "id": 3647,
-    "language": "C++",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxWeight(vector<int>& weights) {\n        sort(weights.begin(), weights.end(), greater<int>());\n\n        int n = weights.size();\n        int bag1 = 0, bag2 = 0;\n\n        for (int i = 0; i < n / 2; i++)\n            bag1 += weights[i];\n\n        for (int i = n / 2; i < n; i++)\n            bag2 += weights[i];\n\n        return abs(bag1 - bag2);\n    }\n};"
-  },
-  {
-    "title": "Maximum Balanced Shipments",
-    "id": 3638,
-    "language": "C++",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxBalancedShipments(vector<int>& weight) {\n        int ans = 0;\n        int mn = weight[0];\n\n        for (int i = 1; i < weight.size(); i++) {\n            if (weight[i] > mn) {\n                ans++;\n                mn = INT_MAX;\n            } else {\n                mn = min(mn, weight[i]);\n            }\n        }\n\n        return ans;\n    }\n};"
-  },
-  {
-    "title": "Trionic Array II",
-    "id": 3640,
-    "language": "C++",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(n)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int trionic(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> inc(n, 1), dec(n, 1);\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] > nums[i - 1])\n                inc[i] = inc[i - 1] + 1;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                dec[i] = dec[i + 1] + 1;\n        }\n\n        int ans = 0;\n\n        for (int i = 0; i < n; i++)\n            ans = max(ans, inc[i] + dec[i] - 1);\n\n        return ans;\n    }\n};"
-  },
-  {
-    "title": "Next Special Palindrome Number",
-    "id": 3646,
-    "language": "C++",
-    "time_complexity": "O(n)",
-    "space_complexity": "O(1)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPalindrome(long long n) {\n        long long rev = 0, temp = n;\n\n        while (temp > 0) {\n            rev = rev * 10 + temp % 10;\n            temp /= 10;\n        }\n\n        return rev == n;\n    }\n\n    long long nextPalindrome(long long n) {\n        n++;\n\n        while (!isPalindrome(n))\n            n++;\n\n        return n;\n    }\n};"
-  },
-  {
-    "title": "Sort Threats by Severity and Exploitability",
-    "id": 3631,
-    "language": "C++",
-    "time_complexity": "O(n log n)",
-    "space_complexity": "O(1)",
-    "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<vector<int>> sortThreats(vector<vector<int>>& threats) {\n        sort(threats.begin(), threats.end(), [](vector<int>& a, vector<int>& b) {\n            if (a[0] != b[0])\n                return a[0] > b[0];\n            return a[1] > b[1];\n        });\n\n        return threats;\n    }\n};"
-  }
+    {
+        "title": "Longest Semi-Repeating Subarray",
+        "id": 1,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int longestSubarray(vector<int>& nums, int k) {\n        unordered_map<int, int> freq;\n        int left = 0, repeated = 0, ans = 0;\n\n        for (int right = 0; right < nums.size(); right++) {\n            freq[nums[right]]++;\n\n            if (freq[nums[right]] == 2)\n                repeated++;\n\n            while (repeated > k) {\n                freq[nums[left]]--;\n\n                if (freq[nums[left]] == 1)\n                    repeated--;\n\n                left++;\n            }\n\n            ans = max(ans, right - left + 1);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides I",
+        "id": 2,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int earliestFinishTime(vector<int>& landStart, vector<int>& landDur,\n                           vector<int>& waterStart, vector<int>& waterDur) {\n        int ans = INT_MAX;\n\n        for (int i = 0; i < landStart.size(); i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.size(); j++) {\n                int start = max(landEnd, waterStart[j]);\n                ans = min(ans, start + waterDur[j]);\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Maximum Weight in Two Bags",
+        "id": 3,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxWeight(vector<int>& weights) {\n        sort(weights.begin(), weights.end(), greater<int>());\n\n        int n = weights.size();\n        int bag1 = 0, bag2 = 0;\n\n        for (int i = 0; i < n / 2; i++)\n            bag1 += weights[i];\n\n        for (int i = n / 2; i < n; i++)\n            bag2 += weights[i];\n\n        return abs(bag1 - bag2);\n    }\n};"
+    },
+    {
+        "title": "Maximum Balanced Shipments",
+        "id": 4,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxBalancedShipments(vector<int>& weight) {\n        int ans = 0;\n        int mn = weight[0];\n\n        for (int i = 1; i < weight.size(); i++) {\n            if (weight[i] > mn) {\n                ans++;\n                mn = INT_MAX;\n            } else {\n                mn = min(mn, weight[i]);\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Trionic Array II",
+        "id": 5,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int trionic(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> inc(n, 1), dec(n, 1);\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] > nums[i - 1])\n                inc[i] = inc[i - 1] + 1;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                dec[i] = dec[i + 1] + 1;\n        }\n\n        int ans = 0;\n\n        for (int i = 0; i < n; i++)\n            ans = max(ans, inc[i] + dec[i] - 1);\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Next Special Palindrome Number",
+        "id": 6,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPalindrome(long long n) {\n        long long rev = 0, temp = n;\n\n        while (temp > 0) {\n            rev = rev * 10 + temp % 10;\n            temp /= 10;\n        }\n\n        return rev == n;\n    }\n\n    long long nextPalindrome(long long n) {\n        n++;\n\n        while (!isPalindrome(n))\n            n++;\n\n        return n;\n    }\n};"
+    },
+    {
+        "title": "Sort Threats by Severity and Exploitability",
+        "id": 7,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<vector<int>> sortThreats(vector<vector<int>>& threats) {\n        sort(threats.begin(), threats.end(), [](vector<int>& a, vector<int>& b) {\n            if (a[0] != b[0])\n                return a[0] > b[0];\n            return a[1] > b[1];\n        });\n\n        return threats;\n    }\n};"
+    },
+    {
+        "title": "Find Students with Study Spiral Pattern",
+        "id": 8,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT student_id, study_date, hours_studied\\nFROM StudyRecords\\nORDER BY student_id, study_date;"
+    },
+    {
+        "title": "Minimum Removals to Balance Array",
+        "id": 9,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumRemovals(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n\n        int n = nums.size();\n        int left = 0;\n        int ans = n;\n\n        for (int right = 0; right < n; right++) {\n            while (nums[right] > 2 * nums[left])\n                left++;\n\n            ans = min(ans, n - (right - left + 1));\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Threshold Majority Queries",
+        "id": 10,
+        "language": "C++",
+        "time_complexity": "O(n + q log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass MajorityChecker {\n    unordered_map<int, vector<int>> pos;\n\npublic:\n    MajorityChecker(vector<int>& arr) {\n        for (int i = 0; i < arr.size(); i++)\n            pos[arr[i]].push_back(i);\n    }\n\n    int query(int left, int right, int threshold) {\n        for (auto& [num, indices] : pos) {\n            int cnt = upper_bound(indices.begin(), indices.end(), right) -\n                      lower_bound(indices.begin(), indices.end(), left);\n\n            if (cnt >= threshold)\n                return num;\n        }\n\n        return -1;\n    }\n};"
+    },
+    {
+        "title": "Earliest Finish Time for Land and Water Rides II",
+        "id": 11,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int earliestFinishTime(vector<int>& landStart, vector<int>& landDur,\n                           vector<int>& waterStart, vector<int>& waterDur) {\n        int ans = INT_MAX;\n\n        for (int i = 0; i < landStart.size(); i++) {\n            int landEnd = landStart[i] + landDur[i];\n\n            for (int j = 0; j < waterStart.size(); j++) {\n                int start = max(landEnd, waterStart[j]);\n                ans = min(ans, start + waterDur[j]);\n            }\n        }\n\n        for (int i = 0; i < waterStart.size(); i++) {\n            int waterEnd = waterStart[i] + waterDur[i];\n\n            for (int j = 0; j < landStart.size(); j++) {\n                int start = max(waterEnd, landStart[j]);\n                ans = min(ans, start + landDur[j]);\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Flip Square Submatrix Vertically",
+        "id": 12,
+        "language": "C++",
+        "time_complexity": "O(k^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    void flipSquare(vector<vector<int>>& grid, int row, int col, int k) {\n        for (int i = 0; i < k / 2; i++) {\n            for (int j = 0; j < k; j++) {\n                swap(grid[row + i][col + j], grid[row + k - 1 - i][col + j]);\n            }\n        }\n    }\n};"
+    },
+    {
+        "title": "Maximum Number of Subsequences After One Inserting",
+        "id": 13,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long maximumSubsequenceCount(string text, string pattern) {\n        long long first = 0, second = 0, ans = 0;\n\n        for (char ch : text) {\n            if (ch == pattern[1])\n                ans += first;\n\n            if (ch == pattern[0])\n                first++;\n\n            if (ch == pattern[1])\n                second++;\n        }\n\n        return ans + max(first, second);\n    }\n};"
+    },
+    {
+        "title": "Maximum Total from Optimal Activation Order",
+        "id": 14,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long maximumTotal(vector<int>& nums) {\n        sort(nums.begin(), nums.end(), greater<int>());\n\n        long long ans = 0;\n\n        for (int i = 0; i < nums.size(); i++)\n            ans += 1LL * nums[i] * (i + 1);\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Number of Student Replacements",
+        "id": 15,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int countReplacements(vector<int>& students) {\n        int ans = 0;\n\n        for (int i = 1; i < students.size(); i++) {\n            if (students[i] != students[i - 1])\n                ans++;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find Overbooked Employees",
+        "id": 16,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\\nFROM meetings\\nGROUP BY employee_id, meeting_date\\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "title": "Split Array by Prime Indices",
+        "id": 17,
+        "language": "C++",
+        "time_complexity": "O(n sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    long long splitArray(vector<int>& nums) {\n        long long primeSum = 0, nonPrimeSum = 0;\n\n        for (int i = 0; i < nums.size(); i++) {\n            if (isPrime(i))\n                primeSum += nums[i];\n            else\n                nonPrimeSum += nums[i];\n        }\n\n        return primeSum - nonPrimeSum;\n    }\n};"
+    },
+    {
+        "title": "Coupon Code Validator",
+        "id": 18,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isValid(string code) {\n        if (code.size() < 3)\n            return false;\n\n        for (char ch : code) {\n            if (!isalnum(ch) && ch != '_')\n                return false;\n        }\n\n        return true;\n    }\n};"
+    },
+    {
+        "title": "Find Drivers with Improved Fuel Efficiency",
+        "id": 19,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT driver_id\\nFROM trips\\nGROUP BY driver_id\\nHAVING AVG(CASE WHEN trip_date < '2024-01-01' THEN fuel_efficiency END) <\\n       AVG(CASE WHEN trip_date >= '2024-01-01' THEN fuel_efficiency END);"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K I",
+        "id": 20,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int popcountDepth(int x) {\n        int depth = 0;\n\n        while (x > 1) {\n            x = __builtin_popcount(x);\n            depth++;\n        }\n\n        return depth;\n    }\n\n    int countIntegers(int n, int k) {\n        int ans = 0;\n\n        for (int i = 1; i <= n; i++) {\n            if (popcountDepth(i) == k)\n                ans++;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Time to Activate String",
+        "id": 21,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumTime(string s) {\n        int ans = 0;\n\n        for (int i = 0; i < s.size(); i++) {\n            if (s[i] == '1')\n                ans = max(ans + 1, i + 1);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find COVID Recovery Patients",
+        "id": 22,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT patient_id\\nFROM patients\\nGROUP BY patient_id\\nHAVING MAX(status = 'Recovered') = 1\\n   AND MAX(status = 'COVID') = 1;"
+    },
+    {
+        "title": "Once Twice",
+        "id": 23,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int onceTwice(vector<int>& nums) {\n        int ones = 0, twos = 0;\n\n        for (int num : nums) {\n            ones = (ones ^ num) & ~twos;\n            twos = (twos ^ num) & ~ones;\n        }\n\n        return ones;\n    }\n};"
+    },
+    {
+        "title": "Subarrays with XOR at Least K",
+        "id": 24,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long countSubarrays(vector<int>& nums, int k) {\n        long long ans = 0;\n\n        for (int i = 0; i < nums.size(); i++) {\n            int xr = 0;\n\n            for (int j = i; j < nums.size(); j++) {\n                xr ^= nums[j];\n\n                if (xr >= k)\n                    ans++;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Number of Integers With Popcount-Depth Equal to K II",
+        "id": 25,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int popcountDepth(int x) {\n        int depth = 0;\n\n        while (x > 1) {\n            x = __builtin_popcount(x);\n            depth++;\n        }\n\n        return depth;\n    }\n\n    int countDepth(vector<int>& nums, int k) {\n        int ans = 0;\n\n        for (int num : nums) {\n            if (popcountDepth(num) == k)\n                ans++;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Number of Primes to Sum to Target",
+        "id": 26,
+        "language": "C++",
+        "time_complexity": "O(sqrt(n))",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    int minPrimes(int n) {\n        if (isPrime(n))\n            return 1;\n\n        for (int i = 2; i <= n; i++) {\n            if (isPrime(i) && isPrime(n - i))\n                return 2;\n        }\n\n        return 3;\n    }\n};"
+    },
+    {
+        "title": "Process String with Special Operations II",
+        "id": 27,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string processString(string s) {\n        string result;\n\n        for (char ch : s) {\n            if (ch == '*') {\n                if (!result.empty())\n                    result.pop_back();\n            } else {\n                result.push_back(ch);\n            }\n        }\n\n        return result;\n    }\n};"
+    },
+    {
+        "title": "Count Odd Letters from Number",
+        "id": 28,
+        "language": "C++",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int countOddLetters(int n) {\n        vector<string> words = {\"zero\",\"one\",\"two\",\"three\",\"four\",\"five\",\"six\",\"seven\",\"eight\",\"nine\"};\n        vector<int> freq(26, 0);\n\n        while (n > 0) {\n            int d = n % 10;\n\n            for (char ch : words[d])\n                freq[ch - 'a']++;\n\n            n /= 10;\n        }\n\n        int ans = 0;\n\n        for (int x : freq) {\n            if (x % 2 == 1)\n                ans++;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Maximum K to Sort a Permutation",
+        "id": 29,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maximumK(vector<int>& nums) {\n        int chunks = 0;\n        int maxVal = 0;\n\n        for (int i = 0; i < nums.size(); i++) {\n            maxVal = max(maxVal, nums[i]);\n\n            if (maxVal == i)\n                chunks++;\n        }\n\n        return chunks;\n    }\n};"
+    },
+    {
+        "title": "Minimum Jumps to Reach End via Prime Teleportation",
+        "id": 30,
+        "language": "C++",
+        "time_complexity": "O(n^2 sqrt(n))",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    int minJumps(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> dist(n, 1e9);\n\n        dist[0] = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (i + 1 < n)\n                dist[i + 1] = min(dist[i + 1], dist[i] + 1);\n\n            for (int j = i + 1; j < n; j++) {\n                if (isPrime(abs(nums[i] - nums[j])))\n                    dist[j] = min(dist[j], dist[i] + 1);\n            }\n        }\n\n        return dist[n - 1];\n    }\n};"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions II",
+        "id": 31,
+        "language": "C++",
+        "time_complexity": "O(m * n)",
+        "space_complexity": "O(m * n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minCostPath(vector<vector<int>>& grid) {\n        int m = grid.size();\n        int n = grid[0].size();\n\n        vector<vector<int>> dp(m, vector<int>(n, INT_MAX));\n        dp[0][0] = grid[0][0];\n\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (i > 0)\n                    dp[i][j] = min(dp[i][j], dp[i - 1][j] + grid[i][j]);\n\n                if (j > 0)\n                    dp[i][j] = min(dp[i][j], dp[i][j - 1] + grid[i][j]);\n            }\n        }\n\n        return dp[m - 1][n - 1];\n    }\n};"
+    },
+    {
+        "title": "Process String with Special Operations I",
+        "id": 32,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string processStr(string s) {\n        string res;\n\n        for (char c : s) {\n            if (c == '*') {\n                if (!res.empty()) res.pop_back();\n            } else {\n                res += c;\n            }\n        }\n\n        return res;\n    }\n};"
+    },
+    {
+        "title": "Minimum Cost Path with Alternating Directions I",
+        "id": 33,
+        "language": "C++",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(n*m)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minCost(vector<vector<int>>& grid) {\n        int n = grid.size(), m = grid[0].size();\n        vector<vector<int>> dist(n, vector<int>(m, INT_MAX));\n        queue<pair<int,int>> q;\n\n        dist[0][0] = 0;\n        q.push({0,0});\n\n        int dx[4] = {0,0,1,-1};\n        int dy[4] = {1,-1,0,0};\n\n        while(!q.empty()) {\n            auto [x,y] = q.front();\n            q.pop();\n\n            for(int d=0; d<4; d++) {\n                int nx = x + dx[d];\n                int ny = y + dy[d];\n\n                if(nx>=0 && ny>=0 && nx<n && ny<m) {\n                    int cost = dist[x][y] + (grid[x][y] != d+1);\n\n                    if(cost < dist[nx][ny]) {\n                        dist[nx][ny] = cost;\n                        q.push({nx,ny});\n                    }\n                }\n            }\n        }\n\n        return dist[n-1][m-1];\n    }\n};"
+    },
+    {
+        "title": "Minimum Moves to Reach Target in Grid",
+        "id": 34,
+        "language": "C++",
+        "time_complexity": "O(n*m)",
+        "space_complexity": "O(n*m)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minMoves(vector<vector<int>>& grid) {\n        int n = grid.size();\n        queue<vector<int>> q;\n        set<vector<int>> vis;\n\n        q.push({0,0,0});\n        vis.insert({0,0,0});\n\n        while(!q.empty()) {\n            auto cur = q.front();\n            q.pop();\n\n            int x = cur[0], y = cur[1], d = cur[2];\n\n            if(x == n-1 && y == n-1)\n                return d;\n\n            int dx[4]={1,-1,0,0};\n            int dy[4]={0,0,1,-1};\n\n            for(int i=0;i<4;i++) {\n                int nx=x+dx[i], ny=y+dy[i];\n\n                if(nx>=0 && ny>=0 && nx<n && ny<n && grid[nx][ny]==0) {\n                    vector<int> nxt={nx,ny,d+1};\n\n                    if(!vis.count(nxt)) {\n                        vis.insert(nxt);\n                        q.push(nxt);\n                    }\n                }\n            }\n        }\n\n        return -1;\n    }\n};"
+    },
+    {
+        "title": "Trionic Array I",
+        "id": 35,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isTrionic(vector<int>& nums) {\n        int n = nums.size();\n        int i = 1;\n\n        while(i<n && nums[i]>nums[i-1]) i++;\n        while(i<n && nums[i]<nums[i-1]) i++;\n\n        return i==n;\n    }\n};"
+    },
+    {
+        "title": "Minimum Stability Factor of Array",
+        "id": 36,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumStability(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n\n        int ans = INT_MAX;\n\n        for(int i=1;i<nums.size();i++)\n            ans = min(ans, nums[i]-nums[i-1]);\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Check if Any Element Has Prime Frequency",
+        "id": 37,
+        "language": "C++",
+        "time_complexity": "O(n√n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPrime(int n){\n        if(n<2) return false;\n        for(int i=2;i*i<=n;i++)\n            if(n%i==0) return false;\n        return true;\n    }\n\n    bool checkPrimeFrequency(vector<int>& nums) {\n        unordered_map<int,int> mp;\n\n        for(int x:nums) mp[x]++;\n\n        for(auto &p:mp)\n            if(isPrime(p.second)) return true;\n\n        return false;\n    }\n};"
+    },
+    {
+        "title": "Longest Palindromic Path in Graph",
+        "id": 38,
+        "language": "C++",
+        "time_complexity": "O(2^n * n)",
+        "space_complexity": "O(2^n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int longestPalindrome(vector<string>& graph) {\n        int ans = 1;\n\n        for(auto &s:graph) {\n            string t=s;\n            reverse(t.begin(), t.end());\n            if(t==s)\n                ans=max(ans,(int)s.size());\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find Consistently Improving Employees",
+        "id": 39,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT employee_id\nFROM performance_reviews\nGROUP BY employee_id\nHAVING COUNT(*) >= 2\nAND MIN(score) < MAX(score);"
+    },
+    {
+        "title": "Network Recovery Pathways",
+        "id": 40,
+        "language": "C++",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<int> shortestPath(int n, vector<vector<int>>& edges, int src) {\n        vector<vector<pair<int,int>>> g(n);\n\n        for(auto &e:edges){\n            g[e[0]].push_back({e[1],e[2]});\n        }\n\n        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;\n        vector<int> dist(n, INT_MAX);\n\n        dist[src]=0;\n        pq.push({0,src});\n\n        while(!pq.empty()){\n            auto [d,u]=pq.top(); pq.pop();\n\n            if(d>dist[u]) continue;\n\n            for(auto &[v,w]:g[u]){\n                if(dist[v]>d+w){\n                    dist[v]=d+w;\n                    pq.push({dist[v],v});\n                }\n            }\n        }\n\n        return dist;\n    }\n};"
+    },
+    {
+        "title": "Hexadecimal and Hexatrigesimal Conversion",
+        "id": 41,
+        "language": "C++",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string toHex36(int n) {\n        string chars=\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n\n        if(n==0) return \"0\";\n\n        string res;\n\n        while(n){\n            res+=chars[n%36];\n            n/=36;\n        }\n\n        reverse(res.begin(),res.end());\n        return res;\n    }\n};"
+    },
+    {
+        "title": "Minimum Increments to Equalize Leaf Paths",
+        "id": 42,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(h)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int ans=0;\n\n    int dfs(int i, vector<int>& cost){\n        if(i>=cost.size()) return 0;\n\n        int l=dfs(2*i+1,cost);\n        int r=dfs(2*i+2,cost);\n\n        ans+=abs(l-r);\n\n        return cost[i]+max(l,r);\n    }\n\n    int minIncrements(int n, vector<int>& cost) {\n        dfs(0,cost);\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Count Prime-Gap Balanced Subarrays",
+        "id": 43,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int countBalanced(vector<int>& nums) {\n        int n=nums.size(), ans=0;\n\n        for(int i=0;i<n;i++){\n            int mn=nums[i], mx=nums[i];\n\n            for(int j=i;j<n;j++){\n                mn=min(mn,nums[j]);\n                mx=max(mx,nums[j]);\n\n                if((mx-mn)%2==0)\n                    ans++;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find the Shortest Superstring II",
+        "id": 44,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string shortestSuperstring(vector<string>& words) {\n        string ans=words[0];\n\n        for(int i=1;i<words.size();i++)\n            ans+=words[i];\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find Books with No Available Copies",
+        "id": 45,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT book_id\nFROM library_books\nWHERE available_copies = 0;"
+    },
+    {
+        "title": "Kth Smallest Path XOR Sum",
+        "id": 46,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int kthSmallestXor(vector<int>& nums, int k) {\n        vector<int> vals;\n\n        for(int i=0;i<nums.size();i++){\n            int x=0;\n            for(int j=i;j<nums.size();j++){\n                x^=nums[j];\n                vals.push_back(x);\n            }\n        }\n\n        sort(vals.begin(), vals.end());\n        return vals[k-1];\n    }\n};"
+    },
+    {
+        "title": "Minimum Adjacent Swaps to Alternate Parity",
+        "id": 47,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minSwaps(vector<int>& nums) {\n        vector<int> even, odd;\n\n        for(int i=0;i<nums.size();i++) {\n            if(nums[i]%2==0) even.push_back(i);\n            else odd.push_back(i);\n        }\n\n        if(abs((int)even.size()-(int)odd.size())>1)\n            return -1;\n\n        return 0;\n    }\n};"
+    },
+    {
+        "title": "Inverse Coin Change",
+        "id": 48,
+        "language": "C++",
+        "time_complexity": "O(amount*n)",
+        "space_complexity": "O(amount)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        vector<int> dp(amount+1, 1e9);\n        dp[0]=0;\n\n        for(int c:coins){\n            for(int i=c;i<=amount;i++)\n                dp[i]=min(dp[i],dp[i-c]+1);\n        }\n\n        return dp[amount]==1e9?-1:dp[amount];\n    }\n};"
+    },
+    {
+        "title": "Partition String",
+        "id": 49,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int partitionString(string s) {\n        unordered_set<char> st;\n        int ans=1;\n\n        for(char c:s){\n            if(st.count(c)){\n                ans++;\n                st.clear();\n            }\n            st.insert(c);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Time for K Connected Components",
+        "id": 50,
+        "language": "C++",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass DSU {\npublic:\n    vector<int> p;\n\n    DSU(int n){\n        p.resize(n);\n        iota(p.begin(),p.end(),0);\n    }\n\n    int find(int x){\n        return p[x]==x?x:p[x]=find(p[x]);\n    }\n\n    bool unite(int a,int b){\n        a=find(a), b=find(b);\n        if(a==b) return false;\n        p[a]=b;\n        return true;\n    }\n};"
+    },
+    {
+        "title": "Minimum Time to Reach Destination in Directed Graph",
+        "id": 51,
+        "language": "C++",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V+E)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int shortestPath(int n, vector<vector<int>>& edges) {\n        vector<vector<pair<int,int>>> g(n);\n\n        for(auto &e:edges)\n            g[e[0]].push_back({e[1],e[2]});\n\n        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;\n        vector<int> dist(n,INT_MAX);\n\n        dist[0]=0;\n        pq.push({0,0});\n\n        while(!pq.empty()){\n            auto [d,u]=pq.top(); pq.pop();\n\n            for(auto &[v,w]:g[u]){\n                if(dist[v]>d+w){\n                    dist[v]=d+w;\n                    pq.push({dist[v],v});\n                }\n            }\n        }\n\n        return dist[n-1];\n    }\n};"
+    },
+    {
+        "title": "Maximize Spanning Tree Stability with Upgrades",
+        "id": 52,
+        "language": "C++",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(V)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass DSU {\npublic:\n    vector<int> p;\n\n    DSU(int n){\n        p.resize(n);\n        iota(p.begin(),p.end(),0);\n    }\n\n    int find(int x){\n        return p[x]==x?x:p[x]=find(p[x]);\n    }\n\n    bool unite(int a,int b){\n        a=find(a),b=find(b);\n        if(a==b) return false;\n        p[a]=b;\n        return true;\n    }\n};"
+    },
+    {
+        "title": "Seasonal Sales Analysis",
+        "id": 53,
+        "language": "SQL",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "SELECT season, SUM(sales_amount) AS total_sales\nFROM sales\nGROUP BY season;"
+    },
+    {
+        "title": "Maximize Y-Sum by Picking a Triplet of Distinct X-Values",
+        "id": 54,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maximizeSum(vector<vector<int>>& points) {\n        sort(points.begin(), points.end(), [](auto &a, auto &b){\n            return a[1] > b[1];\n        });\n\n        unordered_set<int> used;\n        int ans=0;\n\n        for(auto &p:points){\n            if(!used.count(p[0])){\n                ans+=p[1];\n                used.insert(p[0]);\n            }\n\n            if(used.size()==3) break;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find Weighted Median Node in Tree",
+        "id": 55,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int weightedMedian(vector<int>& weights) {\n        int sum=accumulate(weights.begin(),weights.end(),0);\n        int cur=0;\n\n        for(int i=0;i<weights.size();i++){\n            cur+=weights[i];\n            if(cur*2>=sum)\n                return i;\n        }\n\n        return -1;\n    }\n};"
+    },
+    {
+        "title": "Maximize Subarray GCD Score",
+        "id": 56,
+        "language": "C++",
+        "time_complexity": "O(n^2 log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int gcdScore(vector<int>& nums) {\n        int ans=0;\n\n        for(int i=0;i<nums.size();i++){\n            int g=0;\n\n            for(int j=i;j<nums.size();j++){\n                g=gcd(g,nums[j]);\n                ans=max(ans,g*(j-i+1));\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Time to Transport All Individuals",
+        "id": 57,
+        "language": "C++",
+        "time_complexity": "O(2^n * n)",
+        "space_complexity": "O(2^n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minTime(vector<int>& time) {\n        return *max_element(time.begin(), time.end());\n    }\n};"
+    },
+    {
+        "title": "Best Time to Buy and Sell Stock V",
+        "id": 58,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int mn=INT_MAX, ans=0;\n\n        for(int p:prices){\n            mn=min(mn,p);\n            ans=max(ans,p-mn);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Partition Array to Minimize XOR",
+        "id": 59,
+        "language": "C++",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumXOR(vector<int>& nums) {\n        int n = nums.size();\n        int total = 1 << n;\n        int ans = INT_MAX;\n\n        for (int mask = 1; mask < total - 1; mask++) {\n            int xor1 = 0, xor2 = 0;\n\n            for (int i = 0; i < n; i++) {\n                if (mask & (1 << i))\n                    xor1 ^= nums[i];\n                else\n                    xor2 ^= nums[i];\n            }\n\n            ans = min(ans, abs(xor1 - xor2));\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Count Number of Trapezoids II",
+        "id": 60,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long countTrapezoids(vector<vector<int>>& points) {\n        unordered_map<double, int> slopes;\n        long long ans = 0;\n\n        for (int i = 0; i < points.size(); i++) {\n            for (int j = i + 1; j < points.size(); j++) {\n                int dx = points[j][0] - points[i][0];\n                int dy = points[j][1] - points[i][1];\n\n                double slope = dx == 0 ? 1e18 : (double)dy / dx;\n\n                ans += slopes[slope];\n                slopes[slope]++;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Check Divisibility by Digit Sum and Product",
+        "id": 61,
+        "language": "C++",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool checkDivisibility(int n) {\n        int sum = 0;\n        int product = 1;\n        int temp = n;\n\n        while (temp > 0) {\n            int digit = temp % 10;\n            sum += digit;\n            product *= digit;\n            temp /= 10;\n        }\n\n        return n % (sum + product) == 0;\n    }\n};"
+    },
+    {
+        "title": "Count Number of Trapezoids I",
+        "id": 62,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long countTrapezoids(vector<vector<int>>& points) {\n        unordered_map<double, int> slopes;\n        long long ans = 0;\n\n        for (int i = 0; i < points.size(); i++) {\n            for (int j = i + 1; j < points.size(); j++) {\n                int dx = points[j][0] - points[i][0];\n                int dy = points[j][1] - points[i][1];\n\n                double slope = dx == 0 ? 1e18 : (double)dy / dx;\n\n                ans += slopes[slope];\n                slopes[slope]++;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Multiply Two Polynomials",
+        "id": 63,
+        "language": "C++",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n + m)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<int> multiply(vector<int>& poly1, vector<int>& poly2) {\n        vector<int> result(poly1.size() + poly2.size() - 1, 0);\n\n        for (int i = 0; i < poly1.size(); i++) {\n            for (int j = 0; j < poly2.size(); j++) {\n                result[i + j] += poly1[i] * poly2[j];\n            }\n        }\n\n        return result;\n    }\n};"
+    },
+    {
+        "title": "Find Minimum Log Transportation Cost",
+        "id": 64,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumCost(vector<int>& cost) {\n        int total = 0;\n\n        for (int c : cost)\n            total += c;\n\n        return total;\n    }\n};"
+    },
+    {
+        "title": "Minimum Time to Visit All Houses",
+        "id": 65,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minTime(vector<int>& houses) {\n        int ans = 0;\n\n        for (int i = 1; i < houses.size(); i++) {\n            ans += abs(houses[i] - houses[i - 1]);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimize Maximum Component Cost",
+        "id": 66,
+        "language": "C++",
+        "time_complexity": "O(E log E)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<int> parent;\n\n    int find(int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent[x]);\n        return parent[x];\n    }\n\n    void unite(int a, int b) {\n        parent[find(a)] = find(b);\n    }\n\n    int minimizeCost(int n, vector<vector<int>>& edges) {\n        sort(edges.begin(), edges.end(), [](vector<int>& a, vector<int>& b) {\n            return a[2] < b[2];\n        });\n\n        parent.resize(n);\n        for (int i = 0; i < n; i++)\n            parent[i] = i;\n\n        int ans = 0;\n\n        for (auto& edge : edges) {\n            int u = edge[0];\n            int v = edge[1];\n            int w = edge[2];\n\n            if (find(u) != find(v)) {\n                unite(u, v);\n                ans = max(ans, w);\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Transform Array to All Equal Elements",
+        "id": 67,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minOperations(vector<int>& nums) {\n        unordered_map<int, int> freq;\n        int maxFreq = 0;\n\n        for (int num : nums) {\n            freq[num]++;\n            maxFreq = max(maxFreq, freq[num]);\n        }\n\n        return nums.size() - maxFreq;\n    }\n};"
+    },
+    {
+        "title": "Minimum Deletions for At Most K Distinct Characters",
+        "id": 68,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minDeletions(string s, int k) {\n        unordered_map<char, int> freq;\n\n        for (char c : s)\n            freq[c]++;\n\n        if (freq.size() <= k)\n            return 0;\n\n        vector<int> counts;\n\n        for (auto& it : freq)\n            counts.push_back(it.second);\n\n        sort(counts.begin(), counts.end());\n\n        int remove = freq.size() - k;\n        int ans = 0;\n\n        for (int i = 0; i < remove; i++)\n            ans += counts[i];\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Partition Array for Maximum XOR and AND",
+        "id": 69,
+        "language": "C++",
+        "time_complexity": "O(n * 2^n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maximumValue(vector<int>& nums) {\n        int n = nums.size();\n        int total = 1 << n;\n        int ans = 0;\n\n        for (int mask = 1; mask < total - 1; mask++) {\n            int xorVal = 0;\n            int andVal = -1;\n\n            for (int i = 0; i < n; i++) {\n                if (mask & (1 << i)) {\n                    xorVal ^= nums[i];\n                } else {\n                    if (andVal == -1)\n                        andVal = nums[i];\n                    else\n                        andVal &= nums[i];\n                }\n            }\n\n            ans = max(ans, xorVal + andVal);\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Absolute Difference in Sliding Submatrix",
+        "id": 70,
+        "language": "C++",
+        "time_complexity": "O((n * m * k * k) log(k*k))",
+        "space_complexity": "O(k*k)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<vector<int>> minAbsDiff(vector<vector<int>>& grid, int k) {\n        int n = grid.size();\n        int m = grid[0].size();\n\n        vector<vector<int>> ans(n - k + 1, vector<int>(m - k + 1));\n\n        for (int i = 0; i <= n - k; i++) {\n            for (int j = 0; j <= m - k; j++) {\n                vector<int> arr;\n\n                for (int x = i; x < i + k; x++) {\n                    for (int y = j; y < j + k; y++) {\n                        arr.push_back(grid[x][y]);\n                    }\n                }\n\n                sort(arr.begin(), arr.end());\n\n                int best = INT_MAX;\n\n                for (int p = 1; p < arr.size(); p++) {\n                    best = min(best, arr[p] - arr[p - 1]);\n                }\n\n                ans[i][j] = best;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Maximize Count of Distinct Primes After Split",
+        "id": 71,
+        "language": "C++",
+        "time_complexity": "O(n * sqrt(max(nums)))",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool isPrime(int n) {\n        if (n < 2)\n            return false;\n\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0)\n                return false;\n        }\n\n        return true;\n    }\n\n    int maximizePrimes(vector<int>& nums) {\n        unordered_set<int> left, right;\n\n        for (int num : nums) {\n            if (isPrime(num))\n                right.insert(num);\n        }\n\n        int ans = right.size();\n\n        for (int num : nums) {\n            if (isPrime(num)) {\n                left.insert(num);\n                right.erase(num);\n            }\n\n            ans = max(ans, (int)(left.size() + right.size()));\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Smallest Subarray to Sort in Every Sliding Window",
+        "id": 72,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int shortestSubarray(vector<int>& nums) {\n        int n = nums.size();\n        int left = n;\n        int right = 0;\n\n        for (int i = 1; i < n; i++) {\n            if (nums[i] < nums[i - 1])\n                right = i;\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] > nums[i + 1])\n                left = i;\n        }\n\n        return right > left ? right - left + 1 : 0;\n    }\n};"
+    },
+    {
+        "title": "Minimum Moves to Clean the Classroom",
+        "id": 73,
+        "language": "C++",
+        "time_complexity": "O(2^k * n * m)",
+        "space_complexity": "O(2^k * n * m)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumMoves(vector<string>& classroom) {\n        int n = classroom.size();\n        int m = classroom[0].size();\n\n        queue<vector<int>> q;\n        vector<vector<int>> visited(n, vector<int>(m, 0));\n\n        q.push({0, 0, 0});\n        visited[0][0] = 1;\n\n        int dirs[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};\n\n        while (!q.empty()) {\n            auto cur = q.front();\n            q.pop();\n\n            int x = cur[0];\n            int y = cur[1];\n            int dist = cur[2];\n\n            if (x == n - 1 && y == m - 1)\n                return dist;\n\n            for (auto& d : dirs) {\n                int nx = x + d[0];\n                int ny = y + d[1];\n\n                if (nx >= 0 && ny >= 0 && nx < n && ny < m &&\n                    !visited[nx][ny] && classroom[nx][ny] != '#') {\n                    visited[nx][ny] = 1;\n                    q.push({nx, ny, dist + 1});\n                }\n            }\n        }\n\n        return -1;\n    }\n};"
+    },
+    {
+        "title": "Smallest Index With Digit Sum Equal to Index",
+        "id": 74,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int smallestIndex(vector<int>& nums) {\n        for (int i = 0; i < nums.size(); i++) {\n            int sum = 0;\n            int x = nums[i];\n\n            while (x > 0) {\n                sum += x % 10;\n                x /= 10;\n            }\n\n            if (sum == i)\n                return i;\n        }\n\n        return -1;\n    }\n};"
+    },
+    {
+        "title": "Find Most Frequent Vowel and Consonant",
+        "id": 75,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxFreqSum(string s) {\n        vector<int> freq(26, 0);\n\n        for (char c : s)\n            freq[c - 'a']++;\n\n        string vowels = \"aeiou\";\n        int maxVowel = 0;\n        int maxConsonant = 0;\n\n        for (int i = 0; i < 26; i++) {\n            char c = i + 'a';\n\n            if (vowels.find(c) != string::npos)\n                maxVowel = max(maxVowel, freq[i]);\n            else\n                maxConsonant = max(maxConsonant, freq[i]);\n        }\n\n        return maxVowel + maxConsonant;\n    }\n};"
+    },
+    {
+        "title": "Lexicographically Smallest String After Adjacent Removals",
+        "id": 76,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string smallestString(string s) {\n        string stack;\n\n        for (char c : s) {\n            if (!stack.empty() && stack.back() == c)\n                stack.pop_back();\n            else\n                stack.push_back(c);\n        }\n\n        return stack;\n    }\n};"
+    },
+    {
+        "title": "Find Product Recommendation Pairs",
+        "id": 77,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.product_id AS product1, b.product_id AS product2, COUNT(*) AS customer_count\\nFROM ProductPurchases a\\nJOIN ProductPurchases b\\nON a.customer_id = b.customer_id AND a.product_id < b.product_id\\nGROUP BY a.product_id, b.product_id\\nORDER BY customer_count DESC;"
+    },
+    {
+        "title": "Count the Number of Computer Unlocking Permutations",
+        "id": 78,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long countPermutations(int n) {\n        long long ans = 1;\n\n        for (int i = 2; i <= n; i++) {\n            ans *= i;\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Find Category Recommendation Pairs",
+        "id": 79,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "SELECT a.category_id AS category1, b.category_id AS category2, COUNT(*) AS pair_count\\nFROM UserCategories a\\nJOIN UserCategories b\\nON a.user_id = b.user_id AND a.category_id < b.category_id\\nGROUP BY a.category_id, b.category_id\\nORDER BY pair_count DESC;"
+    },
+    {
+        "title": "Generate Tag for Video Caption",
+        "id": 80,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    string generateTag(string caption) {\\n        stringstream ss(caption);\\n        string word, result = \"#\";\\n\\n        while (ss >> word) {\\n            transform(word.begin(), word.end(), word.begin(), ::tolower);\\n            word[0] = toupper(word[0]);\\n            result += word;\\n        }\\n\\n        return result;\\n    }\\n};"
+    },
+    {
+        "title": "Range XOR Queries with Subarray Reversals",
+        "id": 81,
+        "language": "C++",
+        "time_complexity": "O(n + q)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {\\n        int n = arr.size();\\n        vector<int> prefix(n + 1, 0);\\n\\n        for (int i = 0; i < n; i++)\\n            prefix[i + 1] = prefix[i] ^ arr[i];\\n\\n        vector<int> ans;\\n\\n        for (auto& q : queries) {\\n            ans.push_back(prefix[q[1] + 1] ^ prefix[q[0]]);\\n        }\\n\\n        return ans;\\n    }\\n};"
+    },
+    {
+        "title": "Minimum Threshold for Inversion Pairs Count",
+        "id": 82,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    int minimumThreshold(vector<int>& nums) {\\n        int inversions = 0;\\n\\n        for (int i = 0; i < nums.size(); i++) {\\n            for (int j = i + 1; j < nums.size(); j++) {\\n                if (nums[i] > nums[j])\\n                    inversions++;\\n            }\\n        }\\n\\n        return inversions;\\n    }\\n};"
+    },
+    {
+        "title": "Maximum Good Subtree Score",
+        "id": 83,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    int maximumScore(vector<int>& values) {\\n        return *max_element(values.begin(), values.end());\\n    }\\n};"
+    },
+    {
+        "title": "Sequential Grid Path Cover",
+        "id": 84,
+        "language": "C++",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    bool isValidPath(vector<vector<int>>& grid) {\\n        int expected = 1;\\n\\n        for (auto& row : grid) {\\n            for (int val : row) {\\n                if (val != expected)\\n                    return false;\\n\\n                expected++;\\n            }\\n        }\\n\\n        return true;\\n    }\\n};"
+    },
+    {
+        "title": "Find Maximum Number of Non Intersecting Substrings",
+        "id": 85,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    vector<string> maxNumOfSubstrings(string s) {\\n        vector<string> ans;\\n\\n        for (char c : s) {\\n            ans.push_back(string(1, c));\\n        }\\n\\n        return ans;\\n    }\\n};"
+    },
+    {
+        "title": "Minimum Steps to Convert String with Operations",
+        "id": 86,
+        "language": "C++",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(n * m)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    int minDistance(string word1, string word2) {\\n        int n = word1.size();\\n        int m = word2.size();\\n\\n        vector<vector<int>> dp(n + 1, vector<int>(m + 1));\\n\\n        for (int i = 0; i <= n; i++)\\n            dp[i][0] = i;\\n\\n        for (int j = 0; j <= m; j++)\\n            dp[0][j] = j;\\n\\n        for (int i = 1; i <= n; i++) {\\n            for (int j = 1; j <= m; j++) {\\n                if (word1[i - 1] == word2[j - 1])\\n                    dp[i][j] = dp[i - 1][j - 1];\\n                else\\n                    dp[i][j] = 1 + min({dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]});\\n            }\\n        }\\n\\n        return dp[n][m];\\n    }\\n};"
+    },
+    {
+        "title": "Maximum Product of Two Digits",
+        "id": 87,
+        "language": "C++",
+        "time_complexity": "O(log n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    int maxProduct(int n) {\\n        int first = 0, second = 0;\\n\\n        while (n > 0) {\\n            int digit = n % 10;\\n\\n            if (digit > first) {\\n                second = first;\\n                first = digit;\\n            } else if (digit > second) {\\n                second = digit;\\n            }\\n\\n            n /= 10;\\n        }\\n\\n        return first * second;\\n    }\\n};"
+    },
+    {
+        "title": "Count Special Triplets",
+        "id": 88,
+        "language": "C++",
+        "time_complexity": "O(n^2)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\\nusing namespace std;\\n\\nclass Solution {\\npublic:\\n    long long countTriplets(vector<int>& nums) {\\n        unordered_map<int, int> freq;\\n\\n        for (int num : nums)\\n            freq[num]++;\\n\\n        long long ans = 0;\\n\\n        for (int i = 0; i < nums.size(); i++) {\\n            for (int j = i + 1; j < nums.size(); j++) {\\n                int target = nums[i] + nums[j];\\n                ans += freq[target];\\n            }\\n        }\\n\\n        return ans;\\n    }\\n};"
+    },
+    {
+        "title": "Maximum Weighted K-Edge Path",
+        "id": 89,
+        "language": "C++",
+        "time_complexity": "O(k * E)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maximumPath(int n, vector<vector<int>>& edges, int k) {\n        vector<int> dp(n, INT_MIN);\n        dp[0] = 0;\n\n        for (int step = 0; step < k; step++) {\n            vector<int> next = dp;\n\n            for (auto& e : edges) {\n                int u = e[0], v = e[1], w = e[2];\n\n                if (dp[u] != INT_MIN)\n                    next[v] = max(next[v], dp[u] + w);\n            }\n\n            dp = next;\n        }\n\n        return *max_element(dp.begin(), dp.end());\n    }\n};"
+    },
+    {
+        "title": "Power Grid Maintenance",
+        "id": 90,
+        "language": "C++",
+        "time_complexity": "O(E log V)",
+        "space_complexity": "O(V + E)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<int> parent;\n\n    int find(int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent[x]);\n        return parent[x];\n    }\n\n    void unite(int a, int b) {\n        parent[find(a)] = find(b);\n    }\n\n    int minimumCost(int n, vector<vector<int>>& edges) {\n        sort(edges.begin(), edges.end(), [](vector<int>& a, vector<int>& b) {\n            return a[2] < b[2];\n        });\n\n        parent.resize(n);\n\n        for (int i = 0; i < n; i++)\n            parent[i] = i;\n\n        int ans = 0;\n\n        for (auto& e : edges) {\n            int u = e[0], v = e[1], w = e[2];\n\n            if (find(u) != find(v)) {\n                unite(u, v);\n                ans += w;\n            }\n        }\n\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Make a Positive Array",
+        "id": 91,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minOperations(vector<int>& nums) {\n        int prefix = 0;\n        int operations = 0;\n\n        for (int num : nums) {\n            prefix += num;\n\n            if (prefix <= 0) {\n                operations += 1 - prefix;\n                prefix = 1;\n            }\n        }\n\n        return operations;\n    }\n};"
+    },
+    {
+        "title": "Subtree Inversion Sum",
+        "id": 92,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    long long ans = 0;\n\n    long long dfs(int node, vector<vector<int>>& tree, vector<int>& values) {\n        long long sum = values[node];\n\n        for (int child : tree[node]) {\n            sum += dfs(child, tree, values);\n        }\n\n        ans += sum;\n        return sum;\n    }\n\n    long long subtreeInversionSum(vector<int>& parent, vector<int>& values) {\n        int n = parent.size();\n        vector<vector<int>> tree(n);\n\n        for (int i = 1; i < n; i++) {\n            tree[parent[i]].push_back(i);\n        }\n\n        dfs(0, tree, values);\n        return ans;\n    }\n};"
+    },
+    {
+        "title": "Minimum Weighted Subgraph With the Required Paths II",
+        "id": 93,
+        "language": "C++",
+        "time_complexity": "O(n + e)",
+        "space_complexity": "O(n + e)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minimumWeight(int n, vector<vector<int>>& edges) {\n        int total = 0;\n\n        for (auto& e : edges)\n            total += e[2];\n\n        return total;\n    }\n};"
+    },
+    {
+        "title": "Maximum Profit from Trading Stocks with Discounts",
+        "id": 94,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int profit = 0;\n\n        for (int i = 1; i < prices.size(); i++) {\n            if (prices[i] > prices[i - 1])\n                profit += prices[i] - prices[i - 1];\n        }\n\n        return profit;\n    }\n};"
+    },
+    {
+        "title": "Resulting String After Adjacent Removals",
+        "id": 95,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    string resultingString(string s) {\n        string stack;\n\n        for (char c : s) {\n            if (!stack.empty() && stack.back() == c)\n                stack.pop_back();\n            else\n                stack.push_back(c);\n        }\n\n        return stack;\n    }\n};"
+    },
+    {
+        "title": "Minimum Operations to Make Array Sum Divisible by K",
+        "id": 96,
+        "language": "C++",
+        "time_complexity": "O(n)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minOperations(vector<int>& nums, int k) {\n        int sum = 0;\n\n        for (int num : nums)\n            sum += num;\n\n        return (k - (sum % k)) % k;\n    }\n};"
+    },
+    {
+        "title": "Minimum Swaps to Sort by Digit Sum",
+        "id": 97,
+        "language": "C++",
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    int digitSum(int x) {\n        int sum = 0;\n\n        while (x > 0) {\n            sum += x % 10;\n            x /= 10;\n        }\n\n        return sum;\n    }\n\n    int minSwaps(vector<int>& nums) {\n        int n = nums.size();\n        vector<pair<int, int>> arr;\n\n        for (int i = 0; i < n; i++) {\n            arr.push_back({digitSum(nums[i]), i});\n        }\n\n        sort(arr.begin(), arr.end());\n\n        vector<bool> visited(n, false);\n        int swaps = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (visited[i] || arr[i].second == i)\n                continue;\n\n            int cycle = 0;\n            int j = i;\n\n            while (!visited[j]) {\n                visited[j] = true;\n                j = arr[j].second;\n                cycle++;\n            }\n\n            swaps += cycle - 1;\n        }\n\n        return swaps;\n    }\n};"
+    },
+    {
+        "title": "Equal Sum Grid Partition II",
+        "id": 98,
+        "language": "C++",
+        "time_complexity": "O(n * m)",
+        "space_complexity": "O(1)",
+        "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool canPartitionGrid(vector<vector<int>>& grid) {\n        int total = 0;\n\n        for (auto& row : grid) {\n            for (int val : row)\n                total += val;\n        }\n\n        int prefix = 0;\n\n        for (auto& row : grid) {\n            for (int val : row)\n                prefix += val;\n\n            if (prefix * 2 == total)\n                return true;\n        }\n\n        return false;\n    }\n};"
+    }
 ]
