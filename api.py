@@ -98,10 +98,7 @@ def get_solution(
 
     # Search matching question
     for item in solutions:
-
-       # Search matching question
-for item in solutions:
-    db_title = (
+        db_title = (
         item["title"]
         .lower()
         .replace("-", "")
