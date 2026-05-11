@@ -2289,52 +2289,50 @@
             "Output": "true",
             "Explanation": "The grid can be partitioned into equal-sum sections."
         }
-    }
-[
-  {
-    "ID": "101",
-    "Title": "Addition of 2 Numbers",
-    "Difficulty": "Easy",
-    "Link": "https://www.codechef.com/practice/course/basic-programming-concepts/DIFF500/problems/FLOW001",
-    "Topics": "Math, Input Output",
-    "Acceptance Rate (%)": "95.2",
-    "Premium Only": "False",
-    "Category": "Beginner",
-    "Likes": "1200",
-    "Dislikes": "15",
-    "Similar Questions": "[]",
-    "Description": "Given two integers A and B, print their sum.",
-    "Constraints": [
-      "1 <= A <= 10^9",
-      "1 <= B <= 10^9"
-    ],
-    "Example": {
-      "Input": "A = 10, B = 20",
-      "Output": "30",
-      "Explanation": "10 + 20 = 30."
-    }
-  },
-  {
-    "ID": "102",
-    "Title": "Print Numbers Upto N",
-    "Difficulty": "Easy",
-    "Link": "https://www.codechef.com/practice/basic-programming-input-output",
-    "Topics": "Loops, Math",
-    "Acceptance Rate (%)": "93.8",
-    "Premium Only": "False",
-    "Category": "Beginner",
-    "Likes": "980",
-    "Dislikes": "8",
-    "Similar Questions": "[]",
-    "Description": "Given an integer N, print the sum of numbers from 1 to N.",
-    "Constraints": [
-      "1 <= N <= 10^6"
-    ],
-    "Example": {
-      "Input": "N = 5",
-      "Output": "15",
-      "Explanation": "1 + 2 + 3 + 4 + 5 = 15."
-    }
-  }
-]
-]
+    },
+   {
+                "ID": "101",
+                "Title": "Addition of 2 Numbers",
+                "Difficulty": "Easy",
+                "Link": "https://www.codechef.com/practice/course/basic-programming-concepts/DIFF500/problems/FLOW001",
+                "Topics": "Math, Input Output",
+                "Acceptance Rate (%)": "95.2",
+                "Premium Only": "False",
+                "Category": "Beginner",
+                "Likes": "1200",
+                "Dislikes": "15",
+                "Similar Questions": "[]",
+                "Description": "Given two integers A and B, print their sum.",
+                "Constraints": [
+                    "1 <= A <= 10^9",
+                    "1 <= B <= 10^9"
+                ],
+                "Example": {
+                    "Input": "A = 10, B = 20",
+                    "Output": "30",
+                    "Explanation": "10 + 20 = 30."
+                }
+    },
+        {
+            "ID": "102",
+            "Title": "Print Numbers Upto N",
+            "Difficulty": "Easy",
+            "Link": "https://www.codechef.com/practice/basic-programming-input-output",
+            "Topics": "Loops, Math",
+            "Acceptance Rate (%)": "93.8",
+            "Premium Only": "False",
+            "Category": "Beginner",
+            "Likes": "980",
+            "Dislikes": "8",
+            "Similar Questions": "[]",
+            "Description": "Given an integer N, print the sum of numbers from 1 to N.",
+            "Constraints": [
+                "1 <= N <= 10^6"
+            ],
+            "Example": {
+                "Input": "N = 5",
+                "Output": "15",
+                "Explanation": "1 + 2 + 3 + 4 + 5 = 15."
+            }
+        }
+    ]
