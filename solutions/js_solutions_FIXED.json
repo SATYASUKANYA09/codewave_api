@@ -543,4 +543,20 @@
         "space_complexity": "O(1)",
         "solution": "var canPartitionGrid = function(grid) {\n    let total = 0;\n\n    for (let row of grid) {\n        for (let val of row)\n            total += val;\n    }\n\n    let prefix = 0;\n\n    for (let row of grid) {\n        for (let val of row)\n            prefix += val;\n\n        if (prefix * 2 === total)\n            return true;\n    }\n\n    return false;\n};"
     }
+  {
+    "title": "Addition of 2 Numbers",
+    "id": 101,
+    "language": "JavaScript",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "const input = require('fs').readFileSync(0, 'utf-8').trim().split(' ');\n\nlet a = parseInt(input[0]);\nlet b = parseInt(input[1]);\n\nconsole.log(a + b);"
+  },
+  {
+    "title": "Print Numbers Upto N",
+    "id": 102,
+    "language": "JavaScript",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "const input = require('fs').readFileSync(0, 'utf-8').trim();\n\nlet n = parseInt(input);\n\nlet sum = (n * (n + 1)) / 2;\n\nconsole.log(sum);"
+  }
 ]

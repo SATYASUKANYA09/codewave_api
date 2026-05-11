@@ -863,4 +863,20 @@
         "space_complexity": "O(1)",
         "solution": "class Solution {\n    public boolean canPartitionGrid(int[][] grid) {\n        int total = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                total += val;\n        }\n\n        int prefix = 0;\n\n        for (int[] row : grid) {\n            for (int val : row)\n                prefix += val;\n\n            if (prefix * 2 == total)\n                return true;\n        }\n\n        return false;\n    }\n}"
     }
+  {
+    "title": "Addition of 2 Numbers",
+    "id": 101,
+    "language": "Java",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "import java.util.*;\n\nclass Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n\n        System.out.println(a + b);\n    }\n}"
+  },
+  {
+    "title": "Print Numbers Upto N",
+    "id": 102,
+    "language": "Java",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "import java.util.*;\n\nclass Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        long n = sc.nextLong();\n\n        long sum = (n * (n + 1)) / 2;\n\n        System.out.println(sum);\n    }\n}"
+  }
 ]

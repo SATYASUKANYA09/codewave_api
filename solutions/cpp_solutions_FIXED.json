@@ -783,4 +783,20 @@
         "space_complexity": "O(1)",
         "solution": "#include <bits/stdc++.h>\nusing namespace std;\n\nclass Solution {\npublic:\n    bool canPartitionGrid(vector<vector<int>>& grid) {\n        int total = 0;\n\n        for (auto& row : grid) {\n            for (int val : row)\n                total += val;\n        }\n\n        int prefix = 0;\n\n        for (auto& row : grid) {\n            for (int val : row)\n                prefix += val;\n\n            if (prefix * 2 == total)\n                return true;\n        }\n\n        return false;\n    }\n};"
     }
+  {
+    "title": "Addition of 2 Numbers",
+    "id": 101,
+    "language": "C++",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n\n    cout << a + b;\n\n    return 0;\n}"
+  },
+  {
+    "title": "Print Numbers Upto N",
+    "id": 102,
+    "language": "C++",
+    "time_complexity": "O(1)",
+    "space_complexity": "O(1)",
+    "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    long long n;\n    cin >> n;\n\n    long long sum = (n * (n + 1)) / 2;\n\n    cout << sum;\n\n    return 0;\n}"
+  }
 ]

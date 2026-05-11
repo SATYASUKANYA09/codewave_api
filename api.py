@@ -14,7 +14,7 @@ app.add_middleware(
 )
 
 # Load Questions JSON
-with open("finalquestions_100.json", "r", encoding="utf-8") as file:
+with open("finalquestions_api_FIXED.json", "r", encoding="utf-8") as file:
     questions = json.load(file)
 
 
@@ -67,15 +67,15 @@ def get_solution(
     # JSON files for each language
     solution_files = {
 
-        "python": "solutions/py_solutions.json",
+        "python": "solutions/py_solutions_FIXED.json",
 
-        "java": "solutions/java_solutions.json",
+        "java": "solutions/java_solutions_FIXED.json",
 
-        "cpp": "solutions/cpp_solutions.json",
+        "cpp": "solutions/cpp_solutions_FIXED.json",
 
-        "javascript": "solutions/js_solutions.json",
+        "javascript": "solutions/js_solutions_FIXED.json",
 
-        "c": "solutions/c_solutions.json"
+        "c": "solutions/c_solutions_FIXED.json"
     }
 
     language = language.lower()
