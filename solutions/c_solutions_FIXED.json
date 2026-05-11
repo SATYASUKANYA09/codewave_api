@@ -798,7 +798,7 @@
         "time_complexity": "O(n * m)",
         "space_complexity": "O(1)",
         "solution": "#include <stdbool.h>\n\nbool canPartitionGrid(int** grid, int gridSize, int* gridColSize) {\n    int total = 0;\n\n    for (int i = 0; i < gridSize; i++) {\n        for (int j = 0; j < gridColSize[0]; j++) {\n            total += grid[i][j];\n        }\n    }\n\n    int prefix = 0;\n\n    for (int i = 0; i < gridSize; i++) {\n        for (int j = 0; j < gridColSize[0]; j++) {\n            prefix += grid[i][j];\n        }\n\n        if (prefix * 2 == total)\n            return true;\n    }\n\n    return false;\n}"
-    }
+    },
   {
     "title": "Addition of 2 Numbers",
     "id": 106,

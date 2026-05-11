@@ -798,8 +798,7 @@
         "time_complexity": "O(n * m)",
         "space_complexity": "O(1)",
         "solution": "class Solution:\n    def canPartitionGrid(self, grid):\n        total = sum(sum(row) for row in grid)\n        prefix = 0\n\n        for row in grid:\n            prefix += sum(row)\n\n            if prefix * 2 == total:\n                return True\n\n        return False"
-    }
-    [
+    },
   {
     "title": "Addition of 2 Numbers",
     "id": 101,
@@ -817,4 +816,3 @@
     "solution": "n = int(input())\n\nsum_n = (n * (n + 1)) // 2\n\nprint(sum_n)"
   }
 ]
- ]
